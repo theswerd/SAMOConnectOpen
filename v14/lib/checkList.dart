@@ -37,6 +37,7 @@ class ChecklistPageState extends State<ChecklistPage> {
     descriptionController = TextEditingController();
   }
 
+  
   @override
   Widget build(BuildContext context) {
       body = buildListOfTodos();
@@ -44,7 +45,44 @@ class ChecklistPageState extends State<ChecklistPage> {
   }
 
   Widget buildListOfTodos() {
-    
+     List allEmojis = <Widget>[
+            makeEmojiTile("👩‍🎨"),
+            makeEmojiTile("👨‍🎨"),
+            makeEmojiTile("👩‍🔬"),                                            
+            makeEmojiTile("👨‍🔬"),
+            makeEmojiTile("👩‍🏭"),
+            makeEmojiTile("👨‍🏭"),
+            makeEmojiTile("👩‍🏫"),
+            makeEmojiTile("👨‍🏫"),
+            makeEmojiTile("👩‍🎓"),
+            makeEmojiTile("👨‍🎓"),
+            makeEmojiTile("👩‍⚕️"),
+            makeEmojiTile("👨‍⚕️"),// 
+            makeEmojiTile("⭐️"),
+            makeEmojiTile("🌟"),
+            makeEmojiTile("✨"),
+            makeEmojiTile("⚡️"),
+            makeEmojiTile("☄️"),
+            makeEmojiTile("🔥"),
+            makeEmojiTile("🌎"),
+            makeEmojiTile("🎼"),
+            makeEmojiTile("🎹"),
+            makeEmojiTile("🥁"),//        
+            makeEmojiTile("🎷"),
+            makeEmojiTile("🎺"),
+            makeEmojiTile("🎸"), 
+            makeEmojiTile("🎻"),
+            makeEmojiTile("✉️"),
+            makeEmojiTile("✅"),
+            makeEmojiTile("⁉️"),
+            makeEmojiTile("🛑"),
+            makeEmojiTile("🍕"),
+            makeEmojiTile("🥑"),
+
+
+          ];
+
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
@@ -112,248 +150,252 @@ class ChecklistPageState extends State<ChecklistPage> {
 
 
           ];
-          showModalBottomSheet(
+          showCupertinoModalPopup(
             context: context,
             builder: (c){
-              return 
-                  Center(
-                    child: Container(
-                      height: 300,
-                      color: Colors.white,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left:15.0,top: 15.0),
-                            child: Row(
-                            
-                              children: <Widget>[
-                              Text("Todo:",style: TextStyle(color: Colors.black,fontSize: 20))
-                            ],),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:15.0),
-                            child: TextField(
-                              controller: titleController,
-                              decoration: InputDecoration(
-                                hintText: ex
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:15.0,top: 15.0),
-                            child: Row(
-                            
-                              children: <Widget>[
-                              Text("Description:",style: TextStyle(color: Colors.black,fontSize: 20))
-                            ],),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:15.0),
-                            child: TextField(
-                              controller: descriptionController,
-                              decoration: InputDecoration(
-                                hintText: "This is very important"
-                              ),
-                            ),
-                          ),
-                          Container(height: 5,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              return Center(
+                child: Dialog(
+                  child: Container(
+                         height: 320,
+                          color: Colors.white,
+                          child: Column(
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(width: 15,),
-                                  Column(
+                              Padding(
+                                padding: const EdgeInsets.only(left:15.0,top: 15.0),
+                                child: Row(
+                                
+                                  children: <Widget>[
+                                  Text("Todo:",style: TextStyle(color: Colors.black,fontSize: 20))
+                                ],),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:15.0),
+                                child: TextField(
+                                  controller: titleController,
+                                  decoration: InputDecoration(
+                                    hintText: ex
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left:15.0,top: 15.0),
+                                child: Row(
+                                
+                                  children: <Widget>[
+                                  Text("Description:",style: TextStyle(color: Colors.black,fontSize: 20))
+                                ],),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:15.0),
+                                child: TextField(
+                                  controller: descriptionController,
+                                  decoration: InputDecoration(
+                                    hintText: "This is very important"
+                                  ),
+                                ),
+                              ),
+                              Container(height: 5,),
+                              
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Text("Color:"),
-                                      IconButton(
-                                        icon: Tooltip(child: Icon(MdiIcons.paletteOutline),message: "Change the color",),
-                                        onPressed: (){
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (c){
-                                              return Container(
-                                                height: 330,
-                                                color: Colors.white,
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    Row(
+                                     // Container(width: 15,),
+                                      Column(
+                                        children: <Widget>[
+                                          Text("Add Color:"),
+                                          IconButton(
+                                            icon: Tooltip(child: Icon(MdiIcons.paletteOutline),message: "Change the color",),
+                                            onPressed: (){
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (c){
+                                                  return Container(
+                                                    height: 330,
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            CupertinoButton(
+                                                              child: Text("Nevermind"),
+                                                              onPressed: (){
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
+                                                            CupertinoButton(
+                                                              child: Text("Set Color"),
+                                                              onPressed: (){
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            )
+                                                          ],
+                                                        ),
+                                                        MaterialColorPicker(
+                                                          selectedColor: Colors.black,
+                                                          allowShades: false,
+                                                          iconSelected: MdiIcons.paletteOutline,
+                                                          onColorChange: (Color theColor){
+                                                            currentIndexColor = theColor;
+                                                          },
+                                                          onMainColorChange: (Color theColor){
+                                                            currentIndexColor = theColor;
+
+                                                          },
+                                                          ),
+                                                      ],
+                                                    ),
+                                                    );
+                                                }
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text("Add Date:"),
+                                          IconButton(
+                                            icon: Tooltip(child: Icon(MdiIcons.calendarTextOutline,size: 30,),message: "Add date and time",),
+                                            onPressed: (){
+                                              int currentDateTime = DateTime(2019,1,1).millisecondsSinceEpoch;
+                                              //bool hasDateTimeForPush;
+                                              showCupertinoModalPopup(
+                                                context: context,
+                                                builder: (c)=>Container(
+                                                  height: 352,
+                                                  color: Colors.white,
+                                                  child:Column(
+                                                    children: <Widget>[
+                                                      Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: <Widget>[
                                                         CupertinoButton(
-                                                          child: Text("Nevermind"),
+                                                          child: Text("Cancel"),
                                                           onPressed: (){
                                                             Navigator.of(context).pop();
+                                                            hasDate = false;
                                                           },
                                                         ),
                                                         CupertinoButton(
-                                                          child: Text("Set Color"),
+                                                          child: Text("Set Date"),
                                                           onPressed: (){
+                                                            hasDate = true;
+                                                            date = currentDateTime;
                                                             Navigator.of(context).pop();
                                                           },
-                                                        )
+                                                        ),
+                                                        
                                                       ],
                                                     ),
-                                                    MaterialColorPicker(
-                                                      selectedColor: Colors.black,
-                                                      allowShades: false,
-                                                      iconSelected: MdiIcons.paletteOutline,
-                                                      onColorChange: (Color theColor){
-                                                        currentIndexColor = theColor;
-                                                      },
-                                                      onMainColorChange: (Color theColor){
-                                                        currentIndexColor = theColor;
-
-                                                      },
+                                                      Container(
+                                                        height: 300,
+                                                        child: CupertinoDatePicker(
+                                                          
+                                                          mode: CupertinoDatePickerMode.date,
+                                                          initialDateTime: DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),
+                                                          onDateTimeChanged: (DateTime newDt){
+                                                            currentDateTime = newDt.millisecondsSinceEpoch;
+                                                        },
                                                       ),
-                                                  ],
-                                                ),
-                                                );
-                                            }
-                                          );
-                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                              )
+                                              );
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text("Date:"),
-                                      IconButton(
-                                        icon: Tooltip(child: Icon(MdiIcons.calendarTextOutline,size: 30,),message: "Add date and time",),
-                                        onPressed: (){
-                                          int currentDateTime = DateTime(2019,1,1).millisecondsSinceEpoch;
-                                          //bool hasDateTimeForPush;
-                                          showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (c)=>Container(
-                                              height: 352,
-                                              color: Colors.white,
-                                              child:Column(
-                                                children: <Widget>[
-                                                  Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: <Widget>[
-                                                    CupertinoButton(
-                                                      child: Text("Cancel"),
-                                                      onPressed: (){
-                                                        Navigator.of(context).pop();
-                                                        hasDate = false;
-                                                      },
-                                                    ),
-                                                    CupertinoButton(
-                                                      child: Text("Set Date"),
-                                                      onPressed: (){
-                                                        hasDate = true;
-                                                        date = currentDateTime;
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
-                                                    
-                                                  ],
-                                                ),
-                                                  Container(
-                                                    height: 300,
-                                                    child: CupertinoDatePicker(
-                                                      
-                                                      mode: CupertinoDatePickerMode.date,
-                                                      initialDateTime: DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),
-                                                      onDateTimeChanged: (DateTime newDt){
-                                                        currentDateTime = newDt.millisecondsSinceEpoch;
-                                                    },
-                                                  ),
-                                                  ),
-                                                ],
-                                              ),
+                                      Column(
+                                        children: <Widget>[
+                                         // Container(height: 5,),
+                                          Text("Add Emoji:"),
+                                          //Container(height: 7,),
+                                          IconButton(
+                                            icon: Icon(MdiIcons.emoticonWinkOutline,size: 28,),
+                                            onPressed: (){
+                                              showEmojiPicker(allEmojis);
+                                            },
                                           )
-                                          );
-                                        },
+                                          
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                     // Container(height: 5,),
-                                      Text("Add Emoji:"),
-                                      //Container(height: 7,),
-                                      IconButton(
-                                        icon: Icon(MdiIcons.emoticonWinkOutline,size: 28,),
-                                        onPressed: (){
-                                          showEmojiPicker(allEmojis);
-                                        },
-                                      )
                                       
                                     ],
                                   ),
                                   
-                                ],
-                              ),
-                              
                               
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CupertinoButton.filled(
-                                  //padding: EdgeInsets.all(5),
-                                  child: Text("Add"),
-                                  onPressed: (){
-                                    title = titleController.text;
-                                    subTitle = descriptionController.text;
-                                    if(title.contains(",")||subTitle.contains(",")){
-                                      showCupertinoModalPopup(
-                                      context: context,
-                                      builder: (c){
-                                        return CupertinoAlertDialog(
-                                          title: Text("No special characters (For now)"),
-                                          actions: <Widget>[CupertinoButton(
-                                            child:Text("Ok"),
-                                            onPressed: (){
-                                              Navigator.of(context).pop();
-                                            },
-                                          )],
+                                    padding: const EdgeInsets.symmetric(horizontal:20.0,vertical: 5),
+                                    child: FlatButton(
+                                      padding: EdgeInsets.symmetric(vertical:22),
+                                      color: Colors.indigoAccent[700],
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+                                      //padding: EdgeInsets.all(5),
+                                      child: Center(child: Text("Add",style: TextStyle(color: Colors.white,fontSize: 18))),
+                                      onPressed: (){
+                                        title = titleController.text;
+                                        subTitle = descriptionController.text;
+                                        if(title.contains(",")||subTitle.contains(",")){
+                                          showCupertinoModalPopup(
+                                          context: context,
+                                          builder: (c){
+                                            return CupertinoAlertDialog(
+                                              title: Text("No special characters (For now)"),
+                                              actions: <Widget>[CupertinoButton(
+                                                child:Text("Ok"),
+                                                onPressed: (){
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )],
+                                            );
+                                          }
+                                        );
+                                        }else
+                                        if(title!=""){
+                                        todos.add([
+                                          title,
+                                          subTitle,
+                                          currentEmoji,
+                                          hasDate,
+                                          date,
+                                          hasColor,
+                                          currentIndexColor,
+                                          
+                                        ].toString());
+                                        storeStringList(todos);
+                                        setState(() {
+                                          body = buildListOfTodos();
+                                        });
+                                        Navigator.of(context).pop();
+                                      }else{
+                                        showCupertinoModalPopup(
+                                          context: context,
+                                          builder: (c){
+                                            return CupertinoAlertDialog(
+                                              title: Text("Please fill in the title"),
+                                              actions: <Widget>[CupertinoButton(
+                                                child:Text("Ok"),
+                                                onPressed: (){
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )],
+                                            );
+                                          }
                                         );
                                       }
-                                    );
-                                    }else
-                                    if(title!=""){
-                                    todos.add([
-                                      title,
-                                      subTitle,
-                                      currentEmoji,
-                                      hasDate,
-                                      date,
-                                      hasColor,
-                                      currentIndexColor,
-                                      
-                                    ].toString());
-                                    storeStringList(todos);
-                                    setState(() {
-                                      body = buildListOfTodos();
-                                    });
-                                    Navigator.of(context).pop();
-                                  }else{
-                                    showCupertinoModalPopup(
-                                      context: context,
-                                      builder: (c){
-                                        return CupertinoAlertDialog(
-                                          title: Text("Please fill in the title"),
-                                          actions: <Widget>[CupertinoButton(
-                                            child:Text("Ok"),
-                                            onPressed: (){
-                                              Navigator.of(context).pop();
-                                            },
-                                          )],
-                                        );
-                                      }
-                                    );
-                                  }
-                                  },
-                                ),
-                              )
+                                      },
+                                    ),
+                                  )
+
+
                             ],
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+                          ),
+                        ),
+                ),
+              );
+                  
                 
               
             }            
@@ -374,6 +416,9 @@ class ChecklistPageState extends State<ChecklistPage> {
           try {
             passby = s.data.length==0;
           } catch (e) {
+          }
+          if(s.connectionState!=ConnectionState.done){
+            return Container();
           }
           if(!s.hasData||passby){
             return Column(
@@ -406,7 +451,9 @@ class ChecklistPageState extends State<ChecklistPage> {
             );
           }else{
             todos = s.data;
-
+            // return AnimatedList(
+              
+            // );
             return ListView.separated(
               itemCount: todos.length,
               separatorBuilder: (c,i)=>Divider(height: 2,),
@@ -467,10 +514,14 @@ class ChecklistPageState extends State<ChecklistPage> {
                 }
                 String isFavString = "";
                 IconData theCheckIcon = Icons.check_box_outline_blank;
+                if(theData[2].isNotEmpty){
                 try {                    //theCheckIcon = MdiIcons.starOutline;
                     isFavString = theData[2]+" ";//606,26a2
                   
                 } catch (e) {
+                }
+                }else{
+                  isFavString = "";
                 }
                 return ListTile(
                   title: RichText(text: TextSpan(
@@ -522,6 +573,31 @@ class ChecklistPageState extends State<ChecklistPage> {
                   onTap: (){
                     titleController.clear();
                     descriptionController.clear();
+                    bool newDay = false;
+                    bool newColor = false;
+                    Color newColorData = Colors.black;
+                    int currentDateTime = DateTime(2019,1,1).millisecondsSinceEpoch;
+                    String hasDay = theData[3];
+                    String hasColor = theData[5];
+                    String emoji = theData[2];
+                    String dayStr = "Change Day";
+
+                    if(hasDay=="true"){
+                      dayStr = "Change Day";
+                    }else{
+                      dayStr = "Add Day";
+                    }
+                    String colorStr = "Change Color";
+                    if(hasColor =="true"){
+                      colorStr = "Change Color";
+                    }else{
+                      colorStr = "Add Color";
+                    }
+
+                    String emojiStr = "Change Emoji";
+                    if(emoji.trim().isEmpty){
+                      colorStr = "Add Emoji";
+                    }
                     showCupertinoModalPopup(
                       context: context,
                       builder: (c){
@@ -532,7 +608,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Text("Title")
+                                  Text("Title:")
                                 ],
                               ),
                               CupertinoTextField(
@@ -544,7 +620,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                               Container(height: 10,),
                               Row(
                                 children: <Widget>[
-                                  Text("Subtitle")
+                                  Text("Subtitle:")
                                 ],
                               ),
                               CupertinoTextField(
@@ -552,8 +628,123 @@ class ChecklistPageState extends State<ChecklistPage> {
                                 autocorrect: true,
                                 clearButtonMode: OverlayVisibilityMode.editing,
                                 //suffix: Text("Highly Unimportant"),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  CupertinoButton(
+                                    padding: EdgeInsets.zero,
+                                    child: Text(colorStr),
+                                    onPressed: (){
+                                      showModalBottomSheet(
+                                                context: context,
+                                                builder: (c){
+                                                  return Container(
+                                                    height: 330,
+                                                    color: Colors.white,
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: <Widget>[
+                                                            CupertinoButton(
+                                                              child: Text("Nevermind"),
+                                                              onPressed: (){
+                                                                newColor = false;
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            ),
+                                                            CupertinoButton(
+                                                              child: Text("Set Color"),
+                                                              onPressed: (){
+                                                                newColor = true;
+                                                                Navigator.of(context).pop();
+                                                              },
+                                                            )
+                                                          ],
+                                                        ),
+                                                        MaterialColorPicker(
+                                                          selectedColor: Colors.black,
+                                                          allowShades: false,
+                                                          iconSelected: MdiIcons.paletteOutline,
+                                                          onColorChange: (Color theColor){
+                                                            newColorData = theColor;
+                                                          },
+                                                          onMainColorChange: (Color theColor){
+                                                            newColorData = theColor;
+                                                          },
+                                                          ),
+                                                      ],
+                                                    ),
+                                                    );
+                                                }
+                                              );
+
+                                    },
+                                  ),
+                                  CupertinoButton(
+                                    padding: EdgeInsets.zero,
+                                    child: Text(dayStr),
+                                    onPressed: (){
+                                              //bool hasDateTimeForPush;
+                                      showCupertinoModalPopup(
+                                                context: context,
+                                                builder: (c)=>Container(
+                                                  height: 352,
+                                                  color: Colors.white,
+                                                  child:Column(
+                                                    children: <Widget>[
+                                                      Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: <Widget>[
+                                                        CupertinoButton(
+                                                          child: Text("Cancel"),
+                                                          onPressed: (){
+                                                            Navigator.of(context).pop();
+                                                            hasDay = "false";
+                                                            newDay = false;
+                                                          },
+                                                        ),
+                                                        CupertinoButton(
+                                                          child: Text("Set Date"),
+                                                          onPressed: (){
+                                                            hasDay = "true";
+                                                            newDay = true;
+                                                            currentDateTime = currentDateTime;
+                                                            Navigator.of(context).pop();
+                                                          },
+                                                        ),
+                                                        
+                                                      ],
+                                                    ),
+                                                      Container(
+                                                        height: 300,
+                                                        child: CupertinoDatePicker(
+                                                          
+                                                          mode: CupertinoDatePickerMode.date,
+                                                          initialDateTime: DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),
+                                                          onDateTimeChanged: (DateTime newDt){
+                                                            currentDateTime = newDt.millisecondsSinceEpoch;
+                                                        },
+                                                      ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                              )
+                                              );
+ 
+                                    },
+
+                                  ),
+                                ],
+                              ),                          
+                              CupertinoButton(
+                                child: Text(emojiStr),
+                                onPressed: (){
+                                  showEmojiPicker(allEmojis);
+                                },
                               )
-                            ],
+                              ],
                           ),
                           actions: <Widget>[
                             CupertinoDialogAction(
@@ -571,7 +762,14 @@ class ChecklistPageState extends State<ChecklistPage> {
                                 if(descriptionController.text.trim().isNotEmpty){
                                   theData[1] = descriptionController.text.trim();
                                 }
-
+                                if(newColor){
+                                  theData[6] = newColorData.toString();
+                                }
+                                if(newDay){
+                                  theData[3] = hasDay;
+                                  theData[4] = currentDateTime.toString();
+                                }
+                                theData[2] = currentEmoji;
                                 todos[i] = theData.toString();
 
                                 storeStringList(todos);
@@ -596,17 +794,7 @@ class ChecklistPageState extends State<ChecklistPage> {
   }
 
   void showEmojiPicker(List<Widget> emojis) {
-    List<Widget> actionEmojis = <Widget>[
-            makeEmojiTile("⭐️"),
-            makeEmojiTile("🌟"),
-            makeEmojiTile("✨"),
-            makeEmojiTile("⚡️"),
-            makeEmojiTile("🔥"),
-            makeEmojiTile("✅"),
-            makeEmojiTile("⁉️"),
-            makeEmojiTile("🛑"),
-          ];
-      List allEmojis = <Widget>[
+     List allEmojis = <Widget>[
             makeEmojiTile("👩‍🎨"),
             makeEmojiTile("👨‍🎨"),
             makeEmojiTile("👩‍🔬"),                                            
@@ -643,7 +831,18 @@ class ChecklistPageState extends State<ChecklistPage> {
 
           ];
 
-      List peopleEmojis = <Widget>[
+
+    List<Widget> actionEmojis = <Widget>[
+            makeEmojiTile("⭐️"),
+            makeEmojiTile("🌟"),
+            makeEmojiTile("✨"),
+            makeEmojiTile("⚡️"),
+            makeEmojiTile("🔥"),
+            makeEmojiTile("✅"),
+            makeEmojiTile("⁉️"),
+            makeEmojiTile("🛑"),
+          ];
+           List peopleEmojis = <Widget>[
             makeEmojiTile("👩‍🎨"),
             makeEmojiTile("👨‍🎨"),
             makeEmojiTile("👩‍🔬"),                                            

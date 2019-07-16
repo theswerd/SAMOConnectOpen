@@ -272,15 +272,9 @@ class _MapClassState extends State<MapClass> {
   }
   @override
   Widget build(BuildContext context) {
-   return Stack(
-     children: <Widget>[
-       body,
-        Positioned(
-          bottom: 80,
-          right: 7,
-          height: 90,//Bigger but it works
-          width: 60,
-          child: UnicornDialer(
+   return Scaffold(
+    body: body,
+    floatingActionButton: UnicornDialer(
           parentButtonBackground: Colors.indigoAccent[700],
           hasBackground: false,
           orientation: 1,
@@ -339,9 +333,10 @@ class _MapClassState extends State<MapClass> {
 
           ],
       ),
-        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        
 
-     ],
+     
    );
     return body;
   }
