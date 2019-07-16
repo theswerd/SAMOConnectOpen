@@ -1066,9 +1066,9 @@ eventView() {
                 QuerySnapshot snapshot = s.data;
                 List documents = snapshot.documents;
                 documents.sort((a,b){
-                  Timestamp ATime = a["day"];
-                  Timestamp BTime = b["day"];
-                  if(ATime.seconds>BTime.seconds){
+                  Timestamp aTime = a["day"];
+                  Timestamp bTime = b["day"];
+                  if(aTime.seconds>bTime.seconds){
                     return 1;
                   }else{
                     return 0;
@@ -1102,12 +1102,26 @@ eventView() {
                                 if(s.connectionState!=ConnectionState.done){
                                   return ColorLoader3();
                                 }else{
-                                  
-                                  return Container(
-                                    child:Image.memory(s.data,fit: BoxFit.fitWidth,),
+                                  try {
+                                    return Container(
+                                    child:Image.memory(s.data,fit: BoxFit.cover,),
                                     height: 350,
                                     width: MediaQuery.of(c).size.width,
                                     );
+                                  } catch (e) {
+                                    return Container(
+                                    child:Stack(
+                                      fit: StackFit.expand,
+                                      children: <Widget>[
+                                        Image.asset("assets/vikingC3.png",fit: BoxFit.fitWidth,),
+                                       // Text("Looks like you are looking for something that doesn't work")
+                                      ],
+                                    ),
+                                    height: 350,
+                                    width: MediaQuery.of(c).size.width,
+                                    );
+                                  }
+                                  
                                     
                                 }
                               },
