@@ -596,7 +596,7 @@ class ChecklistPageState extends State<ChecklistPage> {
 
                     String emojiStr = "Change Emoji";
                     if(emoji.trim().isEmpty){
-                      colorStr = "Add Emoji";
+                      emojiStr = "Add Emoji";
                     }
                     showCupertinoModalPopup(
                       context: context,

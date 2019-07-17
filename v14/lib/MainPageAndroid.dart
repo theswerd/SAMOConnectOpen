@@ -33,7 +33,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-//import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 //import 'package:path_provider/path_provider.dart'
 //import 'package:latlong/latlong.dart';
 import 'package:launch_review/launch_review.dart';
@@ -1086,7 +1086,7 @@ eventView() {
                       print("TIMEEE");
                       print(time);
                       String date = "";
-                      //String date = new DateFormat.yMMMMd("en_US").format( DateTime.parse(time.toDate().toString()));
+                      date = new DateFormat.yMMMMd("en_US").format( DateTime.parse(time.toDate().toString()));
 
                       print(date);
                       if(document["type"]=="withImage"){
@@ -1104,7 +1104,7 @@ eventView() {
                                 }else{
                                   try {
                                     return Container(
-                                    child:Image.memory(s.data,fit: BoxFit.cover,),
+                                    child:Image.memory(s.data,fit: BoxFit.fitWidth,),
                                     height: 350,
                                     width: MediaQuery.of(c).size.width,
                                     );
@@ -1127,19 +1127,27 @@ eventView() {
                               },
                               ),
                               Container(
-                                height: 100,
+                                height: 120,
                                 width: MediaQuery.of(context).size.width-40,
                                 padding: EdgeInsets.all(5),
                                 child: RaisedButton(
                                   elevation: 10,
                                   color: Colors.white,
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      SizedBox(height: 5,),
-                                      Text(document.documentID,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 21),),
-                                      SizedBox(height: 5,),
-                                      Text(document["description"],textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 15),),
-                                      Text(date,textAlign: TextAlign.center,)
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(document.documentID,style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 21),),
+                                        ],
+                                      ),
+                                      Text(document["description"],textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 17),),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Text(date,textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 19),),
+                                      ],)
                                     ],
                                   ),
                                   onPressed: (){
