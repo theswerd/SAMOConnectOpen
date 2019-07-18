@@ -27,12 +27,15 @@ dependencies:
   html: 
   url_launcher: ^5.0.2
   #shimmer: ^1.0.0
+  google_maps_flutter: ^0.5.19+2
+  unicorndial: ^1.1.5
+
   #groovin_widgets: ^1.4.2
   firebase_core: 
   firebase_auth: 
   cloud_firestore: 
   firebase_storage: 
-  mapbox_gl: 
+  mapbox_gl: ^0.0.3
   launch_review: ^2.0.0
   flutter_signin_button: ^0.2.8
   share:

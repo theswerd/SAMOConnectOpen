@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart' as mIcons;
@@ -8,8 +10,7 @@ import 'package:webview_flutter/webview_flutter.dart' as web;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:html/parser.dart' show parse;
 import 'story.dart';
-//import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'dart:io';
 //import 'dart:math';
@@ -983,7 +984,7 @@ Firestore.instance.collection("update").document("update").get().then(
       controller: tabController,
       children: <Widget>[
         Calender(),
-        map(),
+        MapClass(),
         eventView(),
         news(),
         ChecklistPage()
@@ -1026,28 +1027,7 @@ Firestore.instance.collection("update").document("update").get().then(
           );
   }
 
-  map() {
-    return MapboxMap(
-      
-      initialCameraPosition: CameraPosition(target: LatLng(34.013183,-118.486464),zoom: 16),
-      myLocationEnabled: true,
-      myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-      compassEnabled: true,
-      styleString:"mapbox://styles/swerd/cjw4hcm3u1xkd1cnw1zswdrub",
-      tiltGesturesEnabled: true,
-      
-      
-      //$project_dir/example/android/app/src/main/res/values/developer-config.xml
-    );
-        //new TileLayerOptions(
-        //  urlTemplate: "https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ",
-        //  additionalOptions: {
-        //    'accessToken': 'pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ',
-        //    'id':'swerd.cjw4gw80z0sk22urz5hs9e3z0-317l2'
-        //  },
-        //)
   
-  }
 eventView() {
   return Scaffold(
       appBar: TabBar(
