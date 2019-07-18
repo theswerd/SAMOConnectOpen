@@ -31,7 +31,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 28
-     compileOptions {
+    compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
@@ -46,9 +46,9 @@ android {
         targetSdkVersion 28
         //versionCode flutterVersionCode.toInteger()
         //        versionName flutterVersionName
-//-target-platform=android-arm64
-        versionCode 7
-        versionName '7.0'
+        //-target-platform=android-arm64
+        versionCode 9
+        versionName '9.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         //ndk {
@@ -83,7 +83,7 @@ flutter {
 }
 
 dependencies {
-  //  implementation 'com.android.support:multidex:1.0.3'
+    //  implementation 'com.android.support:multidex:1.0.3'
 
 
     implementation 'com.google.firebase:firebase-core:17.0.1'
