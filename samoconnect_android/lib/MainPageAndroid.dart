@@ -85,9 +85,41 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
   @override
   void initState() {
     
+    FirebaseAuth.instance.currentUser().then(
+      (currentUser){
+        if(currentUser == null){
+          showCupertinoModalPopup(
+            context: context,
+            builder: (c){
+              return CupertinoAlertDialog(
+                title: Text("Login"),
+                content: Text("Login or Sign Up with the click of a button"),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: Text("Login"),
+                    onPressed: (){
+                      Navigator.of(context).popAndPushNamed(LoginScreen3.tag);
+                    },
+                  ),
+                  CupertinoDialogAction(
+                    isDefaultAction: false,
+                    child: Text("Nah"),
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            }
+          );
+        }     
+        }
+      );
+
 Firestore.instance.collection("update").document("update").get().then(
       (currentUpdate){
-        if(currentUpdate.data["android"]>2){
+        if(currentUpdate.data["android"]>9.0){
           showCupertinoDialog(
             context: context,
             builder: (c){
