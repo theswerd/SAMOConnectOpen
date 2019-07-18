@@ -29,6 +29,7 @@ dependencies:
   #shimmer: ^1.0.0
   google_maps_flutter: ^0.5.19+2
   unicorndial: ^1.1.5
+  location_permissions: '^2.0.0'
 
   #groovin_widgets: ^1.4.2
   firebase_core: 
