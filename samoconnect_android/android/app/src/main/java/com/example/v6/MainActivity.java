@@ -1,4 +1,4 @@
-package com.example.v6;
+package com.example.samoconnect_android;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

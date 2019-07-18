@@ -2,7 +2,6 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart' as mIcons;
 import 'package:http/http.dart' as http;
 import 'color_loader_3.dart';
 import 'package:webview_flutter/webview_flutter.dart' as web;
@@ -15,12 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 //import 'dart:io';
 //import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
-//import 'story.dart';
-//import 'dart:convert';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-//import 'package:twitter/twitter.dart';
-//import 'dart:ui' as ui;
-//import 'package:groovin_widgets/modal_drawer_handle.dart';
+import 'package:location_permissions/location_permissions.dart';
 import 'calender.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -85,7 +79,37 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
 
   @override
   void initState() {
-    
+    LocationPermissions().checkPermissionStatus().then((permission){
+      if(permission==PermissionStatus.denied){
+        showCupertinoModalPopup(
+          context: context,
+          builder: (c){
+            return CupertinoAlertDialog(
+              title: Text("Can we access your location?"),
+              content: Text("It will allow us to show you where you are on the map"),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text("Later"),
+                  isDestructiveAction: true,
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                ),
+                CupertinoDialogAction(
+                  child: Text("Sure"),
+                  isDefaultAction: true,
+                  onPressed: (){
+                    LocationPermissions().requestPermissions();
+
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          }
+        );
+      }
+    });
     FirebaseAuth.instance.currentUser().then(
       (currentUser){
         if(currentUser == null){
@@ -189,7 +213,8 @@ Firestore.instance.collection("update").document("update").get().then(
                       onPressed: (){
                         Navigator.of(context).pop();
                         LaunchReview.launch(
-                          iOSAppId: "1465501734"
+                          iOSAppId: "1465501734",
+                          androidAppId: "com.swerd.SamoConnect"
                         );
                         //launch("https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0");
                       },
@@ -231,7 +256,8 @@ Firestore.instance.collection("update").document("update").get().then(
                       onPressed: (){
                         Navigator.of(context).pop();
                         LaunchReview.launch(
-                          iOSAppId: "1465501734"
+                          iOSAppId: "1465501734",
+                          androidAppId: "com.swerd.SamoConnect"
                         );
                         //launch("https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0");
                       },
@@ -269,7 +295,8 @@ Firestore.instance.collection("update").document("update").get().then(
                                   child: Text("Give us a good rating?"),
                                   onPressed: (){
                                     LaunchReview.launch(
-                                      iOSAppId: "1465501734"
+                                      iOSAppId: "1465501734",
+                                      androidAppId: "com.swerd.SamoConnect"
                                     );
                                     Navigator.of(context).pop();
                                     Navigator.of(context).pop();
@@ -307,7 +334,8 @@ Firestore.instance.collection("update").document("update").get().then(
                       onPressed: (){
                         Navigator.of(context).pop();
                         LaunchReview.launch(
-                          iOSAppId: "1465501734"
+                          iOSAppId: "1465501734",
+                          androidAppId: "com.swerd.SamoConnect"
                         );
                         //launch("https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0");
                       },
@@ -329,7 +357,8 @@ Firestore.instance.collection("update").document("update").get().then(
                       onPressed: (){
                         Navigator.of(context).pop();
                         LaunchReview.launch(
-                          iOSAppId: "1465501734"
+                          iOSAppId: "1465501734",
+                          androidAppId: "com.swerd.SamoConnect"
                         );
                       
                       },
@@ -354,7 +383,8 @@ Firestore.instance.collection("update").document("update").get().then(
                                   child: Text("Give us a good rating?"),
                                   onPressed: (){
                                     LaunchReview.launch(
-                                      iOSAppId: "1465501734"
+                                      iOSAppId: "1465501734",
+                                      androidAppId: "com.swerd.SamoConnect"
                                     );
                                     Navigator.of(context).pop();
                                     Navigator.of(context).pop();
@@ -542,7 +572,9 @@ Firestore.instance.collection("update").document("update").get().then(
                       onPressed: (){
                         Navigator.of(context).pop();
                         LaunchReview.launch(
-                          iOSAppId: "1465501734"
+                          iOSAppId: "1465501734",
+                          androidAppId: "com.swerd.SamoConnect"
+
                         );
                       
                       },
@@ -567,7 +599,9 @@ Firestore.instance.collection("update").document("update").get().then(
                                   child: Text("Give us a good rating?"),
                                   onPressed: (){
                                     LaunchReview.launch(
-                                      iOSAppId: "1465501734"
+                                      iOSAppId: "1465501734",
+                                      androidAppId: "com.swerd.SamoConnect"
+
                                     );
                                     Navigator.of(context).pop();
                                     Navigator.of(context).pop();
