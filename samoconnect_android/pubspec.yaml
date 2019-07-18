@@ -36,7 +36,6 @@ dependencies:
   firebase_auth: 
   cloud_firestore: 
   firebase_storage: 
-  mapbox_gl: ^0.0.3
   launch_review: ^2.0.0
   flutter_signin_button: ^0.2.8
   share:

@@ -1,4 +1,4 @@
-package com.swerd.v6;
+package com.swerd.samoconnect_android;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
