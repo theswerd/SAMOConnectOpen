@@ -99,7 +99,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
   void initState() {
     Firestore.instance.collection("update").document("update").get().then(
       (currentUpdate){
-        if(currentUpdate.data["iOSupdate"]>4){
+        if(currentUpdate.data["iOSupdate"]>4.02){
           showCupertinoDialog(
             context: context,
             builder: (c){
@@ -118,6 +118,38 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
           );
         }
       });
+
+    FirebaseAuth.instance.currentUser().then(
+      (currentUser){
+        if(currentUser == null){
+          showCupertinoModalPopup(
+            context: context,
+            builder: (c){
+              return CupertinoAlertDialog(
+                title: Text("Login"),
+                content: Text("Login or Sign Up with the click of a button"),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: Text("Login"),
+                    onPressed: (){
+                      Navigator.of(context).popAndPushNamed(LoginScreen3.tag);
+                    },
+                  ),
+                  CupertinoDialogAction(
+                    isDefaultAction: false,
+                    child: Text("Nah"),
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            }
+          );
+        }     
+        }
+      );
 
     // TODO: implement initState
     super.initState();
@@ -483,8 +515,33 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
                           subtitle: Text("See you soon!"),
                           trailing: Icon(MdiIcons.walk,color: Colors.black,),
                           onTap: (){
-                            FirebaseAuth.instance.signOut();
-                            Navigator.of(context).pushNamed(LoginScreen3.tag);
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (c){
+                                return CupertinoAlertDialog(
+                                  title: Text("Logout"),
+                                  content: Text("Are you sure? This action cannot be undone."),
+                                  actions: <Widget>[
+                                    CupertinoDialogAction(
+                                      child: Text("Sign Out"),
+                                      onPressed: (){
+                                        FirebaseAuth.instance.signOut();
+                                        Navigator.of(context).popAndPushNamed(MainWindowAndroid.tag);
+                                      },
+                                    ),
+                                    CupertinoDialogAction(
+                                      isDefaultAction: true,
+                                      child: Text("Nevermind"),
+                                      onPressed: (){
+                                        //FirebaseAuth.instance.signOut();
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              }
+                            );
+                            //Navigator.of(context).pushNamed(LoginScreen3.tag);
                           },
                         );
                         print("Display name:::");
@@ -717,8 +774,8 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
          ),
          ListTile(
            trailing: Icon(MdiIcons.account,color: Colors.black,),
-           title: Text("Why Sign In?"),
-           subtitle: Text("Benifits"),
+           title: Text("Why Sign in?"),
+           subtitle: Text("Benefits"),
            onTap: (){
              showCupertinoModalPopup(
                context: context,
@@ -1380,7 +1437,10 @@ eventView() {
             SizedBox(height: 10),
             Text(error,style: TextStyle(color: Colors.grey[600]),),
             RaisedButton(child: Text("Try Again"),color: Colors.blue,onPressed: (){
-              return news();
+              setState(() {
+                print("new version is uuuppp");
+                titleWidget = new Text("The SAMOHI News");
+              });
             },)
           ],
         );
@@ -1554,7 +1614,12 @@ eventView() {
                 },
               );
               } catch (e) {
-                return Center(child: Text("Error linking to server",style: TextStyle(color: Colors.black,fontSize: 20),));
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    Text("Error linking to server",style: TextStyle(color: Colors.black,fontSize: 16),),
+                    Text("Sorry, this page is very popular and is currently full right now, check back in in 5",style: TextStyle(color: Colors.black,fontSize: 20),),
+                    ]);
               }
             }
             
