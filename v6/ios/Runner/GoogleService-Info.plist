@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>575996028209-u99t4rup2s2o5sk6s8koge6c6q6cobjc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.575996028209-u99t4rup2s2o5sk6s8koge6c6q6cobjc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB9o394Dmcsrgv8UP08DTcDLN--G8x2pbA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>575996028209</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.swerd.SamoConnect</string>
+	<key>PROJECT_ID</key>
+	<string>samoapp-30940</string>
+	<key>STORAGE_BUCKET</key>
+	<string>samoapp-30940.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:575996028209:ios:8d8a175ecb02478c</string>
+	<key>DATABASE_URL</key>
+	<string>https://samoapp-30940.firebaseio.com</string>
+</dict>
+</plist>
