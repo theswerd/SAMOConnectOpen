@@ -18,7 +18,7 @@ allprojects {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested
             if (requested.group == 'com.google.firebase') {
-                details.useVersion "15.+"
+                details.useVersion "16.+"
             }
         }
     }
