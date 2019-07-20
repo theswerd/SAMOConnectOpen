@@ -922,25 +922,26 @@ IconButton infoButton() {
                    }
                  
                    Scaffold MapScaffoldMaker(Widget mappView) {
-                          var childButtons = List<UnicornButton>(
+                    List<UnicornButton> childButtons = List<UnicornButton>();
+                    childButtons.add(
+                      UnicornButton(
+                        hasLabel: true,
+                        labelText: "Buildings",
+                        currentButton: FloatingActionButton(
+                          heroTag: "Buildings",
+                          mini: true,
+                          backgroundColor: Colors.redAccent[400],
+                          child: Icon(MdiIcons.officeBuilding),
+                          onPressed: () {},
+                        )
+                      )
                     );
-                 
-                     childButtons.add(UnicornButton(
-                         hasLabel: true,
-                         labelText: "Buildings",
-                         currentButton: FloatingActionButton(
-                           heroTag: "train",
-                           mini: true,
-                           backgroundColor: Colors.redAccent[400],
-                           child: Icon(MdiIcons.officeBuilding),
-                           onPressed: () {},
-                         )));
-                   childButtons.add(UnicornButton(
-                     
+                    childButtons.add(
+                     UnicornButton(
                      hasLabel: true,
                      labelText: "Important Rooms",
                          currentButton: FloatingActionButton(
-                             heroTag: "directions",
+                             heroTag: "Important Rooms",
                              backgroundColor: Colors.deepPurple,
                              mini: true,
                              onPressed: (){
@@ -951,11 +952,12 @@ IconButton infoButton() {
                                });
                              },
                              child: Icon(CupertinoIcons.bookmark))));
-                     childButtons.add(UnicornButton(
+                    childButtons.add(
+                    UnicornButton(
                        labelText: "All",
                        hasLabel: true,
                          currentButton: FloatingActionButton(
-                             heroTag: "Offices",
+                             heroTag: "All",
                              
                              backgroundColor: Colors.indigoAccent[700],
                              mini: true,
@@ -1280,36 +1282,33 @@ IconButton infoButton() {
                    }
                    
                    Widget news() {
+                     String tab1str = "News";
+                     String tab2str = "Sports";
+                     String tab3str = "Opinion";
+                     String tab4str = "Feature";
                      //embed
-                     String siteExtension = "news";
-                           return Scaffold(
-                             appBar: TabBar(
-                               indicatorColor: Colors.indigoAccent[700],
-                 
-                               controller: newsTabController,
-                               tabs: <Widget>[
-                                 Tab(child: Constants.basicText("News")),
-                                 Tab(child: Constants.basicText("Sports")),
-                                 Tab(child: Constants.basicText("Opinion")),
-                                 Tab(child: Constants.basicText("Feature"))
-                               ],
-                             ),
-                             //bottomNavigationBar: pullup(),
-                             body:TabBarView(
-                               controller: newsTabController,
-                               children: <Widget>[
-                                 newsFeedBuilder("news"),
-                                 newsFeedBuilder("sports"),
-                                 newsFeedBuilder("opinion"),
-                                 newsFeedBuilder("feature")
-                               ],
-                             )
-                             
-                             );
-                           return Container(color: Colors.green,);
-                      
-                     //<a class="twitter-timeline" href="https://twitter.com/SMMUSD?ref_src=twsrc%5Etfw">Tweets by SMMUSD</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                   }
+                     return Scaffold(
+                        appBar: TabBar(
+                          indicatorColor: Colors.indigoAccent[700],
+                          controller: newsTabController,
+                          tabs: <Widget>[
+                            Tab(child: Constants.basicText(tab1str)),
+                            Tab(child: Constants.basicText(tab2str)),
+                            Tab(child: Constants.basicText(tab3str)),
+                            Tab(child: Constants.basicText(tab4str))
+                          ],
+                        ),
+                        body: TabBarView(
+                          controller: newsTabController,
+                          children: <Widget>[
+                           newsFeedBuilder(tab1str),
+                           newsFeedBuilder(tab2str),
+                           newsFeedBuilder(tab3str),
+                           newsFeedBuilder(tab4str)
+                          ],
+                        )    
+                      );
+                    }
                  
                    FutureBuilder<http.Response> newsFeedBuilder(String siteExtension) {
                      return FutureBuilder(
