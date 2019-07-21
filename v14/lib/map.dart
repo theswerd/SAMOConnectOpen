@@ -22,6 +22,12 @@ class MapClass extends StatefulWidget {
 class _MapClassState extends State<MapClass> {
 
   double officeColor=BitmapDescriptor.hueBlue;
+  Set<Map> classrooms = {
+    /*{
+      "name":"H204",
+      "location":
+    }*/
+  };
   Set<Marker> buildings = {
       Marker(
        markerId: MarkerId("Construction Zone"),
