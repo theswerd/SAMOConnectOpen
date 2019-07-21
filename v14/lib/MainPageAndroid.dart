@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:v14/constants.dart' as prefix0;
 import 'color_loader_3.dart';
 import 'color_loader_4.dart';
-import 'package:webview_flutter/webview_flutter.dart' as web;
 //import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:html/parser.dart' show parse;
@@ -29,12 +28,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:groovin_widgets/groovin_widgets.dart';
 import 'package:intl/intl.dart';
 //import 'package:path_provider/path_provider.dart'
 //import 'package:latlong/latlong.dart';
-import 'package:launch_review/launch_review.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'constants.dart';
@@ -51,6 +47,8 @@ import 'policies.dart';
 import 'map.dart';
 import 'library.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'bulletin.dart';
+
 //AIzaSyDv1ZVTEAzB00t0LAMHqmyWr-Zr2-CV3no
 
 class MainWindowAndroid extends StatefulWidget {
@@ -153,221 +151,182 @@ IconButton infoButton() {
     onPressed: (){
       int currentIndex = tabController.index;
       if(currentIndex==0){
-        showModalBottomSheet(
-          context: context,
-          builder: (c){
-            return CupertinoActionSheet(
-              title: Text("Extra Info"),
-              actions: <Widget>[
+        Constants.showInfoBottomSheet(
+          [
                 Constants.officialWebsiteAction(context, "https://calendar.google.com/calendar/embed?title=SAMO%20CONNECT&mode=AGENDA&src=smmk12.org_21bhbi3q00vuvdf2rak3rrrll8@group.calendar.google.com&src=8tn1onqvkup6g281q19s6oon3s@group.calendar.google.com&src=smmk12.org_tfdd6j1jr5hatfbcj87rro5k9c@group.calendar.google.com&src=smmk12.org_7qnt6q53j7934lvcl0t754of9c@group.calendar.google.com&src=smmk12.org_4h8qa262239su4p66islu1e5vg@group.calendar.google.com&src=smmk12.org_t60qs7u1uktrievfsk7gq5c73s@group.calendar.google.com&src=smmk12.org_8umjrnuec40aa66o36lhd1huh8@group.calendar.google.com&src=smmk12.org_u8qc6umps8tqttms2sg3456jg8@group.calendar.google.com&dates=20190701/20190801"),
                 MainWindowAndroid.reportABug,
                 Constants.ratingAction(context)
               ],
-            );
-          }
-        );
+            context
+          );
+        
       }else if(currentIndex==1){
-        showModalBottomSheet(
-          context: context,
-          builder: (c){
-            return CupertinoActionSheet(
-              title: Text("Extra Info"),
-              actions: <Widget>[
-                Constants.actionWithPop(context, "View Official School Map", "http://www.samohi.smmusd.org/houses/images/campus.gif"),
-                Constants.actionWithPop(context,"View Old Version","https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0"),
+        Constants.showInfoBottomSheet(
+          [
+            Constants.actionWithPop(context, "View Official School Map", "http://www.samohi.smmusd.org/houses/images/campus.gif"),
+            Constants.actionWithPop(context,"View Old Version","https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0"),
+            Constants.ratingAction(context),
+            MainWindowAndroid.reportABug,
+          ],
+          context
+          );
+        
+      }else if(currentIndex==2){
+        Constants.showInfoBottomSheet(
+          [
+            CupertinoActionSheetAction(
+              child: Text("Extra Info"),
+              onPressed: (){
+                showCupertinoModalPopup(
+                  context: context,
+                  builder: (c){
+                    return new EventViewInfoDialog(context: context);
+                  }
+                );
+              }
+            ),
+            MainWindowAndroid.reportABug,
+          ],
+          context
+        );
+          }else if(currentIndex==3){
+            Constants.showInfoBottomSheet(
+              [
+                Constants.officialWebsiteAction(context, "https://www.thesamohi.com/"),
                 Constants.ratingAction(context),
                 MainWindowAndroid.reportABug,
               ],
-            );
+              context
+              );
+            }else if(currentIndex==4){
+              Constants.showInfoBottomSheet(
+                [
+                  Constants.ratingAction(context),
+                  CupertinoActionSheetAction(
+                    child: Text("Extra Info"),
+                    onPressed: (){
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (c){
+                          return CupertinoAlertDialog(
+                            title: Text("A new checklist feature for all of your schoolwork"),
+                            content: Text("The data you input here is stored locally, and seen by no-one but you\n PS. It cannot store more than 9,007,199,254,740,992 todos ;)"),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: Text("Ok"),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: Text("Give us a good rating?"),
+                                onPressed: (){
+                                  Constants.giveARating();
+                                  Constants.pop(context);
+                                  Constants.pop(context);
+                                },
+                              )
+                            ],
+                          );
+                        }
+                      );
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: Text("Clear"),
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                      try {
+                        setState(() {
+                          titleWidget = Text("Loading");
+                        });
+                        SharedPreferences.getInstance().then((prefs){
+                          prefs.setStringList(ChecklistPageState.listKey, []);
+                          setState(() {
+                            titleWidget = Text("Checklist");
+                          });
+                        });
+                      } catch (e) {
+                      }
+                    },
+                  ),
+                  MainWindowAndroid.reportABug
+                ],
+              context
+              );
+            }
+          },
+        );
+      }
+         
+      Future<dynamic> checkSignIn() {
+        return FirebaseAuth.instance.currentUser().then(
+          (currentUser){
+            if(currentUser == null){
+              showCupertinoModalPopup(
+                context: context,
+                builder: (c){
+                  return showSignUpOrLoginDialog();
+                }
+              );
+            }     
           }
         );
-      }else if(currentIndex==2){
-        showModalBottomSheet(
-          context: context,
-          builder: (c){
-            return CupertinoActionSheet(
-              title: Text("Extra Info"),
+      }
+                 
+      Future<dynamic> checkUpToDate() {
+        return Firestore.instance.collection("update").document("update").get().then(
+          (currentUpdate){
+            if(checkUpdate(currentUpdate)){
+              getTheNewUpdateDialog();
+            }
+          });
+        }
+                 
+      CupertinoAlertDialog showSignUpOrLoginDialog() {
+        return CupertinoAlertDialog(
+          title: Text("Login"),
+            content: Text("Login or Sign Up with the click of a button"),
               actions: <Widget>[
-                CupertinoActionSheetAction(
-                  child: Text("Extra Info"),
+                CupertinoDialogAction(
+                  isDefaultAction: true,
+                  child: Text("Login"),
                   onPressed: (){
-                    showCupertinoModalPopup(
-                      context: context,
-                      builder: (c){
-                        return new EventViewInfoDialog(context: context);
-                      }
-                    );
-                  }
+                    Navigator.of(context).popAndPushNamed(LoginScreen3.tag);
+                  },
                 ),
-                MainWindowAndroid.reportABug,
-                                 ],
-                               );
-                             }
-                           );
-                  
-                         }else if(currentIndex==3){
-                           showModalBottomSheet(
-                             context: context,
-                             builder: (c){
-                               return CupertinoActionSheet(
-                                 title: Text("Extra Info"),
-                                 actions: <Widget>[
-                                   Constants.officialWebsiteAction(context, "https://www.thesamohi.com/"),
-                                   Constants.ratingAction(context),
-                                   MainWindowAndroid.reportABug,
-                                 ],
-                               );
-                             }
-                           );
-                         }else if(currentIndex==4){
-                           showModalBottomSheet(
-                             context: context,
-                             builder: (c){
-                               return CupertinoActionSheet(
-                                 title: Text("Extra Info"),
-                                 actions: <Widget>[
-                                   Constants.ratingAction(context),
-                                   CupertinoActionSheetAction(
-                                     child: Text("Extra Info"),
-                                     onPressed: (){
-                                       showCupertinoModalPopup(
-                                         context: context,
-                                         builder: (c){
-                                           return CupertinoAlertDialog(
-                                             title: Text("A new checklist feature for all of your schoolwork"),
-                                             content: Text("The data you input here is stored locally, and seen by no-one but you\n PS. It cannot store more than 9,007,199,254,740,992 todos ;)"),
-                                             actions: <Widget>[
-                                               CupertinoButton(
-                                                 child: Text("Ok"),
-                                                 onPressed: (){
-                                                   Navigator.of(context).pop();
-                                                 },
-                                               ),
-                                               CupertinoButton(
-                                                 child: Text("Give us a good rating?"),
-                                                 onPressed: (){
-                                                   LaunchReview.launch(
-                                                     iOSAppId: "1465501734"
-                                                   );
-                                                   Navigator.of(context).pop();
-                                                   Navigator.of(context).pop();
+              CupertinoDialogAction(
+                isDefaultAction: false,
+                child: Text("Nah"),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
                  
-                                                 },
-                                               )
-                                             ],
-                                           );
-                                         }
-                                       );
-                                     },
-                                   ),
-                                   CupertinoActionSheetAction(
-                                     child: Text("Clear"),
-                                     onPressed: (){
-                                       Navigator.of(context).pop();
-                                       
-                                       try {
-                                         setState(() {
-                                         titleWidget = Text("Loading");
-                                       });
-                                       
-                                       SharedPreferences.getInstance().then((prefs){
-                                         prefs.setStringList(ChecklistPageState.listKey, []);
-                                         setState(() {
-                                         titleWidget = Text("Checklist");
-                                         });
-                                       });
-                                       } catch (e) {
-                                         titleWidget = Text("Error");
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.02;
                  
-                                       }
-                                       build(context);
-                                     },
-                                   ),
-                                   MainWindowAndroid.reportABug
-                                 ],
-                               );
-                             }
-                           );
-                         }
-                       },
-                     );
-                   }
+        Future getTheNewUpdateDialog() {
+          return showCupertinoModalPopup(
+            context: context,
+            builder: (c){
+              return CupertinoAlertDialog(
+                title: Text("A new update is out"),
+                actions: <Widget>[
+                  CupertinoButton(
+                    child: Text("Get it!"),
+                      onPressed: (){
+                        launch("https://samoconnect.page.link/SamoConnect");
+                      },
+                    )
+                  ],
+                );
+              }
+            );
+          }
 
-
-
-
-
-
-              
-                                    
-                 
-                   Future<dynamic> checkSignIn() {
-                     return FirebaseAuth.instance.currentUser().then(
-                     (currentUser){
-                       if(currentUser == null){
-                         showCupertinoModalPopup(
-                           context: context,
-                           builder: (c){
-                             return showSignUpOrLoginDialog();
-                           }
-                         );
-                       }     
-                       }
-                     );
-                   }
-                 
-                   Future<dynamic> checkUpToDate() {
-                     return Firestore.instance.collection("update").document("update").get().then(
-                     (currentUpdate){
-                       if(checkUpdate(currentUpdate)){
-                         getTheNewUpdateDialog();
-                       }
-                     });
-                   }
-                 
-                   CupertinoAlertDialog showSignUpOrLoginDialog() {
-                     return CupertinoAlertDialog(
-                               title: Text("Login"),
-                               content: Text("Login or Sign Up with the click of a button"),
-                               actions: <Widget>[
-                                 CupertinoDialogAction(
-                                   isDefaultAction: true,
-                                   child: Text("Login"),
-                                   onPressed: (){
-                                     Navigator.of(context).popAndPushNamed(LoginScreen3.tag);
-                                   },
-                                 ),
-                                 CupertinoDialogAction(
-                                   isDefaultAction: false,
-                                   child: Text("Nah"),
-                                   onPressed: (){
-                                     Navigator.of(context).pop();
-                                   },
-                                 )
-                               ],
-                             );
-                   }
-                 
-                   checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.02;
-                 
-                   Future getTheNewUpdateDialog() {
-                     return showCupertinoDialog(
-                           context: context,
-                           builder: (c){
-                             return CupertinoAlertDialog(
-                               title: Text("A new update is out"),
-                               actions: <Widget>[
-                                 CupertinoButton(
-                                   child: Text("Get it!"),
-                                   onPressed: (){
-                                     launch("https://samoconnect.page.link/SamoConnect");
-                                   },
-                                 )
-                               ],
-                             );
-                           }
-                         );
-                   }
                    @override
                    Widget build(BuildContext context) {
                        
@@ -542,8 +501,8 @@ IconButton infoButton() {
                            subtitle: Text("Todays Info"),
                            trailing: Icon(MdiIcons.bulletinBoard,color: Colors.black,),
                            onTap: (){
-                             launch("http://www.samohi.smmusd.org/BB.pdf",enableJavaScript: true);
-                             //Navigator.of(context).pushNamed(bulletin.tag);
+                             //launch("http://www.samohi.smmusd.org/BB.pdf",enableJavaScript: true);
+                             Navigator.of(context).pushNamed(BulletinPage.tag);
                            },
                          ),
                           ListTile(
@@ -794,121 +753,11 @@ IconButton infoButton() {
                      );
                    }
                  
-                   Widget calender() {
-                    
-                     return web.WebView(
-                             initialUrl: calenderUrl,
-                             javascriptMode: web.JavascriptMode.unrestricted,
-                           );
-                   }
                  
                    map() {
                      return MapClass();
-                     Marker constructionZone =Marker(
-                        markerId: MarkerId("Construction Zone"),
-                        position: LatLng(34.0129,-118.48647),
-                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-                        infoWindow: InfoWindow(
-                          title: "Construction Zone",
-                          snippet: "Projected to finish in 2021"
-                        ),
-                        
-                      );
-                     Set<Marker> buildings = { Marker(
-                          markerId: MarkerId("Innovation"),
-                          
-                          icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.01367,-118.4858),
-                          infoWindow: InfoWindow(
-                            title: "I Building",
-                            snippet: "The innovation building"
-                          ),
-                          zIndex: 5
-                      ),
-                      Marker(
-                          markerId: MarkerId("English"),
-                          
-                          icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.0122,-118.48505),
-                          infoWindow: InfoWindow(
-                            title: "E Building",
-                            snippet: "The English Building"
-                          ),
-                          zIndex: 5
-                      ),
-                      Marker(
-                          markerId: MarkerId("History"),
-                          
-                          icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.0119,-118.48562),
-                          infoWindow: InfoWindow(
-                            title: "H Building",
-                            snippet: "The History Building"
-                          ),
-                          zIndex: 5
-                      ),
-                       Marker(
-                          markerId: MarkerId("Buisiness"),
-                          
-                          icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.0123,-118.48595),
-                          infoWindow: InfoWindow(
-                            title: "B Building",
-                            snippet: "The Buisiness Building"
-                          ),
-                          zIndex: 5
-                      ),
-                      Marker(
-                          markerId: MarkerId("Language"),
-                          
-                          icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.01165,-118.48490),
-                          infoWindow: InfoWindow(
-                            title: "L Building",
-                            snippet: "The Language Building"
-                          ),
-                          zIndex: 5
-                      ),
-                     Marker(
-                       markerId: MarkerId("Music"),
-                       icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.01165,-118.48690),
-                          infoWindow: InfoWindow(
-                            title: "Music Building",
-                            snippet: "Split between band, orchestra, and choir"
-                          ),
-                     ),
-                     Marker(
-                       markerId: MarkerId("T Building"),
-                       icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.01227,-118.4872),
-                          infoWindow: InfoWindow(
-                            title: "T Building",
-                            snippet: "The Temporary Buildings"
-                          ),
-                     ),
-                     Marker(
-                       markerId: MarkerId("North Gym"),
-                       icon: BitmapDescriptor.defaultMarker,
-                          position: LatLng(34.0112,-118.4873),
-                          infoWindow: InfoWindow(
-                            title: "North Gym",
-                            //snippet: ""
-                          ),
-                     )
-                   };
-                    buildings.add(constructionZone);
-                      Widget mappView = googleMap(buildings);
-                      
-                 
-                     mainMapView = MapScaffoldMaker(mappView );
-                 
-                    return  mainMapView;// return ColorLoader3();
-                    print("MAP TEST");
-                    return web.WebView(
-                      initialUrl: "https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0",
-                      javascriptMode: web.JavascriptMode.unrestricted,
-                    );
+                     
+                    
                      //print(MapboxStyles.TRAFFIC_DAY);
                  
                          //new TileLayerOptions(

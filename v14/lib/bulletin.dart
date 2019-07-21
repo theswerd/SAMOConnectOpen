@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:v14/color_loader_3.dart';
+import 'constants.dart';
 
 
 class BulletinPage extends StatefulWidget {
@@ -13,18 +14,7 @@ class _BulletinPageState extends State<BulletinPage> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(title: Text("Bulletin"),),
-      body: WebView(
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (c){
-          print("It thihks it worksedd");
-        },
-        onPageFinished: (c){
-        
-          print("OT TTHINKS ITS DONEEEEEEEE");
-        },
-        initialUrl: "http://www.samohi.smmusd.org/BB.pdf",
-      )
+      body: Container(color: Colors.amber,),
     );
-  }
+    }
 }
