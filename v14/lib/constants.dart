@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:share/share.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:rounded_modal/rounded_modal.dart';
 class Constants{
   static Future<void> shareString(String shareStr) => Share.share(shareStr);
   static Color antiColor = Colors.indigoAccent[700];
@@ -13,6 +13,26 @@ class Constants{
     LaunchReview.launch(
       iOSAppId: "1465501734",
       androidAppId: "com.swerd.SamoConnect"
+    );
+  }
+  static void showInfoBottomSheet(List<CupertinoActionSheetAction> theactions, BuildContext context){
+    showCupertinoModalPopup(
+      context: context,
+      builder: (c){
+        return CupertinoActionSheet(
+          
+          actions: theactions,
+          title: Text("Extra Info"),
+          cancelButton: CupertinoActionSheetAction(
+            
+            child: Text("Cancel"),
+            isDestructiveAction: true,
+            onPressed: (){
+              Constants.pop(context);
+            },
+          ),
+        );
+      }
     );
   }
   static CupertinoActionSheetAction ratingAction(BuildContext context) {

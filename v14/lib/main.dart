@@ -13,7 +13,7 @@ import 'attendance.dart';
 import 'login_screen_3.dart';
 import 'policies.dart';
 import 'library.dart';
-
+import 'bulletin.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
         LoginScreen3.tag:(context)=>LoginScreen3(),
         MainWindowAndroid.tag:(context)=>MainWindowAndroid(),
         PolicyPage.tag:(context)=>PolicyPage(),
-        LibraryPage.tag:(context)=>LibraryPage()
+        LibraryPage.tag:(context)=>LibraryPage(),
+        BulletinPage.tag:(context)=>BulletinPage()
        // SingleSchedule.tag: (context)=> SingleSchedule()
 
       },

@@ -41,11 +41,11 @@ dependencies:
   unicorndial: ^1.1.5
   firebase_messaging: ^5.0.4
 
-  flutter_signin_button: ^0.2.8
+  flutter_webview_plugin: ^0.3.5
   shared_preferences: ^0.5.2
 
   flutter_material_color_picker:
-  groovin_widgets: ^1.4.2
+  rounded_modal: ^1.0.0
 
   material_design_icons_flutter: ^3.2.3695
   http: 
