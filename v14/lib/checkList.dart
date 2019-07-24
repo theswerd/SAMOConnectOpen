@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -30,11 +31,27 @@ class ChecklistPageState extends State<ChecklistPage> {
   TextEditingController descriptionController;
   String currentEmoji = "";
 
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() { 
     super.initState();
+    //TEXT Controllers
     titleController = TextEditingController();
     descriptionController = TextEditingController();
+
+    //Notifications
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+    var initializationSettingsAndroid =  new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings( onDidReceiveLocalNotification: (a,b,c,d){});
+    var initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    onSelectNotification:(strIG){
+
+    } 
+    );
+  
   }
 
   
@@ -368,6 +385,17 @@ class ChecklistPageState extends State<ChecklistPage> {
                                         setState(() {
                                           body = buildListOfTodos();
                                         });
+                                        
+                                        var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+                                          presentAlert: true,
+                                          presentBadge: true
+                                        );
+                                        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+                                          'SAMO Connect', 'Checklist', 'Your SAMOHI Checklist',
+                                          importance: Importance.Max, priority: Priority.Max, ticker: 'ticker'
+                                        );
+                                        var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+                                        flutterLocalNotificationsPlugin.show(0, 'plain title', 'plain body', platformChannelSpecifics,payload: 'item x');
                                         Navigator.of(context).pop();
                                       }else{
                                         showCupertinoModalPopup(
