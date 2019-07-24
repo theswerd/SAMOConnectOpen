@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'color_loader_3.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 class BellSchedule extends StatefulWidget {
 
@@ -22,7 +23,16 @@ class _BellScheduleState extends State<BellSchedule>
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent[700],
         title: Text("Bell Schedule"),
+        centerTitle: true,
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.share),
+            color: Colors.white,
+            splashColor: Colors.yellowAccent,
+            onPressed: (){
+              Share.share("Worried about being late for classes? Luckily the bell schedule is available on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+            },
+            ),
           PopupMenuButton(
             icon: Icon(Icons.info_outline),
             itemBuilder: (c){

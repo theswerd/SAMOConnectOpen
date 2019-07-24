@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
 import 'color_loader_3.dart';
@@ -175,7 +176,14 @@ class _PolicyPageState extends State<PolicyPage> {
                     },
                   ),
                   CupertinoActionSheetAction(
-                    child: Text("Give us a good review"),
+                    child: Text("Share"),
+                    onPressed: (){
+                      Share.share("Think your in trouble? Lucky SAMO Connect has the school policies -- https://samoconnect.page.link/SamoConnect");
+                      //launch("http://www.samohi.smmusd.org/About/policies/index.html");
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: Text("Give us a good review?"),
                     onPressed: (){
                       LaunchReview.launch(
                           iOSAppId: "1465501734"
@@ -309,12 +317,25 @@ class _PolicyPageState extends State<PolicyPage> {
           title: Text(title),
           content: Text(description),
           actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text("Share"),
+            
+              onPressed: (){
+                Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+               //Navigator.of(context).pop();
+              }
+            ),
+            /*
+            */
             CupertinoButton(
               child: Text("Ok"),
               onPressed: (){
                 Navigator.of(context).pop();
               },
-            )
+            ),
+            
+             
           ],
         );
       }
