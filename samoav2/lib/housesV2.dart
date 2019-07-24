@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'color_loader_3.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:share/share.dart';
 
 class HouseViewV2 extends StatefulWidget {
 HouseViewV2({this.House});
@@ -29,6 +30,14 @@ HouseViewV2({this.House});
 
 class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin{
   TabController theTabController;
+
+  IconButton shareButton = IconButton(
+    icon: Icon(Icons.share),
+    splashColor: Colors.yellowAccent,
+    onPressed: (){
+      Share.share("Wondering who your house principal is? See your on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+    },
+  );
   @override
   void initState() { 
     super.initState();
@@ -38,9 +47,11 @@ class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.indigoAccent[700],
         title: Text(widget.House+" House"),
         actions: <Widget>[
+          shareButton,
           IconButton(
             icon:Icon(Icons.info_outline),
             splashColor: Colors.yellow,
@@ -101,18 +112,11 @@ class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin
                     admin
                   ],
                 ),
-                bottomNavigationBar: TabBar(
+                appBar: TabBar(
                   controller: theTabController,
                   indicatorColor: Colors.indigoAccent[700],
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(
-                      color: Colors.indigoAccent[700],
-                      width: 3,
-                      style: BorderStyle.solid
-                    ),
-                    
-                  ),
+                  
                   // labelStyle: TextStyle(color: Colors.black),
                   // unselectedLabelStyle: TextStyle(color: Colors.black),
                   tabs: <Widget>[
@@ -266,12 +270,12 @@ Widget makeTeacherList(List<dom.Element> fullList, BuildContext context) {
       print(currentItem["dep"]);
       String currentDep =currentItem["dep"];
       List teachersInDep =currentItem["data"];
-      double testAmount =135;
+      double testAmount =125;
       if(currentItem["dep"].isNotEmpty){
       return Container(
         //width: MediaQuery.of(context).size.width*.8,
         padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width*.08),
-        height: (listODepartments[i]["data"].length*testAmount+90).toDouble(),
+        height: (listODepartments[i]["data"].length*testAmount+50).toDouble(),
         child: RaisedButton(
           elevation: 15,
           color: Colors.white,
@@ -283,7 +287,7 @@ Widget makeTeacherList(List<dom.Element> fullList, BuildContext context) {
                 Text(currentDep,style: TextStyle(color: Colors.black,fontSize: 23,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
                 Container(
                   height: (testAmount*listODepartments[i]["data"].length).toDouble(),
-                  padding: EdgeInsets.symmetric(vertical:15,horizontal: 5),
+                  padding: EdgeInsets.symmetric(vertical:0,horizontal: 5),
                   child: ListView.separated(
                     itemCount: teachersInDep.length,
                     separatorBuilder: (c,i)=>Container(height: 10,),
@@ -306,7 +310,24 @@ Widget makeTeacherList(List<dom.Element> fullList, BuildContext context) {
                                 padding: EdgeInsets.zero,
                                 child: Text(currentItem["email"],style: TextStyle(fontSize: 18),),
                                 onPressed: (){
-                                  
+                                  Clipboard.setData(ClipboardData(text: currentItem["email"]));
+                                  showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (c){
+                                      return CupertinoAlertDialog(
+                                        title: Text("Copied!"),
+                                        content: Text(currentItem["name"].trim()+"'s email has been copied to your clipboard."),
+                                        actions: <Widget>[
+                                          CupertinoButton(
+                                            child: Text("Ok"),
+                                            onPressed: (){
+                                              Navigator.of(context).pop();
+                                            },
+                                          )
+                                        ],
+                                      );
+                                    }
+                                  );
                                 },
                               ),
                               alignment: Alignment.centerLeft,
@@ -405,6 +426,7 @@ Widget makeAdminList(List<dom.Element> fullList,BuildContext context) {
   
   
   return ListView.separated(
+    padding: EdgeInsets.all(10),
     itemCount: listOfAdminFinalFormat.length,
     separatorBuilder: (c,i)=>Container(height: 20,),
     itemBuilder: (c,i){

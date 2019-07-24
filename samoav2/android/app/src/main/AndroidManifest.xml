@@ -10,6 +10,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="SAMOHI"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAAbsajs3u07szHJKnsqMiP7WwSZ8G5lcs"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

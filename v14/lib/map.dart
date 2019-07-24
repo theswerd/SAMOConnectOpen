@@ -344,7 +344,6 @@ class _MapClassState extends State<MapClass> {
 
      
    );
-    return body;
   }
  
 }
