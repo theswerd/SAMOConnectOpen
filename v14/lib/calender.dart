@@ -28,19 +28,19 @@ class _CalenderState extends State<Calender> with TickerProviderStateMixin {
        stream:http.get("https://calendar.google.com/calendar/htmlembed?mode=AGENDA&src=smmk12.org_21bhbi3q00vuvdf2rak3rrrll8%40group.calendar.google.com&src=8tn1onqvkup6g281q19s6oon3s%40group.calendar.google.com&src=smmk12.org_tfdd6j1jr5hatfbcj87rro5k9c%40group.calendar.google.com&src=smmk12.org_7qnt6q53j7934lvcl0t754of9c%40group.calendar.google.com&src=smmk12.org_4h8qa262239su4p66islu1e5vg%40group.calendar.google.com&src=smmk12.org_t60qs7u1uktrievfsk7gq5c73s%40group.calendar.google.com&src=smmk12.org_8umjrnuec40aa66o36lhd1huh8%40group.calendar.google.com&src=smmk12.org_u8qc6umps8tqttms2sg3456jg8%40group.calendar.google.com").asStream(),
        builder: (c,s){
          if(s.hasError){
-           return Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-             children: <Widget>[
-               Text("Handshake Failure",style: TextStyle(fontSize: 18),),
-               Text(s.error.toString()),
-               RaisedButton(
-                 color: Colors.indigo[700],
-                 child: Text("Try again"),
-                 onPressed: (){
-                   build(context);
-                 },
-               )
-             ],
+           return Center(child:
+               RichText(
+                 textAlign: TextAlign.center,
+                 
+                               text: TextSpan(
+                                 children: <TextSpan>[
+                                   TextSpan(text: "Sorry, it looks like your ",style: TextStyle(color: Colors.black, fontSize: 18)),
+                                   TextSpan(text: "offline",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black, fontSize: 18))
+
+                                 ]
+                               ),
+                             )
+             
            ); 
          }
          if(s.connectionState!=ConnectionState.done){

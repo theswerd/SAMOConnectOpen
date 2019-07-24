@@ -129,15 +129,15 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
    if(!tabController.hasListeners){
      tabController.addListener((){
         if(tabController.index==0){
-          setTabData("Calendar",true);
+          setTabScroll(true);
         }else if(tabController.index==1){
-          setTabData("Map", false);
+          setTabScroll(false);
         }else if(tabController.index==2){
-          setTabData("SAMOHI Connect", false);
+          setTabScroll(false);
         }else if(tabController.index==3){
-          setTabData("The SAMOHI News", true);
+          setTabScroll(true);
         }else if(tabController.index==4){
-          setTabData("Checklist", true);
+          setTabScroll(true);
         }
       });
     }
@@ -153,9 +153,43 @@ IconButton infoButton() {
       if(currentIndex==0){
         Constants.showInfoBottomSheet(
           [
-                Constants.officialWebsiteAction(context, "https://calendar.google.com/calendar/embed?title=SAMO%20CONNECT&mode=AGENDA&src=smmk12.org_21bhbi3q00vuvdf2rak3rrrll8@group.calendar.google.com&src=8tn1onqvkup6g281q19s6oon3s@group.calendar.google.com&src=smmk12.org_tfdd6j1jr5hatfbcj87rro5k9c@group.calendar.google.com&src=smmk12.org_7qnt6q53j7934lvcl0t754of9c@group.calendar.google.com&src=smmk12.org_4h8qa262239su4p66islu1e5vg@group.calendar.google.com&src=smmk12.org_t60qs7u1uktrievfsk7gq5c73s@group.calendar.google.com&src=smmk12.org_8umjrnuec40aa66o36lhd1huh8@group.calendar.google.com&src=smmk12.org_u8qc6umps8tqttms2sg3456jg8@group.calendar.google.com&dates=20190701/20190801"),
+                Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/calendar.html"),
                 MainWindowAndroid.reportABug,
-                Constants.ratingAction(context)
+                Constants.ratingAction(context),
+                CupertinoActionSheetAction(
+                  child: Text("Where does this data come from?"),
+                  onPressed: (){
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (c){
+                        return CupertinoAlertDialog(
+                          title: Text("Info Origins?"),
+                          content: RichText(
+                            textAlign: TextAlign.center,
+                            
+                            text:TextSpan(
+                              style: TextStyle(color: Colors.black),
+                              children: <TextSpan>[
+                                TextSpan(text: "The data comes from the "),
+                                TextSpan(text: "official calendar",style: TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: " on the "),
+                                TextSpan(text: "school's website.",style: TextStyle(fontWeight: FontWeight.bold))
+                              ]
+                            )
+                          ),
+                          actions: <Widget>[
+                            CupertinoDialogAction(
+                              child: Text("Ok"),
+                              onPressed: (){
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      }
+                    );
+                  },
+                )
               ],
             context
           );
@@ -163,9 +197,45 @@ IconButton infoButton() {
       }else if(currentIndex==1){
         Constants.showInfoBottomSheet(
           [
+
             Constants.actionWithPop(context, "View Official School Map", "http://www.samohi.smmusd.org/houses/images/campus.gif"),
             Constants.actionWithPop(context,"View Old Version","https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0"),
             Constants.ratingAction(context),
+            CupertinoActionSheetAction(
+                  child: Text("Where does this data come from?"),
+                  onPressed: (){
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (c){
+                        return CupertinoAlertDialog(
+                          title: Text("Info Origins?"),
+                          content: RichText(
+                            textAlign: TextAlign.center,
+                            
+                            text:TextSpan(
+                              style: TextStyle(color: Colors.black),
+                              children: <TextSpan>[
+                                TextSpan(text: "The data comes from the "),
+                                TextSpan(text: "official school map",style: TextStyle(fontWeight: FontWeight.bold)),
+                                TextSpan(text: ". It was put together by "),
+                                TextSpan(text: "student developers.",style: TextStyle(fontWeight: FontWeight.bold))
+                              ]
+                            )
+                          ),
+                          actions: <Widget>[
+                            CupertinoDialogAction(
+                              child: Text("Ok"),
+                              onPressed: (){
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      }
+                    );
+                  },
+                ),
+
             MainWindowAndroid.reportABug,
           ],
           context
@@ -194,6 +264,7 @@ IconButton infoButton() {
               [
                 Constants.officialWebsiteAction(context, "https://www.thesamohi.com/"),
                 Constants.ratingAction(context),
+                
                 MainWindowAndroid.reportABug,
               ],
               context
@@ -673,7 +744,17 @@ IconButton infoButton() {
                      appBar: AppBar(
                        backgroundColor: Colors.indigoAccent[700],
                        centerTitle: true,
-                       title: titleWidget,
+                       title: TabBarView(
+                         
+                         controller: tabController,
+                         children: <Widget>[
+                           Center(child:Text("Calendar")),
+                           Center(child:Text("Map")),
+                           Center(child:Text("SAMOHI Connect")),
+                           Center(child:Text("The SAMOHI News")),
+                           Center(child:Text("Checklist")),
+                         ],
+                       ),
                        actions: <Widget>[shareAction,infoAction],
                        leading: IconButton(
                          icon: Icon(Icons.menu,),
@@ -1174,15 +1255,16 @@ IconButton infoButton() {
                          return Column(
                            mainAxisAlignment: MainAxisAlignment.center,
                            children: <Widget>[
-                             Text("ERROR",style: TextStyle(color: Colors.black,fontSize: 25),),
-                             SizedBox(height: 10),
-                             Text(error,style: TextStyle(color: Colors.grey[600]),),
-                             RaisedButton(child: Text("Try Again"),color: Colors.blue,onPressed: (){
-                               setState(() {
-                                 print("new version is uuuppp");
-                                 titleWidget = new Text("The SAMOHI News");
-                               });
-                             },)
+                             RichText(
+                               text: TextSpan(
+                                 children: <TextSpan>[
+                                   TextSpan(text: "Sorry, it looks like your "),
+                                   TextSpan(text: "offline",style: TextStyle(fontWeight: FontWeight.bold))
+
+                                 ]
+                               ),
+                             )
+                             
                            ],
                          );
                        }else
@@ -1286,7 +1368,7 @@ IconButton infoButton() {
                                      future: http.get(imageSplit[1]),
                                      builder: (c,s){
                                        if(s.hasError){
-                                         return Text("Failed to load post");
+                                         return Center(child:Text("Failed to load post"));
                                        }else if(s.connectionState!=ConnectionState.done){
                                          var loadingSlide = RaisedButton(
                                              color: Colors.white,
@@ -1358,8 +1440,26 @@ IconButton infoButton() {
                                  return Column(
                                    mainAxisAlignment: MainAxisAlignment.center,
                                    children:<Widget>[
+                                     Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                      child: RichText(
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(
+                                          
+                                          children: <TextSpan>[
+                                            TextSpan(text: "This view is very ",style: TextStyle(fontSize: 18)),
+                                            TextSpan(text: "popular",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                            TextSpan(text: ", and the server is currently ",style: TextStyle(fontSize: 18)),
+                                            TextSpan(text: "full",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                            TextSpan(text: ". \nPlease check back in 5 minutes",style: TextStyle(fontSize: 18)),
+
+
+                                          ]
+                                        ),
+                                      ),
+                                    ),
                                      Text("Error linking to server",style: TextStyle(color: Colors.black,fontSize: 16),),
-                                     Text("Sorry, this page is very popular and is currently full right now, check back in in 5",style: TextStyle(color: Colors.black,fontSize: 20),),
+
                                      ]);
                                }
                              }
@@ -1368,7 +1468,7 @@ IconButton infoButton() {
                          );
                    }
                  
-                   void setTabData(String title, bool scrollable) {
+                   void setTabScroll(bool scrollable) {
                      ScrollPhysics thePhysics;
                      if(scrollable){
                        thePhysics = AlwaysScrollableScrollPhysics();
@@ -1376,9 +1476,9 @@ IconButton infoButton() {
                        thePhysics = NeverScrollableScrollPhysics();
                      }
                      setState(() {
-                       titleWidget =Text(title);
                        physics = thePhysics;
                      });
+
                    }
 
 }
