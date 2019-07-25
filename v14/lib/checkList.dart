@@ -123,8 +123,8 @@ class ChecklistPageState extends State<ChecklistPage> {
           bool favorite = false;
           bool hasColor = true;
           Color currentIndexColor = Colors.black;
-          int date = DateTime(2020,1,1).millisecondsSinceEpoch;
-          DateTime rawDateTime = DateTime(2019,1,1);
+          int date = DateTime.now().millisecondsSinceEpoch;
+          DateTime rawDateTime = DateTime.now();
 
           String title = "";
           String subTitle = "";
@@ -608,7 +608,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                     bool newDay = false;
                     bool newColor = false;
                     Color newColorData = Colors.black;
-                    int currentDateTime = DateTime(2019,1,1).millisecondsSinceEpoch;
+                    int currentDateTime = DateTime.now().millisecondsSinceEpoch;
                     String hasDay = theData[3];
                     String hasColor = theData[5];
                     String emoji = theData[2];
