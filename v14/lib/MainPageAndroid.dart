@@ -28,6 +28,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:intl/intl.dart';
 //import 'package:path_provider/path_provider.dart'
 //import 'package:latlong/latlong.dart';
@@ -272,6 +273,12 @@ IconButton infoButton() {
             }else if(currentIndex==4){
               Constants.showInfoBottomSheet(
                 [
+                  CupertinoActionSheetAction(
+                    child: Text("Notification Permissions"),
+                    onPressed: (){
+                      checkNotificationPermissions();
+                    },
+                  ),
                   Constants.ratingAction(context),
                   CupertinoActionSheetAction(
                     child: Text("Extra Info"),
@@ -1480,6 +1487,56 @@ IconButton infoButton() {
                      });
 
                    }
+
+  void checkNotificationPermissions() async{
+    PermissionStatus permissionStatus =  await NotificationPermissions.getNotificationPermissionStatus();
+    if(permissionStatus == PermissionStatus.granted){
+      showCupertinoModalPopup(
+        context: context,
+        builder: (c){
+          return CupertinoAlertDialog(
+            title: Text("You got it!"),
+            content: Text("Your notification permssions are already setup!"),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text("Ok"),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
+      );
+    }else{
+      showCupertinoModalPopup(
+        context: context,
+        builder: (c){
+          return CupertinoAlertDialog(
+            title: Text("Turn notifications on?"),
+            content: Text("Enabling notifications will allow SAMO Connect to remind you when you need to do something"),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text("Enable"),
+                isDefaultAction: true,
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  NotificationPermissions.requestNotificationPermissions();
+                  
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text("Nah"),
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
+      );
+    }
+  }
 
 }
 
