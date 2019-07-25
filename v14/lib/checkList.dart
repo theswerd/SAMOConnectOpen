@@ -124,6 +124,8 @@ class ChecklistPageState extends State<ChecklistPage> {
           bool hasColor = true;
           Color currentIndexColor = Colors.black;
           int date = DateTime(2020,1,1).millisecondsSinceEpoch;
+          DateTime rawDateTime = DateTime(2019,1,1);
+
           String title = "";
           String subTitle = "";
           currentEmoji = "";
@@ -313,6 +315,10 @@ class ChecklistPageState extends State<ChecklistPage> {
                                                           initialDateTime: DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),
                                                           onDateTimeChanged: (DateTime newDt){
                                                             currentDateTime = newDt.millisecondsSinceEpoch;
+                                                            rawDateTime = newDt;
+                                                            print("RAW Dt changed");
+                                                            print(rawDateTime.hour);
+                                                            print(rawDateTime.minute);
                                                         },
                                                       ),
                                                       ),
@@ -385,17 +391,15 @@ class ChecklistPageState extends State<ChecklistPage> {
                                         setState(() {
                                           body = buildListOfTodos();
                                         });
-                                        
-                                        var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-                                          presentAlert: true,
-                                          presentBadge: true
-                                        );
-                                        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-                                          'SAMO Connect', 'Checklist', 'Your SAMOHI Checklist',
-                                          importance: Importance.Max, priority: Priority.Max, ticker: 'ticker'
-                                        );
-                                        var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-                                        flutterLocalNotificationsPlugin.show(0, 'plain title', 'plain body', platformChannelSpecifics,payload: 'item x');
+                                        if(hasDate){
+                                          try {
+                                            scheduleNotification(flutterLocalNotificationsPlugin, title,subTitle, rawDateTime);
+                                            
+                                          } catch (e) {
+                                            print("ERROR GETTING IT");
+                                            print(e);
+                                          }
+                                        }
                                         Navigator.of(context).pop();
                                       }else{
                                         showCupertinoModalPopup(
@@ -991,4 +995,52 @@ class ChecklistPageState extends State<ChecklistPage> {
     );
   }
   
+}
+
+scheduleNotification(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin, String title, String subtitle, DateTime time) async{
+  // print("It has started setting it up");
+  // //SETUP NOTIFICATION
+  // //String foo = title+subtitle;
+  // //int bytes = int.parse(utf8.encode(foo).join(""));
+  // //print(bytes);
+  // var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+  //   presentAlert: true,
+  //   presentBadge: true
+  // );
+  // //NECESSARY CUZ IT IS PART OF THE NEXT PART
+  // var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+  //   'SAMO Connect', 'Checklist', 'Your SAMOHI Checklist',
+  //   importance: Importance.Max, priority: Priority.Max, ticker: 'ticker'
+  // );
+  // var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics,);
+  //   print("It has been set");
+  //   //PRINT TIME
+  //   //TIME IS FUCKIN GNARLY
+  //   print("TIme is fuckin gnarly");
+  //   print(time);
+  //   print(time.day);
+  //   print(time.hour);
+  //   print(time.month);
+  //   print(time.minute);
+  //   flutterLocalNotificationsPlugin.schedule(0, title, subtitle,time.add(new Duration(hours: 20,minutes:23)),platformChannelSpecifics,);
+  //   print("It has been set");
+var scheduledNotificationDateTime = time.add(Duration(hours: 7,minutes:30));
+var androidPlatformChannelSpecifics =
+    new AndroidNotificationDetails('your other channel id',
+        'your other channel name', 'your other channel description');
+var iOSPlatformChannelSpecifics =
+    new IOSNotificationDetails();
+
+NotificationDetails platformChannelSpecifics = new NotificationDetails(
+    androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+if(subtitle.isEmpty){
+  subtitle = "Check it on SAMO Connect";
+}
+await flutterLocalNotificationsPlugin.schedule(
+    0,
+    title,
+    subtitle,
+    scheduledNotificationDateTime,
+    platformChannelSpecifics);
 }
