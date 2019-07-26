@@ -972,7 +972,7 @@ class _LoginScreen3State extends State<LoginScreen3>
 
     if(email!=""){
       if(password!=""){
-
+        //FirebaseAuth.instance.signInWithCredential(TwitterAuthProvider.getCredential());
         Future<FirebaseUser> theUser = FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
         
         theUser.catchError((onError){

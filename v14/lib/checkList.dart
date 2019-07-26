@@ -14,7 +14,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:intl/intl.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
-
+import 'constants.dart';
 
 class ChecklistPage extends StatefulWidget {
 
@@ -104,7 +104,7 @@ class ChecklistPageState extends State<ChecklistPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         tooltip: "Add to checklist",
-        backgroundColor: Colors.indigoAccent[700],
+        backgroundColor: Constants.baseColor,
         child: Icon(Icons.add),
         foregroundColor: Colors.white,
         onPressed: (){
@@ -123,8 +123,9 @@ class ChecklistPageState extends State<ChecklistPage> {
           bool favorite = false;
           bool hasColor = true;
           Color currentIndexColor = Colors.black;
-          int date = DateTime.now().millisecondsSinceEpoch;
-          DateTime rawDateTime = DateTime.now();
+          DateTime currentDateTime = DateTime.now();
+          DateTime rawDateTime = DateTime(currentDateTime.year, currentDateTime.month,currentDateTime.day,0,0).add(Duration(days: 1,hours: 7, minutes:30));
+          int date = rawDateTime.millisecondsSinceEpoch;
 
           String title = "";
           String subTitle = "";
@@ -277,7 +278,8 @@ class ChecklistPageState extends State<ChecklistPage> {
                                           IconButton(
                                             icon: Tooltip(child: Icon(MdiIcons.calendarTextOutline,size: 30,),message: "Add date and time",),
                                             onPressed: (){
-                                              int currentDateTime = DateTime(2019,1,1).millisecondsSinceEpoch;
+                                              int currentDateTime = rawDateTime.millisecondsSinceEpoch;
+                                              
                                               //bool hasDateTimeForPush;
                                               showCupertinoModalPopup(
                                                 context: context,
@@ -312,13 +314,12 @@ class ChecklistPageState extends State<ChecklistPage> {
                                                         child: CupertinoDatePicker(
                                                           
                                                           mode: CupertinoDatePickerMode.date,
-                                                          initialDateTime: DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day),
+                                                          initialDateTime: rawDateTime,
+                                                          
                                                           onDateTimeChanged: (DateTime newDt){
                                                             currentDateTime = newDt.millisecondsSinceEpoch;
                                                             rawDateTime = newDt;
-                                                            print("RAW Dt changed");
-                                                            print(rawDateTime.hour);
-                                                            print(rawDateTime.minute);
+ 
                                                         },
                                                       ),
                                                       ),
@@ -353,7 +354,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                                     padding: const EdgeInsets.symmetric(horizontal:20.0,vertical: 5),
                                     child: FlatButton(
                                       padding: EdgeInsets.symmetric(vertical:22),
-                                      color: Colors.indigoAccent[700],
+                                      color: Constants.baseColor,
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
                                       //padding: EdgeInsets.all(5),
                                       child: Center(child: Text("Add",style: TextStyle(color: Colors.white,fontSize: 18))),
@@ -473,7 +474,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                   text:TextSpan(
                     children: [
                       TextSpan(text: "Click the ",style: TextStyle(color: Colors.black,fontSize: 20)),
-                      TextSpan(text: "indigo button",style: TextStyle(color: Colors.indigoAccent[700],fontSize: 20,fontWeight: FontWeight.bold)),
+                      TextSpan(text: "indigo button",style: TextStyle(color: Constants.baseColor,fontSize: 20,fontWeight: FontWeight.bold)),
                       TextSpan(text: " with the  +  to get started",style: TextStyle(color: Colors.black,fontSize: 20)),
                     ]
                   ) 
@@ -503,42 +504,29 @@ class ChecklistPageState extends State<ChecklistPage> {
                   theListUnF.removeLast();
                   List<String> theListF = theListUnF.join().split(", ");
                   theData = theListF;
-                  // print(theStr);
-                  // print("IDFK EXCEPT I DO 3");
-                  // print(json.decode(theStr));
-                  print("Got here");
-                  //theData = jsonDecode(todos[i]);
-                  print("SO it worked?");
+                  
                 } catch (e) {
                   print("ERROR");
                   print(e.toString());
                 }
                 Text theDate = Text("");
-                print(" Iff Date Data");
                 //print(theData[2]);
-                print(theData);
                 Color theDateColor = Colors.black;
                 if(theData[3]=="true"){
-                   print("THE Date DATAAA");
-                   print(theData[3]);
                    
                    DateTime theTime = DateTime.fromMillisecondsSinceEpoch(int.parse(theData[4].toString().trim()));
                   var formatter = new DateFormat('yyyy-MM-dd');
                   String formatted = formatter.format(theTime);
-                  print("Checking time");
-                  //print(DateTime.now().compareTo(theTime));
                    if(theTime.compareTo(DateTime.now())<=0){
                      theDateColor = Colors.red;
                    }
                    theDate = Text(formatted,style: TextStyle(fontSize: 17,color: theDateColor));
-                   print(theTime);
                 }
                 Color titleColor = Colors.black;
                 try {
                   if(theData[5]=="true"){
                     titleColor = Color(int.parse(theData[6].toString().split("(").last.split(")").first));
-                    print("Current Color");
-                    print(titleColor);
+
                   }
                 } catch (e) {
                   print("OOOP we have an erorororr");
@@ -742,7 +730,6 @@ class ChecklistPageState extends State<ChecklistPage> {
                                                           onPressed: (){
                                                             hasDay = "true";
                                                             newDay = true;
-                                                            currentDateTime = currentDateTime;
                                                             Navigator.of(context).pop();
                                                           },
                                                         ),
@@ -935,8 +922,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                                                         ],
                                                         onChanged: (i){
                                                           Navigator.of(context).pop();
-                                                          print("INDEX:::");
-                                                          print(i);
+
                                                           if(i==0 || i ==1){
                                                             showEmojiPicker(allEmojis);
                                                           }else if(i == 2){
@@ -982,14 +968,11 @@ class ChecklistPageState extends State<ChecklistPage> {
 
     return GridTile(
       child: Center(child: CupertinoButton(child: Text(emoji,style: emojiStyle,),onPressed: (){
-        print("EMOJIII");
-        print(emoji);
-        
+
         setState(() {
           currentEmoji = emoji.toString();
 
         });
-        print(currentEmoji);
         Navigator.of(context).pop();
       })),
     );
@@ -998,33 +981,14 @@ class ChecklistPageState extends State<ChecklistPage> {
 }
 
 scheduleNotification(FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin, String title, String subtitle, DateTime time) async{
-  // print("It has started setting it up");
-  // //SETUP NOTIFICATION
-  // //String foo = title+subtitle;
-  // //int bytes = int.parse(utf8.encode(foo).join(""));
-  // //print(bytes);
-  // var iOSPlatformChannelSpecifics = IOSNotificationDetails(
-  //   presentAlert: true,
-  //   presentBadge: true
-  // );
-  // //NECESSARY CUZ IT IS PART OF THE NEXT PART
-  // var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //   'SAMO Connect', 'Checklist', 'Your SAMOHI Checklist',
-  //   importance: Importance.Max, priority: Priority.Max, ticker: 'ticker'
-  // );
-  // var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics,);
-  //   print("It has been set");
-  //   //PRINT TIME
-  //   //TIME IS FUCKIN GNARLY
-  //   print("TIme is fuckin gnarly");
-  //   print(time);
-  //   print(time.day);
-  //   print(time.hour);
-  //   print(time.month);
-  //   print(time.minute);
-  //   flutterLocalNotificationsPlugin.schedule(0, title, subtitle,time.add(new Duration(hours: 20,minutes:23)),platformChannelSpecifics,);
-  //   print("It has been set");
-var scheduledNotificationDateTime = time.add(Duration(hours: 7,minutes:30));
+  
+    print("\n\nTIme is fuckin gnarly");
+    print(time);
+    print(time.day);
+    print(time.hour);
+    print(time.month);
+    print(time.minute);
+
 var androidPlatformChannelSpecifics =
     new AndroidNotificationDetails('your other channel id',
         'your other channel name', 'your other channel description');
@@ -1036,11 +1000,20 @@ NotificationDetails platformChannelSpecifics = new NotificationDetails(
 
 if(subtitle.isEmpty){
   subtitle = "Check it on SAMO Connect";
-}
+} 
+
+    print("\n\nTIme is fuckin gnarly");
+    time.add(new Duration(hours: 7, minutes:15));
+    print(time);
+    print(time.day);
+    print(time.hour);
+    print(time.month);
+    print(time.minute);
+
 await flutterLocalNotificationsPlugin.schedule(
     0,
     title,
-    subtitle,
-    scheduledNotificationDateTime,
+    "Check your checklist on SAMO Connect",
+    time,
     platformChannelSpecifics);
 }

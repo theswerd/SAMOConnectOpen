@@ -52,5 +52,25 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+ 	<dict>
+ 	<key>CFBundleURLSchemes</key>
+  	<array>
+     <string>fb445797636248140</string>
+  	</array>
+  	</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>445797636248140</string>
+	<key>FacebookDisplayName</key>
+	<string>Samo Connect</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>fbapi</string>
+ 		<string>fb-messenger-share-api</string>
+  		<string>fbauth2</string>
+ 		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>

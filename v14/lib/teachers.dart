@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart' as s;
 import 'package:launch_review/launch_review.dart';
 import 'package:share/share.dart';
+import 'constants.dart';
 
 class Teachers extends StatefulWidget {
   static String tag = "teachers";
@@ -50,7 +51,17 @@ class _TeachersState extends State<Teachers> {
            builder: (c,s){
              if(s.hasError){
                return Center(
-                 child: Text("Handshake Failure",textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 20),)
+                 child: RichText(
+                   textAlign: TextAlign.center,
+                   text: TextSpan(
+                                 style: TextStyle(color: Colors.black, fontSize: 19),
+                                 children: <TextSpan>[
+                                   TextSpan(text: "Sorry, it looks like your "),
+                                   TextSpan(text: "offline",style: TextStyle(fontWeight: FontWeight.bold))
+
+                                 ]
+                               ),
+                 )
                  );
              }
              if(s.connectionState!=ConnectionState.done){
@@ -77,69 +88,49 @@ class _TeachersState extends State<Teachers> {
     icon: Icon(mIcons.MdiIcons.informationOutline),
     splashColor: Colors.yellow,
     onPressed: (){
-      showModalBottomSheet(
-        context: context,
-        builder: (c){
-          return CupertinoActionSheet(
-            title: Text("Extra Info"),
-            actions: <Widget>[
-              
-              CupertinoActionSheetAction(
-                child: Text("Official Website"),
-                onPressed: (){
-                  launch("http://www.samohi.smmusd.org/Admin/staff.html");
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: Text("Make a suggestion"),
-                onPressed: (){
-                 Navigator.of(context).pop();
-                 showCupertinoDialog(
-                   context: context,
-                   builder: (c){
-                     TextEditingController sController =  TextEditingController();
-                     return CupertinoAlertDialog(
-                       title: Text("Suggestions"),
-                       content: CupertinoTextField(
-                         autofocus: true,
-                         clearButtonMode: OverlayVisibilityMode.editing,
-                         controller:sController,
+      Constants.showInfoBottomSheet(
+        [
+          Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Admin/staff.html"),
+          Constants.ratingAction(context),
+          CupertinoActionSheetAction(
+            child: Text("Extra Info"),
+            onPressed: (){
+              showCupertinoModalPopup(
+                context: context,
+                builder: (c){
+                  return CupertinoAlertDialog(
+                    title: Text("Extra Info"),
+                    content: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: TextStyle(color: Colors.black),
+                        children: [
+                          TextSpan(text: "The data shown here is pulled "),
+                          TextSpan(text: "live",style: TextStyle(fontWeight: FontWeight.bold)),
+                          TextSpan(text: " from the Official "),
+                          TextSpan(text: "Staff Directory.",style: TextStyle(fontWeight: FontWeight.bold)),
 
-                       ),
-                       actions: <Widget>[
-                         CupertinoButton(
-                           child: Text("Submit"),
-                           onPressed: (){
-                            Navigator.of(context).pop();
-                            Firestore.instance.collection("Suggestions").document(Timestamp.now().seconds.toString()).setData({"sug":sController.toString()});
-                           },
-                         ),
-                          CupertinoButton(
-                           child: Text("Cancel",style: TextStyle(color: Colors.red),),
-                           onPressed: (){
-                             Navigator.of(context).pop();
-                           },
-                         ),
-                       ],
-                     );
-                   }
-                 );
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: Text("Give us a good review?"),
-                onPressed: (){
-                  LaunchReview.launch(
-                          iOSAppId: "1465501734"
-                        );
-                },
-              ),
 
-            ],
-          );
-        }
-      );
-    },
+                        ]
+                      ),
+                    ),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                        child: Text("Ok"),
+                        onPressed: (){
+                          Constants.pop(context);
+                        },
+                      )
+                    ],
+                  );
+                }
+              );
+            },
+          )
+        ], 
+        context);
+
+          },
   );
     searchButton = IconButton(
     icon: Icon(Icons.search),
@@ -264,7 +255,47 @@ class _TeachersState extends State<Teachers> {
                         websiteString = web.children[1].outerHtml.split("\"")[1];
 
                        }
-                        launch(websiteString);
+                       showCupertinoModalPopup(
+                         context: context,
+                         builder: (c){
+                           return CupertinoAlertDialog(
+                             title: Text("Leaving SAMO Connect"),
+                             content: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                children: [
+                                  TextSpan(text: "You are opening a "),
+                                  TextSpan(text: "teacher or administrators website",style: TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: ". This website "),
+                                  TextSpan(text: "has not been seen",style: TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: " by the SAMO Connect developers."),
+
+                                ]
+                                ),
+                             ),
+                             actions: <Widget>[
+                               CupertinoDialogAction(
+                                 isDefaultAction: false,
+                                 child: Text("Nah"),
+                                 onPressed: (){
+                                   //launch(websiteString);
+                                   Constants.pop(context);
+                                 },
+                               ),
+                               CupertinoDialogAction(
+                                 isDefaultAction: true,
+                                 child: Text("Launch"),
+                                 onPressed: (){
+                                   launch(websiteString);
+                                 },
+                               ),
+                               
+                             ],
+                           );
+                         }
+                       );
+                        //launch(websiteString);
                      },
                    );
 
@@ -281,6 +312,7 @@ class _TeachersState extends State<Teachers> {
                      color: Colors.white,
                      elevation: 10,
                      padding: EdgeInsets.all(20),
+                     splashColor: Colors.redAccent[400],
                      onPressed: (){
  
                      },
@@ -306,16 +338,27 @@ class _TeachersState extends State<Teachers> {
                           CupertinoButton(
                             padding: EdgeInsets.all(0),
                           onPressed: (){
-                            s.Clipboard.setData(s.ClipboardData(text: email));
-                            showCupertinoDialog(
+                            //s.Clipboard.setData(s.ClipboardData(text: email));
+                            showCupertinoModalPopup(
                               context: context,
                               builder: (c){
                                 return CupertinoAlertDialog(
-                                  title:Text("Email copied to clipboard"),
+                                  title:Text(name),
+                                  content: Text(name+"'s email is "+email),
                                   actions: <Widget>[
-                                    CupertinoButton(
-                                      child: Text("Ok"),
+                                    CupertinoDialogAction( 
+                                      isDefaultAction: true,
+                                      child: Text("Share"),
                                       onPressed: (){
+                                        Constants.shareString(name+"'s email is "+email + "\n\nFor more info on your teachers check out the staff directory on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    CupertinoDialogAction( 
+                                      isDefaultAction: false,
+                                      child: Text("Copy"),
+                                      onPressed: (){
+                                        s.Clipboard.setData(s.ClipboardData(text: email));
                                         Navigator.of(context).pop();
                                       },
                                     )

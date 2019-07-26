@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 class Constants{
   static Future<void> shareString(String shareStr) => Share.share(shareStr);
-  static Color antiColor = Colors.indigoAccent[700];
+  static Color baseColor = Colors.indigoAccent[700];
   static void giveARating() {
     LaunchReview.launch(
       iOSAppId: "1465501734",
