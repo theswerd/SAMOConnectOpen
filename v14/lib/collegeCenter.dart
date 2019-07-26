@@ -12,6 +12,8 @@ import 'package:launch_review/launch_review.dart';
 import 'package:share/share.dart';
 import 'package:flutter/services.dart';
 
+import 'constants.dart';
+
 class CollegeCenter extends StatefulWidget {
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -50,30 +52,14 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
            IconButton(
            icon: Icon(MdiIcons.informationOutline),
            onPressed: (){
-            showModalBottomSheet(
-              context: context,
-              builder: (c){
-                return CupertinoActionSheet(
-                  title: Text("Extra Info"),
-                  actions: <Widget>[
-                    CupertinoActionSheetAction(
-                      child: Text("Official Website"),
-                      onPressed: (){
-                        launch("http://www.samohi.smmusd.org/collegecenter/");
-                      },
-                    ),
-                    CupertinoActionSheetAction(
-                      child: Text("Give us a good review?"),
-                      onPressed: (){
-                        LaunchReview.launch(
-                          iOSAppId: "1465501734"
-                        );
-                      },
-                    )
-                  ],
-                );
-              }
-            );
+             Constants.showInfoBottomSheet(
+               [
+                 Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/collegecenter/"),
+                 Constants.ratingAction(context),
+                
+               ],
+               context);
+            
            },
          ),
  

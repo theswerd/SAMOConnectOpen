@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
 import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'constants.dart';
 class PolicyPage extends StatefulWidget {
 
   static String tag = "Policies";
@@ -163,39 +164,55 @@ class _PolicyPageState extends State<PolicyPage> {
         color: Colors.white,
         icon: Icon(Icons.info_outline),
         onPressed: (){
-          showModalBottomSheet(
-            context: context,
-            builder: (c){
-              return CupertinoActionSheet(
-                title: Text("Extra Info"),
-                actions: <Widget>[
-                  CupertinoActionSheetAction(
-                    child: Text("Official Website"),
-                    onPressed: (){
-                      launch("http://www.samohi.smmusd.org/About/policies/index.html");
-                    },
-                  ),
-                  CupertinoActionSheetAction(
-                    child: Text("Share"),
-                    onPressed: (){
-                      Share.share("Think your in trouble? Lucky SAMO Connect has the school policies -- https://samoconnect.page.link/SamoConnect");
-                      //launch("http://www.samohi.smmusd.org/About/policies/index.html");
-                    },
-                  ),
-                  CupertinoActionSheetAction(
-                    child: Text("Give us a good review?"),
-                    onPressed: (){
-                      LaunchReview.launch(
-                          iOSAppId: "1465501734"
-                        );
-                      //launch("http://www.samohi.smmusd.org/About/policies/index.html");
-                    },
-                  )
-                ],
-              );
-            }
-          );
-        },
+          Constants.showInfoBottomSheet(
+            [
+              Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/About/policies/index.html"),
+              CupertinoActionSheetAction(
+                child: Text("Share"),
+                onPressed: (){
+                  Share.share("Think your in trouble? Lucky SAMO Connect has the school policies -- https://samoconnect.page.link/SamoConnect");
+                  //launch("http://www.samohi.smmusd.org/About/policies/index.html");
+                },
+              ),
+              Constants.ratingAction(context),
+              CupertinoActionSheetAction(
+                child: Text("Extra Info"),
+                onPressed: (){
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (c){
+                      return CupertinoAlertDialog(
+                        title: Text("Extra Info"),
+                        content: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: [
+                              TextSpan(text: "The policy view is a list of the 18 policies shown on "),
+                              TextSpan(text: "The SAMOHI Policy Page",style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(text: ". This data is "),
+                              TextSpan(text: "stored locally",style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(text: " as the policies don't change often. \n\nYou may notice some of the policies are empty. This is because we couldn't fit them on here, and don't want to mischaracterize them in our summaries."),
+                            ]
+                          ),
+                        ),
+                        actions: <Widget>[
+                          CupertinoDialogAction(
+                            child: Text("Ok"),
+                            onPressed: (){
+                              Constants.pop(context);
+                            },
+                          )
+                        ],
+                      );
+                    }
+                  );
+                },
+              )
+            ], 
+            context
+            );
+          },
         ),
       IconButton(
         splashColor: Colors.yellow,
@@ -316,17 +333,28 @@ class _PolicyPageState extends State<PolicyPage> {
         return CupertinoAlertDialog(
           title: Text(title),
           content: Text(description),
+        //  actionScrollController: ScrollController(),
           actions: <Widget>[
-            CupertinoButton(
+            CupertinoDialogAction(
+              
+              isDefaultAction: true,
               child: Text("Share"),
               onPressed: (){
                 Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-               //Navigator.of(context).pop();
+                //Navigator.of(context).pop();
               }
             ),
-            /*
-            */
-            CupertinoButton(
+            CupertinoDialogAction(
+              isDefaultAction: false,
+              child: Text("Copy"),
+              onPressed: (){
+                //Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+                Clipboard.setData(ClipboardData(text: description));
+                Navigator.of(context).pop();
+              }
+            ),
+
+            CupertinoDialogAction(
               child: Text("Ok"),
               onPressed: (){
                 Navigator.of(context).pop();

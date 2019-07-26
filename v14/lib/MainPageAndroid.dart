@@ -20,6 +20,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:html/parser.dart';
 import 'login_screen_3.dart';
+import 'package:notification_permissions/notification_permissions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 //import 'package:latlong/latlong.dart';
 //import 'package:twitter/twitter.dart';
 //import 'dart:ui' as ui;
@@ -28,7 +31,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:intl/intl.dart';
 //import 'package:path_provider/path_provider.dart'
 //import 'package:latlong/latlong.dart';
@@ -47,9 +49,8 @@ import 'illuminate.dart';
 import 'policies.dart';
 import 'map.dart';
 import 'library.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'bulletin.dart';
-
+import 'developerPage.dart';
 //AIzaSyDv1ZVTEAzB00t0LAMHqmyWr-Zr2-CV3no
 
 class MainWindowAndroid extends StatefulWidget {
@@ -148,7 +149,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
 IconButton infoButton() {
   return IconButton(
     icon: Icon(Icons.info_outline),
-    splashColor: Constants.antiColor,
+    splashColor: Constants.baseColor,
     onPressed: (){
       int currentIndex = tabController.index;
       if(currentIndex==0){
@@ -265,7 +266,37 @@ IconButton infoButton() {
               [
                 Constants.officialWebsiteAction(context, "https://www.thesamohi.com/"),
                 Constants.ratingAction(context),
-                
+                CupertinoActionSheetAction(
+                  child: Text("Extra Info"),
+                  onPressed: (){
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (c)=>CupertinoAlertDialog(
+                        title: Text("Extra Info"),
+                        content: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(text: "The data shown here comes directly from the"),
+                              TextSpan(text: " SAMOHI News Website",style: TextStyle(fontWeight: FontWeight.bold)),
+                              TextSpan(text: "."),
+
+                            ])
+                          
+                          ),
+                          actions: <Widget>[
+                            CupertinoDialogAction(
+                              child: Text("Ok"),
+                              onPressed: (){
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                      )
+                    );
+                  },
+                ),
                 MainWindowAndroid.reportABug,
               ],
               context
@@ -288,7 +319,7 @@ IconButton infoButton() {
                         builder: (c){
                           return CupertinoAlertDialog(
                             title: Text("A new checklist feature for all of your schoolwork"),
-                            content: Text("The data you input here is stored locally, and seen by no-one but you\n PS. It cannot store more than 9,007,199,254,740,992 todos ;)"),
+                            content: Text("The data you input here is stored locally, and seen by no-one but you\n PS. It cannot store more than 9,007,199,254,740,992 todos 😉"),
                             actions: <Widget>[
                               CupertinoDialogAction(
                                 child: Text("Ok"),
@@ -384,7 +415,7 @@ IconButton infoButton() {
           );
         }
                  
-        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["android"]>9;
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.03;
                  
         Future getTheNewUpdateDialog() {
           return showCupertinoModalPopup(
@@ -682,6 +713,12 @@ IconButton infoButton() {
                            },
                           ),
                           Container(height: 50,color: Colors.grey[200],child: Text("Developed by Benjamin Swerdlow, \u00a9SwerdIsTheWord"),alignment: Alignment.bottomLeft,padding: EdgeInsets.all(5),),
+                          ListTile(
+                            title: Text("Developed By"),
+                            subtitle: Text("See the SAMO Connect Team"),
+                            trailing: Icon(MdiIcons.developerBoard,color: Colors.black,),
+                            onTap: ()=>Navigator.of(context).pushNamed(DeveloperPage.tag),
+                          ),
                           //https://forms.gle/vyJF2XWDgycXifQg7
                           ListTile(
                             title: Text("Report a bug"),
@@ -1263,7 +1300,9 @@ IconButton infoButton() {
                            mainAxisAlignment: MainAxisAlignment.center,
                            children: <Widget>[
                              RichText(
+                               textAlign: TextAlign.center,
                                text: TextSpan(
+                                 style: TextStyle(color: Colors.black, fontSize: 19),
                                  children: <TextSpan>[
                                    TextSpan(text: "Sorry, it looks like your "),
                                    TextSpan(text: "offline",style: TextStyle(fontWeight: FontWeight.bold))
@@ -1489,8 +1528,13 @@ IconButton infoButton() {
                    }
 
   void checkNotificationPermissions() async{
-    PermissionStatus permissionStatus =  await NotificationPermissions.getNotificationPermissionStatus();
-    if(permissionStatus == PermissionStatus.granted){
+    PermissionStatus permissionStatus =await NotificationPermissions.getNotificationPermissionStatus();
+
+   // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.reminders);
+
+//    PermissionStatus permissionStatus =  await NotificationPermissions.getNotificationPermissionStatus();
+//    if(permissionStatus == PermissionStatus.granted){
+  if(permissionStatus == PermissionStatus.granted){
       showCupertinoModalPopup(
         context: context,
         builder: (c){
@@ -1521,7 +1565,8 @@ IconButton infoButton() {
                 isDefaultAction: true,
                 onPressed: (){
                   Navigator.of(context).pop();
-                  NotificationPermissions.requestNotificationPermissions();
+                  FirebaseMessaging notificationHub = new FirebaseMessaging();
+                  notificationHub.requestNotificationPermissions();
                   
                 },
               ),

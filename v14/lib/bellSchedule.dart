@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,8 @@ import 'color_loader_3.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
+
+import 'constants.dart';
 
 class BellSchedule extends StatefulWidget {
 
@@ -21,7 +24,7 @@ class _BellScheduleState extends State<BellSchedule>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigoAccent[700],
+        backgroundColor: Constants.baseColor,
         title: Text("Bell Schedule"),
         centerTitle: true,
         actions: <Widget>[
@@ -32,33 +35,53 @@ class _BellScheduleState extends State<BellSchedule>
             onPressed: (){
               Share.share("Worried about being late for classes? Luckily the bell schedule is available on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
             },
-            ),
-          PopupMenuButton(
+          ),
+          IconButton(
             icon: Icon(Icons.info_outline),
-            itemBuilder: (c){
-              return [
-                PopupMenuItem(
-                  child: ListTile(
-                    title: Text("Official Website"),
-                    onTap: (){
-                      launch("http://www.samohi.smmusd.org/Students/bells.html");
+            splashColor: Colors.yellowAccent,
+            onPressed: (){
+              Constants.showInfoBottomSheet(
+                [
+                  Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Students/bells.html"),
+                  Constants.ratingAction(context),
+                  CupertinoActionSheetAction(
+                    child: Text("Extra Info"),
+                    onPressed: (){
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (c){
+                          return CupertinoAlertDialog(
+                            title: Text("Extra Info"),
+                            content: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                
+                                children: [
+                                  TextSpan(text: "This data is stored on the "),
+                                  TextSpan(text: "SAMO Connect",style: TextStyle(fontWeight: FontWeight.bold)),
+                                  TextSpan(text: " server. It is networked so it is "),
+                                  TextSpan(text: "always up to date with special schedules.",style: TextStyle(fontWeight: FontWeight.bold)),
+                                ]
+                              )
+                              ),
+                              actions: <Widget>[
+                                CupertinoDialogAction(
+                                  child: Text("Ok"),
+                                  onPressed: (){
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                          );
+                        }
+                      );
                     },
-                  ),
-                  
-                ),
-                PopupMenuItem(
-                  child: ListTile(
-                    title: Text("Give us a good review?"),
-                    onTap: (){
-                       LaunchReview.launch(
-                          iOSAppId: "1465501734"
-                        );
-                    },
-                  ),
-                )
-              ];
+                  )
+                ],     
+                context);
             },
-          )
+          ),  
         ],
       ),
       body: FutureBuilder(

@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:share/share.dart';
-
+import 'constants.dart';
 class Clubs extends StatefulWidget {
   static String tag = "clubs";
   @override
@@ -73,73 +73,29 @@ class _ClubsState extends State<Clubs> {
     icon: Icon(mIcons.MdiIcons.informationOutline),
     splashColor: Colors.yellow,
     onPressed: (){
-      showModalBottomSheet(
-        context: context,
-        builder: (c){
-          return CupertinoActionSheet(
-            title: Text("Extra Info"),
-            actions: <Widget>[
+      Constants.showInfoBottomSheet(
+        [
               CupertinoActionSheetAction(
                 child: Text("Club Charter"),
                 onPressed: (){
                   launch("http://www.samohi.smmusd.org/Students/clubs/ClubCharterFall1819.pdf");
                 },
               ),
+              Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Students/clubs/index.html"),
+             
+              Constants.ratingAction(context),
               CupertinoActionSheetAction(
-                child: Text("Official Website"),
+                child: Text("Extra Info"),
                 onPressed: (){
-                  launch("http://www.samohi.smmusd.org/Students/clubs/index.html");
+                  
                 },
-              ),
-              CupertinoActionSheetAction(
-                child: Text("Make a suggestion"),
-                onPressed: (){
-                 Navigator.of(context).pop();
-                 showCupertinoDialog(
-                   context: context,
-                   builder: (c){
-                     TextEditingController sController =  TextEditingController();
-                     return CupertinoAlertDialog(
-                       title: Text("Suggestions"),
-                       content: CupertinoTextField(
-                         autofocus: true,
-                         clearButtonMode: OverlayVisibilityMode.editing,
-                         controller:sController,
-
-                       ),
-                       actions: <Widget>[
-                         CupertinoButton(
-                           child: Text("Submit"),
-                           onPressed: (){
-                            Navigator.of(context).pop();
-                            Firestore.instance.collection("Suggestions").document(Timestamp.now().seconds.toString()).setData({"sug":sController.toString()});
-                           },
-                         ),
-                          CupertinoButton(
-                           child: Text("Cancel",style: TextStyle(color: Colors.red),),
-                           onPressed: (){
-                             Navigator.of(context).pop();
-                           },
-                         )
-                       ],
-                     );
-                   }
-                 );
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: Text("Give us a good review?"),
-                onPressed: (){
-                  LaunchReview.launch(
-                          iOSAppId: "1465501734"
-                        );
-                },
-              ),
+              )
+              
             ],
-          );
-        }
+            context
       );
-    },
+    }
+
   );
     searchButton = IconButton(
     icon: Icon(Icons.search),
@@ -155,6 +111,7 @@ class _ClubsState extends State<Clubs> {
           title =Container(
             padding: EdgeInsets.symmetric(vertical:6),
             child:TextField(
+              style: TextStyle(color: Colors.white),
             onChanged: (text){
               setState(() {
                 List searchedClubs = [];

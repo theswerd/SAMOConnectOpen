@@ -43,6 +43,7 @@ dependencies:
   firebase_messaging: ^5.0.4
   flutter_local_notifications: ^0.8.0
   notification_permissions: ^0.4.0
+  permission_handler: ^3.2.1+1
 
   flutter_webview_plugin: ^0.3.5
   shared_preferences: ^0.5.2
@@ -83,19 +84,11 @@ flutter:
     - assets/office-block.png
     - assets/ofMap.gif
     - assets/backgroundv1.jpg
-    - assets/vikingB.png
-    - assets/vikingB2.png
+
     - assets/vikingB3.png
 
-    - assets/vikingC.png
-    - assets/vikingC2.png
     - assets/vikingC3.png
-
-    - assets/vikingI1.png
-    - assets/vikingI2.png
-    - assets/vikingY.png
-    - assets/vikingW.png
-    - assets/vikingW2.png
+    - assets/Ben.JPG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
