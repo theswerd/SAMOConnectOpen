@@ -17,13 +17,35 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.02</string>
+	<string>4.03</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb445797636248140</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
+	<key>FacebookAppID</key>
+	<string>445797636248140</string>
+	<key>FacebookDisplayName</key>
+	<string>Samo Connect</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription </key>
+	<string>So you can see youself on the map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To see where you are on the map</string>
 	<key>UIBackgroundModes</key>
@@ -52,25 +74,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>CFBundleURLTypes</key>
-	<array>
- 	<dict>
- 	<key>CFBundleURLSchemes</key>
-  	<array>
-     <string>fb445797636248140</string>
-  	</array>
-  	</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>445797636248140</string>
-	<key>FacebookDisplayName</key>
-	<string>Samo Connect</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-  		<string>fbapi</string>
- 		<string>fb-messenger-share-api</string>
-  		<string>fbauth2</string>
- 		<string>fbshareextension</string>
-	</array>
 </dict>
 </plist>
