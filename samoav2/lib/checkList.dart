@@ -1,14 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'color_loader_3.dart';
 import 'dart:async';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
-import 'dart:convert';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';

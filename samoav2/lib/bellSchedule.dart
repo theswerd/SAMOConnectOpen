@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'color_loader_3.dart';
 import 'package:launch_review/launch_review.dart';
@@ -72,7 +71,7 @@ class _BellScheduleState extends State<BellSchedule>
               ],
             );
           }else if(snapshot.connectionState!=ConnectionState.done ){
-          return loadingList();
+          return LoadingList();
 
           }else{
             QuerySnapshot snapdata =snapshot.data;
@@ -159,8 +158,8 @@ class _BellScheduleState extends State<BellSchedule>
    }
 }
 
-class loadingList extends StatelessWidget {
-  const loadingList({
+class LoadingList extends StatelessWidget {
+  const LoadingList({
     Key key,
   }) : super(key: key);
 

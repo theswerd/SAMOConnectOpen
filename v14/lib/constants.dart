@@ -15,6 +15,15 @@ class Constants{
       androidAppId: "com.swerd.SamoConnect"
     );
   }
+  static CupertinoActionSheetAction cancelAction(BuildContext context){
+    return CupertinoActionSheetAction(
+      isDestructiveAction: true,
+      child: Text("Cancel"),
+      onPressed: (){
+        Constants.pop(context);
+      },
+    );
+  }
   static void showInfoBottomSheet(List<CupertinoActionSheetAction> theactions, BuildContext context){
     showCupertinoModalPopup(
       context: context,

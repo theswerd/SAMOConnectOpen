@@ -9,6 +9,7 @@ import 'color_loader_3.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:share/share.dart';
+import 'constants.dart';
 
 class HouseViewV2 extends StatefulWidget {
 HouseViewV2({this.House});
@@ -29,8 +30,7 @@ HouseViewV2({this.House});
 }
 
 class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin{
-  TabController theTabController;
-
+ String house = "";
   IconButton shareButton = IconButton(
     icon: Icon(Icons.share),
     splashColor: Colors.yellowAccent,
@@ -41,7 +41,7 @@ class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin
   @override
   void initState() { 
     super.initState();
-    theTabController = new TabController(vsync: this, length: 2);
+    house = widget.House;
   }
   @override
   Widget build(BuildContext context) {
@@ -49,44 +49,45 @@ class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.indigoAccent[700],
-        title: Text(widget.House+" House"),
+        title: Text(house+" House"),
         actions: <Widget>[
           shareButton,
           IconButton(
             icon:Icon(Icons.info_outline),
             splashColor: Colors.yellow,
             onPressed: (){
-              showModalBottomSheet(
-                context: context,
-                builder: (c){
-                  return CupertinoActionSheet(
-                    actions: <Widget>[
-                      CupertinoActionSheetAction(
-                        child: Text("Official Website"),
-                        onPressed: (){
-                          launch("http://www.samohi.smmusd.org/houses/"+widget.House+"house.html");
-                        },
-                      ),
-                      CupertinoActionSheetAction(
-                        child: Text("Give us a good review?"),
-                        onPressed: (){
-                         LaunchReview.launch(
-                          iOSAppId: "1465501734",
-                          androidAppId: "com.swerd.SamoConnect"
-                        );
-                          //launch("http://www.samohi.smmusd.org/houses/"+widget.House+"house.html");
-                        },
-                      )
-                    ],
-                  );
-                }
-              );
-            },
+              Constants.showInfoBottomSheet(
+                [
+                  Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/houses/"+house+"house.html"),
+                  Constants.ratingAction(context),
+                  CupertinoActionSheetAction(
+                    child: Text("Extra Info"),
+                    onPressed: (){
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (c)=>CupertinoAlertDialog(
+                          title: Text("Extra Info"),
+                          content: Text("The data shown here is pulled live from the Santa Monica High School House Staff Page"),
+                          actions: <Widget>[
+                            CupertinoDialogAction(
+                              child: Text("Ok"),
+                              onPressed: (){
+                                Constants.pop(context);
+                              },
+                            )
+                          ],
+                        )
+                      );
+                    },
+                  )
+                ], 
+                context);
+                          },
           )
         ],
       ),
       body: FutureBuilder(
-        future:get("http://www.samohi.smmusd.org/houses/"+widget.House+"house.html"),
+        future:get("http://www.samohi.smmusd.org/houses/"+house+"house.html"),
         builder: (c,s){
           if(s.hasError){
               return Center(child: Text("Network Handshake Failure"),);
@@ -102,47 +103,21 @@ class _HouseViewV2State extends State<HouseViewV2> with TickerProviderStateMixin
               } catch (e) {
               }
               
-              Widget teacher = makeTeacherList(listBelowHeader,context);
-              Widget admin = makeAdminList(listBelowHeader,context);
-              return Scaffold(
-                body: TabBarView(
-                  controller: theTabController,
-                  children: <Widget>[
-                    teacher,
-                    admin
-                  ],
-                ),
-                appBar: TabBar(
-                  controller: theTabController,
-                  indicatorColor: Colors.indigoAccent[700],
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  
-                  // labelStyle: TextStyle(color: Colors.black),
-                  // unselectedLabelStyle: TextStyle(color: Colors.black),
-                  tabs: <Widget>[
-                    Tab(
-                      
-                      //icon: Icon(Icons.school,color: Colors.black,),
-                      child: Text("Teachers",style: TextStyle(color: Colors.black),),
-                      //text: "Teachers",
-                      
-                    ),
-                    Tab(
-                      child: Text("Administrators",style: TextStyle(color: Colors.black),),
-                    )
-                  ],
-                )
-              );
-              //admin;
+              //Widget teacher = makeTeacherList(listBelowHeader,context);
+              Widget admin = makeAdminList(listBelowHeader,house, context);
+              return admin;
             }
+        })
+          );
+              //admin;
           
-        },
-      ),
-    );
+        
+      
+
   }
 }
 
-Widget makeTeacherList(List<dom.Element> fullList, BuildContext context) {
+Widget makeTeacherList(List<dom.Element> fullList, BuildContext context, String house) {
   List<dom.Element> listOfTeachersUnformatted = [];
   try {
     listOfTeachersUnformatted =(fullList[3].children[1].children.first.children.first.children.last.children.first.children.first.children.first.children);
@@ -309,26 +284,7 @@ Widget makeTeacherList(List<dom.Element> fullList, BuildContext context) {
                               Container(child:CupertinoButton(
                                 padding: EdgeInsets.zero,
                                 child: Text(currentItem["email"],style: TextStyle(fontSize: 18),),
-                                onPressed: (){
-                                  Clipboard.setData(ClipboardData(text: currentItem["email"]));
-                                  showCupertinoModalPopup(
-                                    context: context,
-                                    builder: (c){
-                                      return CupertinoAlertDialog(
-                                        title: Text("Copied!"),
-                                        content: Text(currentItem["name"].trim()+"'s email has been copied to your clipboard."),
-                                        actions: <Widget>[
-                                          CupertinoButton(
-                                            child: Text("Ok"),
-                                            onPressed: (){
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ],
-                                      );
-                                    }
-                                  );
-                                },
+                                onPressed: ()=>TeacherDialog(currentItem["name"],currentItem["email"],house, context)
                               ),
                               alignment: Alignment.centerLeft,
                               )
@@ -351,8 +307,39 @@ Widget makeTeacherList(List<dom.Element> fullList, BuildContext context) {
   );
 }
 
+TeacherDialog(String name, String email, String house, BuildContext context) {
+  showCupertinoModalPopup(
+    context: context,
+    builder: (c)=>CupertinoActionSheet(
+      
+      title: Text(name+"'s email"),
+      cancelButton: Constants.cancelAction(context),
+      //content: Text("What would you like to do with "+name+"'s email?"),
+      actions: <Widget>[
+        CupertinoActionSheetAction(
+          isDefaultAction: true,
+          child: Text("Share"),
+          onPressed: (){
+           Constants.pop(context);
+           Constants.shareString(name+"'s email is "+email+". To learn more about "+name+" and the other "+house+" House Staff, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+          },
+          ),
+          CupertinoActionSheetAction(
+          isDefaultAction: false,
+          child: Text("Copy"),
+          onPressed: (){
+           Constants.pop(context);
+           Clipboard.setData(ClipboardData(text:email));
+           //Constants.shareString(name+"'s email is "+email+". To learn more about "+name+" and the other "+house+" House Staff, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+          },
+          )
+        ],
+    )
+  );
+  }
 
-Widget makeAdminList(List<dom.Element> fullList,BuildContext context) {
+
+Widget makeAdminList(List<dom.Element> fullList, String house, BuildContext context) {
   List<dom.Element> listOfadminUnformatted = [];
   try {
     listOfadminUnformatted =fullList[2].children[1].children.first.children.first.children.first.children; //THE ROW INCLUDING THE IMAGE AND SPACERS
@@ -405,10 +392,10 @@ Widget makeAdminList(List<dom.Element> fullList,BuildContext context) {
     print("Permutation 3");
     //print(listOfadminFormat2);
     
-    Widget principal = makePrincipalView(listOfadminFormat2[0],context);
-    Widget assistant = makeAssistantView(listOfadminFormat2[0], context);
-    Widget advisor1 = makeAdvisorView(listOfadminFormat2[1], context,0);
-    Widget advisor2 = makeAdvisorView(listOfadminFormat2[1], context,1);
+    Widget principal = makePrincipalView(listOfadminFormat2[0], house, context);
+    Widget assistant = makeAssistantView(listOfadminFormat2[0], house, context);
+    Widget advisor1 = makeAdvisorView(listOfadminFormat2[1], house, context,0);
+    Widget advisor2 = makeAdvisorView(listOfadminFormat2[1], house, context,1);
 
     listOfAdminFinalFormat.add(principal);
     listOfAdminFinalFormat.add(assistant);
@@ -435,7 +422,7 @@ Widget makeAdminList(List<dom.Element> fullList,BuildContext context) {
   );
 }
 
-Widget makePrincipalView(List<dom.Element> unformattedElements,BuildContext context) {
+Widget makePrincipalView(List<dom.Element> unformattedElements, String house, BuildContext context) {
   try {
     for (dom.Element item in unformattedElements) {
       //print(item.text.trim());
@@ -502,24 +489,7 @@ Widget makePrincipalView(List<dom.Element> unformattedElements,BuildContext cont
                     padding: EdgeInsets.only(top: 5),
                     child: Text(email,style: TextStyle(fontSize: 20)),
                     onPressed: (){
-                      Clipboard.setData(ClipboardData(text:email));
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (c){
-                          return CupertinoAlertDialog(
-                            title: Text("Copied"),
-                            content: Text(name+"'s email has been copied to your clipboard"),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: Text("Ok"),
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          );
-                        }
-                      );
+                      TeacherDialog(name,email,house,context);
                     },
                   )
               ],)
@@ -534,7 +504,7 @@ Widget makePrincipalView(List<dom.Element> unformattedElements,BuildContext cont
 }
 
 
-Widget makeAssistantView(List<dom.Element> unformattedElements,BuildContext context) {
+Widget makeAssistantView(List<dom.Element> unformattedElements,String house, BuildContext context) {
   try {
     for (dom.Element item in unformattedElements) {
       //print(item.text.trim());
@@ -603,26 +573,7 @@ Widget makeAssistantView(List<dom.Element> unformattedElements,BuildContext cont
                   CupertinoButton(
                     padding: EdgeInsets.only(top: 5),
                     child: Text(email,style: TextStyle(fontSize: 20)),
-                    onPressed: (){
-                      Clipboard.setData(ClipboardData(text:email));
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (c){
-                          return CupertinoAlertDialog(
-                            title: Text("Copied"),
-                            content: Text(name+"'s email has been copied to your clipboard"),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: Text("Ok"),
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          );
-                        }
-                      );
-                    },
+                    onPressed: ()=>TeacherDialog(name,email,house, context)
                   )
               ],)
             ],
@@ -637,7 +588,7 @@ Widget makeAssistantView(List<dom.Element> unformattedElements,BuildContext cont
 
 
 //Base index lets me put both advisors in one section
-Widget makeAdvisorView(List<dom.Element> unformattedElements,BuildContext context, int baseIndex){
+Widget makeAdvisorView(List<dom.Element> unformattedElements,String house, BuildContext context, int baseIndex){
   try {
     unformattedElements.removeAt(0);
 
@@ -697,26 +648,7 @@ Widget makeAdvisorView(List<dom.Element> unformattedElements,BuildContext contex
                   CupertinoButton(
                     padding: EdgeInsets.only(top: 5),
                     child: Text(email,style: TextStyle(fontSize: 20),),
-                    onPressed: (){
-                      Clipboard.setData(ClipboardData(text:email));
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (c){
-                          return CupertinoAlertDialog(
-                            title: Text("Copied"),
-                            content: Text(name+"'s email has been copied to your clipboard"),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: Text("Ok"),
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          );
-                        }
-                      );
-                    },
+                    onPressed: ()=>TeacherDialog(name, email, house, context),
                   )
               ],)
             ],
