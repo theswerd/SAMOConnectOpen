@@ -156,8 +156,6 @@ PODS:
   - nanopb/encode (0.3.901)
   - notification_permissions (0.0.1):
     - Flutter
-  - "permission_handler (3.2.1+1)":
-    - Flutter
   - Protobuf (3.8.0)
   - share (0.5.2):
     - Flutter
@@ -180,7 +178,6 @@ DEPENDENCIES:
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - notification_permissions (from `.symlinks/plugins/notification_permissions/ios`)
-  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -232,8 +229,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/launch_review/ios"
   notification_permissions:
     :path: ".symlinks/plugins/notification_permissions/ios"
-  permission_handler:
-    :path: ".symlinks/plugins/permission_handler/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
@@ -274,7 +269,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   notification_permissions: ec43fef85f784ddda349110d28eb14a0b7abd340
-  permission_handler: 6a1b2f94f866da8bd19fa67f3c8f4b9f38580efb
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
