@@ -55,7 +55,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                 TextSpan(text: "\n\nThanks to ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
                 TextSpan(text: "Lucky Harbor",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 TextSpan(text: " and ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
-                TextSpan(text: "Christian Adera",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                TextSpan(text: "Christina Adera",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 TextSpan(text: " for your great support\n\n",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
                 //TextSpan(text: "ASB Event View and Polls",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 TextSpan(text: "Thanks to ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
