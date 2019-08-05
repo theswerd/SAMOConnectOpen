@@ -1,4 +1,4 @@
-# v14
+# v14 of SAMO Connect
 
 The New SAMOHI App
 
