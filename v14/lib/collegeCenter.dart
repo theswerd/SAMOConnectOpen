@@ -89,6 +89,7 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                return Container(
                  padding: EdgeInsets.symmetric(horizontal: 30),
                  child: RaisedButton(
+                   splashColor: Colors.redAccent[400],
                    color: Colors.white,
                    elevation: 15,
                    padding: EdgeInsets.all(15),
@@ -111,11 +112,11 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                                showCupertinoModalPopup(
                                  context: context,
                                  builder:(c){
-                                   return CupertinoAlertDialog(
-                                    title: Text(theCurrentDocument["name"]+"'s email"),
-                                    content: Text("What do you want to do?"),
+                                   return CupertinoActionSheet(
+                                     cancelButton: Constants.cancelAction(context),
+                                    title: Text(theCurrentDocument["name"]+"'s email is "+theCurrentDocument["email"]),
                                     actions: <Widget>[
-                                      CupertinoDialogAction(
+                                      CupertinoActionSheetAction(
                                         isDefaultAction: true,
                                         child: Text("Share"),
                                         onPressed: (){
@@ -123,7 +124,7 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                                           Navigator.of(context).pop();
                                         },
                                       ),
-                                      CupertinoDialogAction(
+                                      CupertinoActionSheetAction(
                                         isDefaultAction: false,
                                         child: Text("Copy"),
                                         onPressed: (){
