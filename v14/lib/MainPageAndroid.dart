@@ -415,7 +415,7 @@ IconButton infoButton() {
           );
         }
                  
-        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.03;
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["android"]>10;
                  
         Future getTheNewUpdateDialog() {
           return showCupertinoModalPopup(
@@ -565,7 +565,13 @@ IconButton infoButton() {
                            trailing: Icon(Icons.schedule,color: Colors.black,),
                            onTap: (){
                             // launch("http://www.samohi.smmusd.org/Students/bells.html",enableJavaScript: true);
-                             Navigator.of(context).popAndPushNamed(BellSchedule.tag);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>BellSchedule(),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                          ),
                          ListTile(
@@ -574,7 +580,13 @@ IconButton infoButton() {
                            trailing: Icon(MdiIcons.teach,color: Colors.black,),
                            onTap: (){
                              //launch("http://www.samohi.smmusd.org/Admin/staff.html",enableJavaScript: true);
-                             Navigator.of(context).pushNamed(Teachers.tag);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>Teachers(),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                           ),
                          ListTile(
@@ -583,7 +595,13 @@ IconButton infoButton() {
                            trailing: Icon(MdiIcons.school,color: Colors.black,),
                            onTap: (){
                              //launch("http://www.samohi.smmusd.org/CollegeCenter/index.html",enableJavaScript: true);
-                             Navigator.of(context).popAndPushNamed(CollegeCenter.tag);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>CollegeCenter(),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                          ),
                          

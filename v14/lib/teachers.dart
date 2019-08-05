@@ -342,9 +342,9 @@ class _TeachersState extends State<Teachers> {
                             showCupertinoModalPopup(
                               context: context,
                               builder: (c){
-                                return CupertinoAlertDialog(
-                                  title:Text(name),
-                                  content: Text(name+"'s email is "+email),
+                                return CupertinoActionSheet(
+                                  title: Text(name+"'s email is "+email),
+                                  cancelButton: Constants.cancelAction(context),
                                   actions: <Widget>[
                                     CupertinoDialogAction( 
                                       isDefaultAction: true,
