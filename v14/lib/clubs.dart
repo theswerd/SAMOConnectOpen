@@ -86,9 +86,19 @@ class _ClubsState extends State<Clubs> {
               Constants.ratingAction(context),
               CupertinoActionSheetAction(
                 child: Text("Extra Info"),
-                onPressed: (){
-                  
-                },
+                onPressed: ()=>showCupertinoModalPopup(
+                  context: context,
+                  builder: (c)=>CupertinoAlertDialog(
+                    title: Text("Club List"),
+                    content: Text("The club list shows data streamed live from the Santa Monica High School Website."),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                        child: Text("Ok"),
+                        onPressed: ()=>Navigator.of(context).pop(),
+                      )
+                    ],
+                  )
+                ),
               )
               
             ],

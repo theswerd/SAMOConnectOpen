@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:vibrate/vibrate.dart';
+import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'constants.dart';
@@ -14,14 +16,14 @@ class PolicyPage extends StatefulWidget {
   
 }
 
-class _PolicyPageState extends State<PolicyPage> {
+class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
   List allPolicies = [];
   List usedPolicies = [];
   Widget title;
   bool searching =false;
   double textSize;
   List<IconButton> actions = [];
-
+  AnimationController animationC;
   Widget body;
 
   @override
@@ -32,6 +34,7 @@ class _PolicyPageState extends State<PolicyPage> {
     // ];
 
     super.initState();
+    animationC = new AnimationController(vsync: this);
     allPolicies= [
     {
       "name":"Attendance Policy Q&A",
@@ -219,6 +222,7 @@ class _PolicyPageState extends State<PolicyPage> {
         color: Colors.white,
         icon: Icon(Icons.search),
         onPressed: (){
+          Vibrate.feedback(FeedbackType.light);
           if(searching){
             searching =false;
             setState(() {
@@ -318,6 +322,7 @@ class _PolicyPageState extends State<PolicyPage> {
         color: Colors.white,
         onPressed: (){
           if(usedPolicies[i]["inlineView"]){
+            Vibrate.feedback(FeedbackType.selection);
             policyDialog(usedPolicies[i]["type"][0], usedPolicies[i]["type"][1]);
           }
         },
@@ -340,6 +345,7 @@ class _PolicyPageState extends State<PolicyPage> {
               isDefaultAction: true,
               child: Text("Share"),
               onPressed: (){
+                
                 Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
                 //Navigator.of(context).pop();
               }
@@ -348,6 +354,7 @@ class _PolicyPageState extends State<PolicyPage> {
               isDefaultAction: false,
               child: Text("Copy"),
               onPressed: (){
+                Vibrate.feedback(FeedbackType.success);
                 //Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
                 Clipboard.setData(ClipboardData(text: description));
                 Navigator.of(context).pop();

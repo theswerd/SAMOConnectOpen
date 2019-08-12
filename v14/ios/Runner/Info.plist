@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.03</string>
+	<string>4.04</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -44,10 +44,14 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow us to access your camera, so you can scan your schedule into the app.</string>
 	<key>NSLocationAlwaysUsageDescription </key>
 	<string>So you can see youself on the map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To see where you are on the map</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow us to access your photo library, so you can scan your schedule into the app.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -8,6 +8,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
 
 import 'constants.dart';
+import 'scanInSchedule.dart';
+
 
 class BellSchedule extends StatefulWidget {
 
@@ -77,7 +79,17 @@ class _BellScheduleState extends State<BellSchedule>
                         }
                       );
                     },
-                  )
+                  ),
+                  // CupertinoActionSheetAction(
+                  //   child: Text("Scan in my schedule", style: TextStyle(color: Colors.greenAccent[400])),
+                  //   onPressed: ()=>Navigator.of(context).push(
+                  //     MaterialPageRoute(
+                  //       builder:(c)=>AddMySchedule(),
+                  //       maintainState: true,
+                  //       fullscreenDialog: true,
+                  //     )
+                  //   ),
+                  // )
                 ],     
                 context);
             },

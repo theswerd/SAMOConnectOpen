@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart' as mIcons;
 import 'package:http/http.dart' as http;
 import 'package:v14/constants.dart' as prefix0;
+import 'package:vibrate/vibrate.dart';
 import 'color_loader_3.dart';
 import 'color_loader_4.dart';
 //import 'package:flutter_html_view/flutter_html_view.dart';
@@ -20,7 +24,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:html/parser.dart';
 import 'login_screen_3.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //import 'package:latlong/latlong.dart';
@@ -103,6 +106,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
     super.initState();
 
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging.configure();
     _firebaseMessaging.requestNotificationPermissions();
 
     eventstabController =TabController(
@@ -304,12 +308,6 @@ IconButton infoButton() {
             }else if(currentIndex==4){
               Constants.showInfoBottomSheet(
                 [
-                  CupertinoActionSheetAction(
-                    child: Text("Notification Permissions"),
-                    onPressed: (){
-                      checkNotificationPermissions();
-                    },
-                  ),
                   Constants.ratingAction(context),
                   CupertinoActionSheetAction(
                     child: Text("Extra Info"),
@@ -415,8 +413,8 @@ IconButton infoButton() {
           );
         }
                  
-        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["android"]>10;
-                 
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.04;
+                 //android
         Future getTheNewUpdateDialog() {
           return showCupertinoModalPopup(
             context: context,
@@ -515,7 +513,6 @@ IconButton infoButton() {
                                          );
                                          print("Display name:::");
                                          FirebaseUserMetadata m = theUser.metadata;
-                                         print(m.creationTimestamp);
                                          return RaisedButton(
                                            child: Text("Sign Out",style: TextStyle(color: Colors.white),),
                                            color: Colors.indigoAccent[700],
@@ -822,6 +819,7 @@ IconButton infoButton() {
                          icon: Icon(Icons.menu,),
                          splashColor: Colors.yellow,
                          onPressed: (){
+                           Vibrate.feedback(FeedbackType.success);
                              scaffoldKey.currentState.openDrawer();
                          },
                        ),
@@ -988,6 +986,11 @@ IconButton infoButton() {
                   );
                    }
                  eventView() {
+                   LocalStorage eventImages = LocalStorage("events");
+                   Map theImages = eventImages.getItem("images")!=null?eventImages.getItem("images"):new Map();
+                   if(theImages==null){
+                     eventImages.setItem("images",new Map());
+                   }
                      return Scaffold(
                        appBar: TabBar(
                          indicatorColor: Colors.indigoAccent[700],
@@ -1039,27 +1042,40 @@ IconButton infoButton() {
                                        print(time);
                                        String date = "";
                                        date = new DateFormat.yMMMMd("en_US").format( DateTime.parse(time.toDate().toString()));
-                 
+                                      
                                        print(date);
                                        if(document["type"]=="withImage"){
-                                       return Container(
-                                         height: 350,
-                                         alignment: Alignment.center,
-                                         child: Stack(
-                                           alignment: Alignment.bottomCenter,
-                                           children: <Widget>[
-                                             FutureBuilder(
+                                         Widget eventImage;
+                                         if(theImages.containsKey(document["image"])){
+                                           try {
+                                             
+                                           
+                                           List theList = theImages[document["image"]];
+                                           print("LIST:::");
+                                           List<int> formattedList = new List(); 
+                                           for(dynamic data in theList){
+                                             try {
+                                               formattedList.add(data.toInt());
+                                             } catch (e) {}
+                                           }
+                                           eventImage = eventImageMaker(Uint8List.fromList(formattedList), c);
+                                           } catch (e) {
+                                             List<int> theList = theImages[document["image"]];
+
+                                             return Text(theList.toString());
+                                           }
+                                         }else{   
+                                          eventImage = FutureBuilder(
                                                future:FirebaseStorage.instance.ref().child("eventImages").child(document["image"]).getData(9000000),
                                                builder: (c,s){
                                                  if(s.connectionState!=ConnectionState.done){
                                                    return ColorLoader3();
                                                  }else{
                                                    try {
-                                                     return Container(
-                                                     child:Image.memory(s.data,fit: BoxFit.fitWidth,),
-                                                     height: 350,
-                                                     width: MediaQuery.of(c).size.width,
-                                                     );
+                                                     
+                                                     theImages[document["image"]]=s.data;
+                                                     eventImages.setItem("images", theImages);
+                                                     return eventImageMaker(s.data, c);
                                                    } catch (e) {
                                                      return Container(
                                                      child:Stack(
@@ -1077,7 +1093,31 @@ IconButton infoButton() {
                                                      
                                                  }
                                                },
-                                               ),
+                                               );
+                                         }
+                                   
+                                   //  Widget eventImage = theImages.containsKey(document['image'])?
+                                      //     Container(
+                                      //                child:Stack(
+                                      //                  fit: StackFit.expand,
+                                      //                  children: <Widget>[
+                                      //                    theImages[document['image']]
+                                      //                   // Text("Looks like you are looking for something that doesn't work")
+                                      //                  ],
+                                      //                ),
+                                      //                height: 350,
+                                      //                width: MediaQuery.of(c).size.width,
+                                      //                )
+                                      //     :
+                                      
+
+                                       return Container(
+                                         height: 350,
+                                         alignment: Alignment.center,
+                                         child: Stack(
+                                           alignment: Alignment.bottomCenter,
+                                           children: <Widget>[
+                                             eventImage,
                                                Container(
                                                  height: 120,
                                                  width: MediaQuery.of(context).size.width-40,
@@ -1183,35 +1223,43 @@ IconButton infoButton() {
                                              IconButton(
                                                splashColor: Colors.green,
                                                onPressed: (){
-                                             showDialog(context: c,builder: (c){
-                                                   return CupertinoAlertDialog(
-                                                     title: Text("Thank you for your feedback"),
-                                                     content: FutureBuilder(
-                                                       future:Firestore.instance.collection("polls").document(document.documentID).get(),
-                                                       builder: (c,s){
-                                                         if(s.connectionState!=ConnectionState.done){
-                                                           return ColorLoader3();
-                                                         }else{
-                 
-                                                           if(s.data["yes"]!=null){
-                                                             int amount = s.data["yes"];
-                                                             var amountMap = new Map<String,int>();
-                                                             amountMap["yes"]=amount+1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amountMap);
-                 
-                                                           }else{
-                                                             var amount = new Map<String,int>();
-                                                             amount["yes"]=1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amount);
-                                                           }
-                                                           return RaisedButton(child: Text("Thank you"),onPressed: (){
-                                                             Navigator.of(context).pop();
-                                                           },);
-                                                         }
-                                                       },
-                                                     ),
-                                                   );
+                                                 Vibrate.feedback(FeedbackType.success);
+
+                                                 try {
+                                                 FirebaseAuth.instance.currentUser().then((user){
+                                                  Firestore.instance.collection("polls").document(document.documentID).collection("yes").document(user.uid).setData({"Loaded":true});
                                                  });
+                                                 } catch (e) {
+                                                 }
+                                            //  showDialog(context: c,builder: (c){
+                                            //        return CupertinoAlertDialog(
+                                            //          title: Text("Thank you for your feedback"),
+                                            //          content: FutureBuilder(
+                                            //            future:Firestore.instance.collection("polls").document(document.documentID).get(),
+                                            //            builder: (c,s){
+                                            //              if(s.connectionState!=ConnectionState.done){
+                                            //                return ColorLoader3();
+                                            //              }else{
+                 
+                                            //                if(s.data["yes"]!=null){
+                                            //                  int amount = s.data["yes"];
+                                            //                  var amountMap = new Map<String,int>();
+                                            //                  amountMap["yes"]=amount+1;
+                                            //                  Firestore.instance.collection("polls").document(document.documentID).updateData(amountMap);
+                 
+                                            //                }else{
+                                            //                  var amount = new Map<String,int>();
+                                            //                  amount["yes"]=1;
+                                            //                  Firestore.instance.collection("polls").document(document.documentID).(amount);
+                                            //                }
+                                            //                return RaisedButton(child: Text("Thank you"),onPressed: (){
+                                            //                  Navigator.of(context).pop();
+                                            //                },);
+                                            //              }
+                                            //            },
+                                            //          ),
+                                            //        );
+                                            //      });
                  
                                                },
                                                icon: Icon(Icons.thumb_up,color: Colors.black,),
@@ -1220,35 +1268,13 @@ IconButton infoButton() {
                                              IconButton(
                                                splashColor: Colors.red,
                                                onPressed: (){
-                                                 showDialog(context: c,builder: (c){
-                                                   return CupertinoAlertDialog(
-                                                     title: Text("Thank you for your feedback"),
-                                                     content: FutureBuilder(
-                                                       future:Firestore.instance.collection("polls").document(document.documentID).get(),
-                                                       builder: (c,s){
-                                                         if(s.connectionState!=ConnectionState.done){
-                                                           return ColorLoader3();
-                                                         }else{
-                 
-                                                           if(s.data["no"]!=null){
-                                                             int amount = s.data["no"];
-                                                             var amountMap = new Map<String,int>();
-                                                             amountMap["no"]=amount+1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amountMap);
-                 
-                                                           }else{
-                                                             var amount = new Map<String,int>();
-                                                             amount["no"]=1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amount);
-                                                           }
-                                                           return RaisedButton(child: Text("Thank you"),onPressed: (){
-                                                             Navigator.of(context).pop();
-                                                           },);
-                                                         }
-                                                       },
-                                                     ),
-                                                   );
-                                                 });
+                                                 Vibrate.feedback(FeedbackType.success);
+                                                 try {
+                                                    FirebaseAuth.instance.currentUser().then((user){
+                                                      Firestore.instance.collection("polls").document(document.documentID).collection("yes").document(user.uid).setData({"Loaded":true});
+                                                    });
+                                                 } catch (e) {
+                                                 }
                                                },
                                                icon: Icon(Icons.thumb_down,color: Colors.black,),
                                              ),
@@ -1272,6 +1298,18 @@ IconButton infoButton() {
                           );
                  
                    }
+
+                 Widget eventImageMaker(Uint8List data, BuildContext c) {
+                   try{
+                   return Container(
+                    child:Image.memory(data,fit: BoxFit.fitWidth,),
+                    height: 350,
+                    width: MediaQuery.of(c).size.width,
+                  );
+                   }catch(e){
+                     return Text(e.toString());
+                   }
+                 }
                    
                    Widget news() {
                      String tab1str = "News";
@@ -1303,6 +1341,8 @@ IconButton infoButton() {
                     }
                  
                    FutureBuilder<http.Response> newsFeedBuilder(String siteExtension) {
+                     Map newsStorage = new LocalStorage("news: "+siteExtension).getItem("images")!=null?new LocalStorage("news: "+siteExtension).getItem("images"): new Map();
+                     
                      return FutureBuilder(
                            future: http.get("https://www.thesamohi.com/category/"+siteExtension),
                            builder: (c,s){
@@ -1428,13 +1468,53 @@ IconButton infoButton() {
                                    String link = headerSplit[1].toString().split("\"")[1];
                                    //print(imageSplit[1]);
                                    //return Container(color: Colors.indigo,height: 10,);
-                                   return FutureBuilder(
+                                   
+                                   if(newsStorage.containsKey(imageSplit[1])){
+                                     List baseList = newsStorage[imageSplit[1]];
+                                     List<int> formatList = [];
+                                     for (var unfInt in baseList) {
+                                       formatList.add(unfInt);
+                                     }
+                                     Uint8List theImage = Uint8List.fromList(formatList);
+                                     return Container(
+                                       height: 200,
+                                       padding: EdgeInsets.all(15),
+
+                                       child: RaisedButton(
+                                         padding:  EdgeInsets.all(10),
+                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                                         elevation: 10,
+                                         onPressed: ()=>Navigator.push(
+                                               context,
+                                                 MaterialPageRoute(builder: (context) => Story(header: theHeader,link: link,by:writtenBy,when:writtenWhen), maintainState: true, fullscreenDialog: true),
+                                               ),
+                                         color: Colors.white,
+                                             child:Row(
+                                               
+                                             children: <Widget>[
+                                              Container(child:ClipRRect(child:Image.memory(theImage,fit: BoxFit.cover,), borderRadius: BorderRadius.circular(25)),width: 155,height: 175,padding: EdgeInsets.zero,),
+                                                
+                                              
+                                             Expanded(child:Column(
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: <Widget>[
+                                                 Text(theHeader,maxLines: 3,style: TextStyle(color: Colors.black,fontSize: 20),textAlign: TextAlign.center,),
+                                                 Text(writtenWhen,maxLines: 3,style: TextStyle(color: Colors.grey[700],fontSize: 16),textAlign: TextAlign.center,),
+                                                 Text(writtenBy,maxLines: 3,style: TextStyle(color: Colors.grey[800],fontSize: 18),textAlign: TextAlign.center,),
+                 
+                                               ],
+                                             ),
+                                         
+                                       )])));   
+                                    
+                                   }else{
+                                     return FutureBuilder(
                                      future: http.get(imageSplit[1]),
                                      builder: (c,s){
                                        if(s.hasError){
                                          return Center(child:Text("Failed to load post"));
                                        }else if(s.connectionState!=ConnectionState.done){
-                                         var loadingSlide = RaisedButton(
+                                         Widget loadingSlide = RaisedButton(
                                              color: Colors.white,
                                              shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(25)),
                                              elevation: 10,
@@ -1451,6 +1531,8 @@ IconButton infoButton() {
                                          
                                          );
                                        }else{
+                                         newsStorage[imageSplit[1]] = s.data.bodyBytes;
+                                         LocalStorage("news: "+siteExtension).setItem('images', newsStorage);
                                          return Container(
                                            height: 200,
                                            padding: EdgeInsets.symmetric(horizontal:25,vertical: 10),
@@ -1466,7 +1548,7 @@ IconButton infoButton() {
                                               print(theHeader);
                                              Navigator.push(
                                                context,
-                                                 MaterialPageRoute(builder: (context) => Story(header: theHeader,link: link,by:writtenBy,when:writtenWhen)),
+                                                 MaterialPageRoute(builder: (context) => Story(header: theHeader,link: link,by:writtenBy,when:writtenWhen), maintainState: true, fullscreenDialog: true),
                                                );                              
                                              },
                                              color: Colors.white,
@@ -1495,6 +1577,7 @@ IconButton infoButton() {
                                        }
                                      },
                                  );
+                                   }
                                   } catch (e) {
                                     return Container(height:0);
                                    }
@@ -1544,62 +1627,6 @@ IconButton infoButton() {
                      });
 
                    }
-
-  void checkNotificationPermissions() async{
-    PermissionStatus permissionStatus =await NotificationPermissions.getNotificationPermissionStatus();
-
-   // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.reminders);
-
-//    PermissionStatus permissionStatus =  await NotificationPermissions.getNotificationPermissionStatus();
-//    if(permissionStatus == PermissionStatus.granted){
-  if(permissionStatus == PermissionStatus.granted){
-      showCupertinoModalPopup(
-        context: context,
-        builder: (c){
-          return CupertinoAlertDialog(
-            title: Text("You got it!"),
-            content: Text("Your notification permssions are already setup!"),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text("Ok"),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        }
-      );
-    }else{
-      showCupertinoModalPopup(
-        context: context,
-        builder: (c){
-          return CupertinoAlertDialog(
-            title: Text("Turn notifications on?"),
-            content: Text("Enabling notifications will allow SAMO Connect to remind you when you need to do something"),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text("Enable"),
-                isDefaultAction: true,
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  FirebaseMessaging notificationHub = new FirebaseMessaging();
-                  notificationHub.requestNotificationPermissions();
-                  
-                },
-              ),
-              CupertinoDialogAction(
-                child: Text("Nah"),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        }
-      );
-    }
-  }
 
 }
 

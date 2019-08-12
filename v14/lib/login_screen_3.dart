@@ -973,12 +973,12 @@ class _LoginScreen3State extends State<LoginScreen3>
     if(email!=""){
       if(password!=""){
         //FirebaseAuth.instance.signInWithCredential(TwitterAuthProvider.getCredential());
-        Future<FirebaseUser> theUser = FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+        Future<AuthResult> theUser = FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
         
         theUser.catchError((onError){
           loginKey.currentState.showSnackBar(invalidPasswordSnackbar);
         });
-        FirebaseUser cUser = await theUser;
+        AuthResult cUser = await theUser;
         if(cUser!=null){
             Navigator.of(context).pushNamed(MainWindowAndroid.tag);
           
@@ -1057,7 +1057,7 @@ class _LoginScreen3State extends State<LoginScreen3>
                 context: context,
                 builder: (c){
                   return CupertinoAlertDialog(
-                    content: FutureBuilder<FirebaseUser>(
+                    content: FutureBuilder<AuthResult>(
                       future:FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password),
                       builder: (c,s){
                         if(s.hasError){
