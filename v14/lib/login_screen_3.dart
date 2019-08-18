@@ -419,13 +419,13 @@ class _LoginScreen3State extends State<LoginScreen3>
             ),
           ),
           Divider(
-            height: 24.0,
+            height: 5.0,
           ),
           new Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(right: 60.0),
+                padding: const EdgeInsets.only(right: 20.0),
                 child: new FlatButton(
                   child: new Text(
                     "Forgot Password?",

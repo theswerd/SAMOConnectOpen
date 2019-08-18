@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 //import 'package:flutter/material.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'bellSchedule.dart';
 import 'collegeCenter.dart';
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseInAppMessaging.instance.setAutomaticDataCollectionEnabled(true);
     return MaterialApp(
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),

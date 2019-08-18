@@ -30,6 +30,15 @@ PODS:
   - Firebase/Messaging (6.2.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 4.0.2)
+  - Firebase/MLNaturalLanguage (6.2.0):
+    - Firebase/CoreOnly
+    - FirebaseMLNaturalLanguage (~> 0.16.2)
+  - Firebase/MLNLLanguageID (6.2.0):
+    - Firebase/CoreOnly
+    - FirebaseMLNLLanguageID (~> 0.16.2)
+  - Firebase/MLNLTranslate (6.2.0):
+    - Firebase/CoreOnly
+    - FirebaseMLNLTranslate (~> 0.16.2)
   - Firebase/MLVision (6.2.0):
     - Firebase/CoreOnly
     - FirebaseMLVision (~> 0.16.0)
@@ -71,9 +80,18 @@ PODS:
     - Firebase/Core
     - Firebase/MLVision
     - Flutter
+  - firebase_mlkit_language (0.0.1):
+    - Firebase/Core
+    - Firebase/MLNaturalLanguage
+    - Firebase/MLNLLanguageID
+    - Firebase/MLNLTranslate
+    - Flutter
   - firebase_storage (0.0.1):
     - Firebase/Storage
     - Flutter
+  - FirebaseABTesting (3.0.0):
+    - FirebaseCore (~> 6.0)
+    - Protobuf (~> 3.5)
   - FirebaseAnalytics (6.0.1):
     - FirebaseCore (~> 6.0)
     - FirebaseInstanceID (~> 4.1)
@@ -134,6 +152,16 @@ PODS:
     - FirebaseInstanceID (~> 4.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseMLNaturalLanguage (0.16.2):
+    - FirebaseCore (~> 6.0)
+    - FirebaseMLCommon (~> 0.16)
+  - FirebaseMLNLLanguageID (0.16.3):
+    - FirebaseCore (~> 6.0)
+    - FirebaseMLNaturalLanguage (~> 0.16)
+  - FirebaseMLNLTranslate (0.16.2):
+    - FirebaseCore (~> 6.0)
+    - FirebaseMLNaturalLanguage (~> 0.16)
+    - FirebaseRemoteConfig (~> 4.0)
   - FirebaseMLVision (0.16.0):
     - FirebaseCore (~> 6.0)
     - FirebaseMLCommon (~> 0.16)
@@ -148,6 +176,13 @@ PODS:
     - GoogleMobileVision/LabelDetector (~> 1.4)
   - FirebaseMLVisionTextModel (0.16.0):
     - GoogleMobileVision/TextDetector (~> 1.4)
+  - FirebaseRemoteConfig (4.0.0):
+    - FirebaseABTesting (~> 3.0)
+    - FirebaseCore (~> 6.0)
+    - FirebaseInstanceID (~> 4.0)
+    - GoogleUtilities/Environment (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - Protobuf (~> 3.5)
   - FirebaseStorage (3.2.1):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
@@ -271,6 +306,7 @@ DEPENDENCIES:
   - firebase_in_app_messaging (from `.symlinks/plugins/firebase_in_app_messaging/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_ml_vision (from `.symlinks/plugins/firebase_ml_vision/ios`)
+  - firebase_mlkit_language (from `.symlinks/plugins/firebase_mlkit_language/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
@@ -290,6 +326,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BoringSSL-GRPC
     - Firebase
+    - FirebaseABTesting
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
     - FirebaseAuth
@@ -301,11 +338,15 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseMessaging
     - FirebaseMLCommon
+    - FirebaseMLNaturalLanguage
+    - FirebaseMLNLLanguageID
+    - FirebaseMLNLTranslate
     - FirebaseMLVision
     - FirebaseMLVisionBarcodeModel
     - FirebaseMLVisionFaceModel
     - FirebaseMLVisionLabelModel
     - FirebaseMLVisionTextModel
+    - FirebaseRemoteConfig
     - FirebaseStorage
     - GoogleAPIClientForREST
     - GoogleAppMeasurement
@@ -335,6 +376,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_ml_vision:
     :path: ".symlinks/plugins/firebase_ml_vision/ios"
+  firebase_mlkit_language:
+    :path: ".symlinks/plugins/firebase_mlkit_language/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -369,12 +412,14 @@ SPEC CHECKSUMS:
   cloud_firestore: 41f84086d2e1a5c216a6af07ef050758de825ff0
   Firebase: 5965bac23e7fcb5fa6d926ed429c9ecef8a2014e
   firebase_analytics: 7c660d7721c20a83c13b33361111c5dba94b1853
-  firebase_auth: 0fed4be9a305986c406db1a34ecb1819e9e5415c
+  firebase_auth: 45f6476560c372649eba5980c58f0783b527d04f
   firebase_core: b3b02d0b5e9d01aab5e50ba7cbcf84c73cb6883c
   firebase_in_app_messaging: f2fd3adc6d0ed25fcbb7b109bc2e7a330ea2cf5d
   firebase_messaging: efa1c09df5b6fbf505ee319bf27a0c88efe9ff8c
   firebase_ml_vision: 7b466f5fc5ba712639c8e0af1dff7d340f1147ab
+  firebase_mlkit_language: 5983dc0bd8e4673741474f2baac5f60b47578112
   firebase_storage: 2251e73d2d6239f72243ef422969d8baa76d3012
+  FirebaseABTesting: a32c488eb75089a61eb3d86db061dfb909d765db
   FirebaseAnalytics: 629301c2b9925f3537d4093a17a72751ae5b7084
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
   FirebaseAuth: 80879f0e9f2c5f40686d5b42f6ccb3cd5dce78ea
@@ -386,13 +431,17 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: cdb3827746d53ece7ae87a5c51c25c3055443366
   FirebaseMessaging: 20b6626c41be7840aed7a3dd9a14003efae3d588
   FirebaseMLCommon: d430756ba2a16bac8fefc81ea416e7f822f052fd
+  FirebaseMLNaturalLanguage: d3be29432a6d54df3c60afac044e4aca581f1688
+  FirebaseMLNLLanguageID: bb78d1a81a610c6e99f756724c0326c732c70cb3
+  FirebaseMLNLTranslate: 7bfcebac17eb56a92095a902931a20ed97842efd
   FirebaseMLVision: 35d0a720334b141d70a55e7e817c1cac23f32285
   FirebaseMLVisionBarcodeModel: 2abf9867e2c9914726c4d0a6936aaf8b75eb7d46
   FirebaseMLVisionFaceModel: 897589c0a1d967739cdbb495cf4ca296f8750f75
   FirebaseMLVisionLabelModel: e270ea50a47b9bd5f332c3dffa22eb896ee422cf
   FirebaseMLVisionTextModel: f5ca6d55bee8f00e08afca69d211fdc4efee1fef
+  FirebaseRemoteConfig: 40f75c6ea20a52bf65ef44e3898910dd5b57c532
   FirebaseStorage: 926d41552072b9fee67aa645760f05f87b7ce604
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   google_maps_flutter: 78a52114c898b42ea647919679a4c58b70abe876

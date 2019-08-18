@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
@@ -8,6 +9,9 @@ import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'constants.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
+
 class PolicyPage extends StatefulWidget {
 
   static String tag = "Policies";
@@ -17,25 +21,7 @@ class PolicyPage extends StatefulWidget {
 }
 
 class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
-  List allPolicies = [];
-  List usedPolicies = [];
-  Widget title;
-  bool searching =false;
-  double textSize;
-  List<IconButton> actions = [];
-  AnimationController animationC;
-  Widget body;
-
-  @override
-  void initState() { 
-    textSize = 14;
-    // allPolicies = [    
-    // // 
-    // ];
-
-    super.initState();
-    animationC = new AnimationController(vsync: this);
-    allPolicies= [
+  final List allPolicies = [
     {
       "name":"Attendance Policy Q&A",
       "website":"http://www.samohi.smmusd.org/About/policies/AttendanceQandA.pdf",
@@ -139,12 +125,120 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
       "name":"Electronics/Cell Phone Policy",
       "website":"http://www.samohi.smmusd.org/About/policies/index.html#Cell",
       "inlineView":true,
-      "type":["","Santa Monica High School allows the use of electronic devices for non-academic means on campus ONLY BEFORE SCHOOL, BETWEEN PERIODS, DURING LUNCH, and AFTER SCHOOL.\n\nElectronic devices include, but are not limited to: cell phones, cameras, iPods/MP3 players, laptops/tablets, portable speakers, handheld electronic games, headphones/earbuds, etc.Students and their parents/guardians take full responsibility for any and all electronic signaling devices (including cell phones) which the student may bring to school.In no event or circumstance will the district or its staff be held responsible or liable for the loss, theft or damage to any such device. This includes the loss, theft, or damage of confiscated cell phones and similar devices (SMMUSD AR 5131.8).\nShould you be in violation of this policy, the following progressive steps will be taken:\n\nConsequences:\n1st offense: Phone taken away. Phone will be released to student at end of the day. Student conference with advisor. House personnel will make parent contact.\n\n2nd offense: Phone taken away. Confiscation of item until parent/guardian come to retrieve it. Parent/Student conference with advisor. Lunch detention assigned.\n\n3rd or more offenses: Phone taken away until parent/guardian come to retrieve it. Two hours of Saturday School will be assigned. Student will turn in cell phone for 3 days to house office from beginning to end of school day. Parent conference with House Principal.\n\nSanta Monica High School reserves the right to take away phones at any time for inappropriate use. Santa Monica High School is not responsible for lost or stolen phones."]
+      "type":["Electronics/Cell Phone Policy","Santa Monica High School allows the use of electronic devices for non-academic means on campus ONLY BEFORE SCHOOL, BETWEEN PERIODS, DURING LUNCH, and AFTER SCHOOL.\n\nElectronic devices include, but are not limited to: cell phones, cameras, iPods/MP3 players, laptops/tablets, portable speakers, handheld electronic games, headphones/earbuds, etc.Students and their parents/guardians take full responsibility for any and all electronic signaling devices (including cell phones) which the student may bring to school.In no event or circumstance will the district or its staff be held responsible or liable for the loss, theft or damage to any such device. This includes the loss, theft, or damage of confiscated cell phones and similar devices (SMMUSD AR 5131.8).\nShould you be in violation of this policy, the following progressive steps will be taken:\n\nConsequences:\n1st offense: Phone taken away. Phone will be released to student at end of the day. Student conference with advisor. House personnel will make parent contact.\n\n2nd offense: Phone taken away. Confiscation of item until parent/guardian come to retrieve it. Parent/Student conference with advisor. Lunch detention assigned.\n\n3rd or more offenses: Phone taken away until parent/guardian come to retrieve it. Two hours of Saturday School will be assigned. Student will turn in cell phone for 3 days to house office from beginning to end of school day. Parent conference with House Principal.\n\nSanta Monica High School reserves the right to take away phones at any time for inappropriate use. Santa Monica High School is not responsible for lost or stolen phones."]
     }
     ];
-    usedPolicies = allPolicies;
+
+  List currentPolicies = [];
+  List usedPolicies = [];
+  String currentLanguage = SupportedLanguages.English;
+  Widget title;
+  bool searching =false;
+  double textSize;
+  List<Widget> actions = [];
+  AnimationController animationC;
+  Widget body;
+  LanguageTranslator englishToSpanish;
+  LanguageTranslator englishToFrench;
+  LanguageTranslator englishToChinese;
+  LanguageTranslator englishToSomeRandomLanguage;
+  Icon translateIcon = Icon(MdiIcons.translate);
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  @override
+  void initState() { 
+    textSize = 14;
+    // allPolicies = [    
+    // // 
+    // ];
+    englishToSpanish = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Spanish);
+    englishToFrench = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.French);
+    englishToChinese = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Chinese);
+    englishToChinese = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Urdu);
+
+    super.initState();
+    animationC = new AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    currentPolicies = allPolicies;
+    usedPolicies = currentPolicies;
     title = Text("Policies");
     actions = [
+      Tooltip(
+        message: "Powered by Google Translate",
+        child: IconButton(
+          icon: translateIcon,
+          splashColor: Colors.yellowAccent,
+          onPressed: (){
+            showCupertinoModalPopup(
+              context: context,
+              builder: (c)=>CupertinoActionSheet(
+                cancelButton: Constants.cancelAction(context),
+                title: Text("Languages"),
+                actions: <Widget>[
+                    CupertinoActionSheetAction(
+                    child: Text("Spanish"),
+                    onPressed: () async{
+                      
+                      Navigator.of(context).pop();
+                      _scaffoldKey.currentState.showSnackBar(
+                        SnackBar(content: Text("Translating to Spanish can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
+                      );
+                      List newList = [];
+                      for (Map policy in allPolicies) {
+                        Map newPolicy = policy;
+                        String newName = await englishToSpanish.processText(policy['name']);
+                        // String newDescription = await englishToSpanish.processText(policy['name']);
+                        if(policy['inlineView']){
+                          newPolicy['type'][0] = newName;
+                          String newDescription = await englishToSpanish.processText(newPolicy['type'][1]);
+                          newPolicy['type'][1] = newDescription;
+                        }
+                        
+                        newPolicy['name'] = newName;
+                        newList.add(newPolicy);
+                      }
+                      setState(() {
+                        setState(() {
+                          translateIcon = Icon(MdiIcons.translateOff);
+                        });
+                        currentLanguage = SupportedLanguages.Spanish;
+                        currentPolicies = newList;
+                        body = bodyMaker(currentPolicies);
+                      });
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: Text("French"),
+                    onPressed: () async{
+                      Navigator.of(context).pop();
+                      _scaffoldKey.currentState.showSnackBar(
+                        SnackBar(content: Text("Translating to French can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
+                      );
+                      List newList = [];
+                      for (Map policy in allPolicies) {
+                        Map newPolicy = policy;
+                        String newName = await englishToFrench.processText(policy['name']);
+                        // String newDescription = await englishToSpanish.processText(policy['name']);
+                        if(policy['inlineView']){
+                          newPolicy['type'][0] = newName;
+                          String newDescription = await englishToFrench.processText(newPolicy['type'][1]);
+                          newPolicy['type'][1] = newDescription;
+                        }
+                        
+                        newPolicy['name'] = newName;
+                        newList.add(newPolicy);
+                      }
+                      setState(() {
+                        currentLanguage = SupportedLanguages.French;
+                        currentPolicies = newList;
+                        //body = bodyMaker(newList);
+                      });
+                    },
+                  ),
+                ],
+              )
+            );
+          },
+        ),
+      ),
       IconButton(
         splashColor: Colors.yellow,
         color: Colors.white,
@@ -180,7 +274,7 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
               Constants.ratingAction(context),
               CupertinoActionSheetAction(
                 child: Text("Extra Info"),
-                onPressed: (){
+                onPressed: () {
                   showCupertinoModalPopup(
                     context: context,
                     builder: (c){
@@ -217,18 +311,80 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
             );
           },
         ),
-      IconButton(
-        splashColor: Colors.yellow,
-        color: Colors.white,
-        icon: Icon(Icons.search),
+      // IconButton(
+      //   splashColor: Colors.yellow,
+      //   color: Colors.white,
+      //   icon: Icon(Icons.search),
+      //   onPressed: (){
+      //     Vibrate.feedback(FeedbackType.light);
+      //     if(searching){
+      //       searching =false;
+      //       setState(() {
+      //         title =Text("Policies");
+      //       });
+      //     }else{
+      //       searching =true;
+      //       setState(() {
+      //         title =Container(
+      //       padding: EdgeInsets.symmetric(vertical:6),
+      //       child:TextField(
+      //       style: TextStyle(color: Colors.white),
+
+      //       decoration: InputDecoration(
+      //         labelText: "Policy Name",
+      //         labelStyle: TextStyle(color: Colors.white),
+      //         focusedBorder: borderMaker(Colors.yellow),
+      //         enabledBorder: borderMaker(Colors.white),
+      //         border: borderMaker(Colors.lightBlue),
+              
+      //       ),
+      //       onChanged: (a){
+      //         usedPolicies = [];
+      //         for (Map policy in currentPolicies) {
+
+      //             if(policy["name"].toString().toUpperCase().contains(a.toUpperCase())){
+      //               usedPolicies.add(policy);
+      //             }
+                
+      //         }
+      //         setState(() {
+      //           body =bodyMaker(usedPolicies);
+      //         });
+      //       },
+      //     )
+      //     );
+
+      //       });
+      //     }
+          
+      //   },
+      // )
+    ];
+   // 
+
+  }
+  @override
+  Widget build(BuildContext context) {
+    body =bodyMaker(usedPolicies);
+   // 
+
+
+    return Scaffold(
+      key: _scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        child: AnimatedIcon(icon:AnimatedIcons.search_ellipsis,progress:animationC),
+        backgroundColor: Constants.baseColor,
         onPressed: (){
           Vibrate.feedback(FeedbackType.light);
           if(searching){
+            animationC.reverse();
             searching =false;
             setState(() {
               title =Text("Policies");
             });
           }else{
+            animationC.forward();
+
             searching =true;
             setState(() {
               title =Container(
@@ -246,7 +402,7 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
             ),
             onChanged: (a){
               usedPolicies = [];
-              for (Map policy in allPolicies) {
+              for (Map policy in currentPolicies) {
 
                   if(policy["name"].toString().toUpperCase().contains(a.toUpperCase())){
                     usedPolicies.add(policy);
@@ -263,21 +419,14 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
             });
           }
           
+        
+      
+
         },
-      )
-    ];
-
- 
-  }
-  @override
-  Widget build(BuildContext context) {
-
-    body =bodyMaker(usedPolicies);
-
-    return Scaffold(
+      ),
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent[700],
-        title: title,
+        title: AnimatedSwitcher(child: title, duration: Duration(milliseconds: 400),transitionBuilder: (w,a)=>ScaleTransition(scale: a,child: w,),),
         actions: actions,
       ),
       body: body,
@@ -301,7 +450,7 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(children: <Widget>[
-              Text(usedPolicies[i]["name"],style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),textAlign: TextAlign.start,),
+              Text(usedPolicies[i]["name"],style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),textAlign: TextAlign.start,textScaleFactor: textSize/16>=1?textSize/16:1,),
               Expanded(
                 child: Container(),
               ),
@@ -320,7 +469,9 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
           ],
         ),
         color: Colors.white,
-        onPressed: (){
+        onPressed: () async{
+          //String spanishPolicy = await englishToSpanish.processText(usedPolicies[i]["type"][1]);
+
           if(usedPolicies[i]["inlineView"]){
             Vibrate.feedback(FeedbackType.selection);
             policyDialog(usedPolicies[i]["type"][0], usedPolicies[i]["type"][1]);

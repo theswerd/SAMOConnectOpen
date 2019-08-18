@@ -991,21 +991,7 @@ IconButton infoButton() {
                    if(theImages==null){
                      eventImages.setItem("images",new Map());
                    }
-                     return Scaffold(
-                       appBar: TabBar(
-                         indicatorColor: Colors.indigoAccent[700],
-                         controller: eventstabController,
-                         labelColor: Colors.black,
-                         unselectedLabelColor: Colors.black87,
-                 
-                         tabs: <Widget>[
-                           Tab(text: "Events",),
-                           Tab(text: "Polls",),
-                         ],
-                       ),
-                        body: TabBarView(
-                         children: <Widget>[
-                           FutureBuilder(
+                     return FutureBuilder(
                              future:Firestore.instance.collection("events").getDocuments(),
                              builder: (c,s){
                                if(s.hasError){
@@ -1161,141 +1147,8 @@ IconButton infoButton() {
                                  }
                                }
                              },
-                           ),
-                           FutureBuilder(
-                             future: Firestore.instance.collection("polls").getDocuments(),
-                             builder: (c,s){
-                               if(s.connectionState!=ConnectionState.done){
-                                 return ColorLoader3();
-                               }else{
-                                 QuerySnapshot data = s.data;
-                                 List documents = data.documents;
-                                 //FirebaseAuth.instance.signInAnonymously();
-                                 return ListView.separated(
-                                   itemCount: documents.length,
-                                   separatorBuilder: (c,i){
-                                     return Container(height: 40,);
-                                   },
-                                   itemBuilder: (c,i){
-                                     DocumentSnapshot document =documents[i];
-                                     return Container(
-                                       child: Column(
-                                         children: <Widget>[
-                                           ListTile(
-                                             title: Text(document.documentID),
-                                             subtitle: Text(document["askedby"]),
-                                           ),
-                                           Stack(
-                                             alignment: Alignment.bottomCenter,
-                                             children: <Widget>[
-                                           FutureBuilder(
-                                             future: FirebaseStorage.instance.ref().child("pollsImages").child(document["image"]).getData(9000000),
-                                             builder: (c,s){
-                                               if(s.connectionState!=ConnectionState.done){
-                                                 return ColorLoader3();
-                                               }else{
-                                                 return Image.memory(s.data,fit: BoxFit.fitWidth,height: 350,width: MediaQuery.of(c).size.width,);
-                                               }
-                                             },
-                                           ),
-                                           Container(
-                                             height: 100,
-                                             width: MediaQuery.of(context).size.width-40,
-                                             child: RaisedButton(
-                                               child:Text(document["description"],textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 18),),
-                                               color: Colors.white,
-                                               onPressed: (){},
-                                               elevation: 10,
-                                               ),
-                                           ),
-                                           ]
-                                           ),
-                                           Container(
-                                             padding: EdgeInsets.symmetric(horizontal: 20),
-                                             child: RaisedButton(
-                                               
-                                               color: Colors.white,
-                                               onPressed: (){},
-                                             child: 
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.center,
-                                             children: <Widget>[
-                                             IconButton(
-                                               splashColor: Colors.green,
-                                               onPressed: (){
-                                                 Vibrate.feedback(FeedbackType.success);
-
-                                                 try {
-                                                 FirebaseAuth.instance.currentUser().then((user){
-                                                  Firestore.instance.collection("polls").document(document.documentID).collection("yes").document(user.uid).setData({"Loaded":true});
-                                                 });
-                                                 } catch (e) {
-                                                 }
-                                            //  showDialog(context: c,builder: (c){
-                                            //        return CupertinoAlertDialog(
-                                            //          title: Text("Thank you for your feedback"),
-                                            //          content: FutureBuilder(
-                                            //            future:Firestore.instance.collection("polls").document(document.documentID).get(),
-                                            //            builder: (c,s){
-                                            //              if(s.connectionState!=ConnectionState.done){
-                                            //                return ColorLoader3();
-                                            //              }else{
-                 
-                                            //                if(s.data["yes"]!=null){
-                                            //                  int amount = s.data["yes"];
-                                            //                  var amountMap = new Map<String,int>();
-                                            //                  amountMap["yes"]=amount+1;
-                                            //                  Firestore.instance.collection("polls").document(document.documentID).updateData(amountMap);
-                 
-                                            //                }else{
-                                            //                  var amount = new Map<String,int>();
-                                            //                  amount["yes"]=1;
-                                            //                  Firestore.instance.collection("polls").document(document.documentID).(amount);
-                                            //                }
-                                            //                return RaisedButton(child: Text("Thank you"),onPressed: (){
-                                            //                  Navigator.of(context).pop();
-                                            //                },);
-                                            //              }
-                                            //            },
-                                            //          ),
-                                            //        );
-                                            //      });
-                 
-                                               },
-                                               icon: Icon(Icons.thumb_up,color: Colors.black,),
-                                             ),
-                                             SizedBox(width: 30),
-                                             IconButton(
-                                               splashColor: Colors.red,
-                                               onPressed: (){
-                                                 Vibrate.feedback(FeedbackType.success);
-                                                 try {
-                                                    FirebaseAuth.instance.currentUser().then((user){
-                                                      Firestore.instance.collection("polls").document(document.documentID).collection("yes").document(user.uid).setData({"Loaded":true});
-                                                    });
-                                                 } catch (e) {
-                                                 }
-                                               },
-                                               icon: Icon(Icons.thumb_down,color: Colors.black,),
-                                             ),
-                 
-                                           ],)
-                                             )
-                                           )
-                                         ],
-                                       ),
-                                       );
-                                   },
-                                 );
-                               }
-                             },
-                           )
-                         ],
-                         controller: eventstabController,
-                       )
-                     ,  
-                          
-                          );
+                           );
+                           
                  
                    }
 
