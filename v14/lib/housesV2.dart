@@ -5,8 +5,6 @@ import 'package:http/http.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:flutter/services.dart';
-import 'package:vibrate/vibrate.dart';
-import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
@@ -330,7 +328,6 @@ TeacherDialog(String name, String email, String house, BuildContext context) {
           isDefaultAction: false,
           child: Text("Copy"),
           onPressed: (){
-           Vibrate.feedback(FeedbackType.success);
            Constants.pop(context);
            Clipboard.setData(ClipboardData(text:email));
            //Constants.shareString(name+"'s email is "+email+". To learn more about "+name+" and the other "+house+" House Staff, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");

@@ -2,8 +2,6 @@
 import 'MainPageAndroid.dart';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 //import 'package:flutter/material.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -19,21 +17,15 @@ import 'policies.dart';
 import 'library.dart';
 import 'bulletin.dart';
 import 'developerPage.dart';
-import 'scanInSchedule.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  FirebaseAnalytics analytics = FirebaseAnalytics();
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     FirebaseInAppMessaging.instance.setAutomaticDataCollectionEnabled(true);
     return MaterialApp(
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics),
-      ],
       debugShowCheckedModeBanner: false,
       routes: {
         BellSchedule.tag: (context)=> BellSchedule(),
@@ -47,8 +39,7 @@ class MyApp extends StatelessWidget {
         PolicyPage.tag:(context)=>PolicyPage(),
         LibraryPage.tag:(context)=>LibraryPage(),
         BulletinPage.tag:(context)=>BulletinPage(),
-        DeveloperPage.tag:(context)=>DeveloperPage(),
-        AddMySchedule.tag:(context)=>AddMySchedule()
+        DeveloperPage.tag:(context)=>DeveloperPage()
        // SingleSchedule.tag: (context)=> SingleSchedule()
 
       },

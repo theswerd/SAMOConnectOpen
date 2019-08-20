@@ -1,8 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:vibrate/vibrate.dart';
-import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
@@ -141,7 +139,6 @@ class _TeachersState extends State<Teachers> {
     color: Colors.white,
     onPressed: (){
       if(teachers.isNotEmpty){
-        Vibrate.feedback(FeedbackType.light);
         print("TEACHERS ISNT EMPTY");
         if(!isSearching){
           
@@ -361,7 +358,6 @@ class _TeachersState extends State<Teachers> {
                                       isDefaultAction: false,
                                       child: Text("Copy"),
                                       onPressed: (){
-                                        Vibrate.feedback(FeedbackType.success);
                                         s.Clipboard.setData(s.ClipboardData(text: email));
                                         Navigator.of(context).pop();
                                       },

@@ -4,8 +4,6 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:vibrate/vibrate.dart';
-import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'constants.dart';
@@ -20,8 +18,30 @@ class PolicyPage extends StatefulWidget {
   
 }
 
+<<<<<<< HEAD
 class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
   final List allPolicies = [
+=======
+class _PolicyPageState extends State<PolicyPage> {
+  List allPolicies = [];
+  List usedPolicies = [];
+  Widget title;
+  bool searching =false;
+  double textSize;
+  List<IconButton> actions = [];
+
+  Widget body;
+
+  @override
+  void initState() { 
+    textSize = 14;
+    // allPolicies = [    
+    // // 
+    // ];
+
+    super.initState();
+    allPolicies= [
+>>>>>>> parent of 3819e4a... 4.04 iOS Update ready
     {
       "name":"Attendance Policy Q&A",
       "website":"http://www.samohi.smmusd.org/About/policies/AttendanceQandA.pdf",
@@ -375,7 +395,6 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
         child: AnimatedIcon(icon:AnimatedIcons.search_ellipsis,progress:animationC),
         backgroundColor: Constants.baseColor,
         onPressed: (){
-          Vibrate.feedback(FeedbackType.light);
           if(searching){
             animationC.reverse();
             searching =false;
@@ -473,7 +492,6 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
           //String spanishPolicy = await englishToSpanish.processText(usedPolicies[i]["type"][1]);
 
           if(usedPolicies[i]["inlineView"]){
-            Vibrate.feedback(FeedbackType.selection);
             policyDialog(usedPolicies[i]["type"][0], usedPolicies[i]["type"][1]);
           }
         },
@@ -496,7 +514,6 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
               isDefaultAction: true,
               child: Text("Share"),
               onPressed: (){
-                
                 Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
                 //Navigator.of(context).pop();
               }
@@ -505,7 +522,6 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
               isDefaultAction: false,
               child: Text("Copy"),
               onPressed: (){
-                Vibrate.feedback(FeedbackType.success);
                 //Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
                 Clipboard.setData(ClipboardData(text: description));
                 Navigator.of(context).pop();

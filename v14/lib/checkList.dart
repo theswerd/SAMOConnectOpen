@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:v14/color_loader_3.dart';
 import 'dart:async';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:math';
@@ -11,7 +13,6 @@ import 'dart:convert';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:vibration/vibration.dart';
 
 import 'constants.dart';
 
@@ -567,6 +568,7 @@ class ChecklistPageState extends State<ChecklistPage> {
                                       child: Text("Nah"),
                                       isDefaultAction: false,
                                       onPressed: (){
+                                       
                                         Navigator.of(context).pop();
                                       },
                                     ),
@@ -574,8 +576,6 @@ class ChecklistPageState extends State<ChecklistPage> {
                                       child: Text("Yes"),
                                       isDefaultAction: true,
                                       onPressed: (){
-                                        Vibration.vibrate();
-
                                         todos.removeAt(i);
                                         storeStringList(todos);
                                         setState(() {

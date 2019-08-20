@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
@@ -51,7 +50,6 @@ String when;
             icon: Icon(Icons.share,color: Colors.white,),
             splashColor: Colors.yellowAccent,
             onPressed: (){
-              Vibration.vibrate();
               Share.share("Check out The SAMOHI News article: \""+header+"\" on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
             },
           ),

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:vibration/vibration.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
@@ -38,7 +37,6 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
     icon: Icon(Icons.share),
     splashColor: Colors.yellowAccent,
     onPressed: (){
-      Vibration.vibrate();
       Share.share("Want to go to college? You can see the College Center on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
     },
   );
@@ -130,7 +128,6 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                                         isDefaultAction: false,
                                         child: Text("Copy"),
                                         onPressed: (){
-                                          Vibration.vibrate(duration: 1, amplitude: 1);
                                           Clipboard.setData(ClipboardData(text: theCurrentDocument["email"]));
                                           Navigator.of(context).pop();
                                         },
