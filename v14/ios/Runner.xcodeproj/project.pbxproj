@@ -352,8 +352,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh",
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessagingDisplay/InAppMessagingDisplayResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMLNLTranslate/FirebaseMLNLTranslateResource.bundle",
+=======
+>>>>>>> parent of 3819e4a... 4.04 iOS Update ready
+=======
+>>>>>>> parent of 3819e4a... 4.04 iOS Update ready
 =======
 >>>>>>> parent of 3819e4a... 4.04 iOS Update ready
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
@@ -361,8 +367,14 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 <<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingDisplayResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseMLNLTranslateResource.bundle",
+=======
+>>>>>>> parent of 3819e4a... 4.04 iOS Update ready
+=======
+>>>>>>> parent of 3819e4a... 4.04 iOS Update ready
 =======
 >>>>>>> parent of 3819e4a... 4.04 iOS Update ready
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
