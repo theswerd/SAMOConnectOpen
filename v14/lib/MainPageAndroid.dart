@@ -20,7 +20,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:html/parser.dart';
 import 'login_screen_3.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //import 'package:latlong/latlong.dart';
@@ -32,6 +31,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
+
+import 'package:localstorage/localstorage.dart';
 //import 'package:path_provider/path_provider.dart'
 //import 'package:latlong/latlong.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -304,12 +305,7 @@ IconButton infoButton() {
             }else if(currentIndex==4){
               Constants.showInfoBottomSheet(
                 [
-                  CupertinoActionSheetAction(
-                    child: Text("Notification Permissions"),
-                    onPressed: (){
-                      checkNotificationPermissions();
-                    },
-                  ),
+                  
                   Constants.ratingAction(context),
                   CupertinoActionSheetAction(
                     child: Text("Extra Info"),
@@ -515,7 +511,6 @@ IconButton infoButton() {
                                          );
                                          print("Display name:::");
                                          FirebaseUserMetadata m = theUser.metadata;
-                                         print(m.creationTimestamp);
                                          return RaisedButton(
                                            child: Text("Sign Out",style: TextStyle(color: Colors.white),),
                                            color: Colors.indigoAccent[700],
@@ -988,30 +983,13 @@ IconButton infoButton() {
                   );
                    }
                  eventView() {
-<<<<<<< HEAD
                    LocalStorage eventImages = LocalStorage("events");
                    Map theImages = eventImages.getItem("images")!=null?eventImages.getItem("images"):new Map();
                    if(theImages==null){
                      eventImages.setItem("images",new Map());
                    }
-                     return FutureBuilder(
-=======
-                     return Scaffold(
-                       appBar: TabBar(
-                         indicatorColor: Colors.indigoAccent[700],
-                         controller: eventstabController,
-                         labelColor: Colors.black,
-                         unselectedLabelColor: Colors.black87,
-                 
-                         tabs: <Widget>[
-                           Tab(text: "Events",),
-                           Tab(text: "Polls",),
-                         ],
-                       ),
-                        body: TabBarView(
-                         children: <Widget>[
+                     return 
                            FutureBuilder(
->>>>>>> parent of 3819e4a... 4.04 iOS Update ready
                              future:Firestore.instance.collection("events").getDocuments(),
                              builder: (c,s){
                                if(s.hasError){
@@ -1130,160 +1108,13 @@ IconButton infoButton() {
                                  }
                                }
                              },
-<<<<<<< HEAD
+                           
+                           
                            );
                            
-=======
-                           ),
-                           FutureBuilder(
-                             future: Firestore.instance.collection("polls").getDocuments(),
-                             builder: (c,s){
-                               if(s.connectionState!=ConnectionState.done){
-                                 return ColorLoader3();
-                               }else{
-                                 QuerySnapshot data = s.data;
-                                 List documents = data.documents;
-                                 //FirebaseAuth.instance.signInAnonymously();
-                                 return ListView.separated(
-                                   itemCount: documents.length,
-                                   separatorBuilder: (c,i){
-                                     return Container(height: 40,);
-                                   },
-                                   itemBuilder: (c,i){
-                                     DocumentSnapshot document =documents[i];
-                                     return Container(
-                                       child: Column(
-                                         children: <Widget>[
-                                           ListTile(
-                                             title: Text(document.documentID),
-                                             subtitle: Text(document["askedby"]),
-                                           ),
-                                           Stack(
-                                             alignment: Alignment.bottomCenter,
-                                             children: <Widget>[
-                                           FutureBuilder(
-                                             future: FirebaseStorage.instance.ref().child("pollsImages").child(document["image"]).getData(9000000),
-                                             builder: (c,s){
-                                               if(s.connectionState!=ConnectionState.done){
-                                                 return ColorLoader3();
-                                               }else{
-                                                 return Image.memory(s.data,fit: BoxFit.fitWidth,height: 350,width: MediaQuery.of(c).size.width,);
-                                               }
-                                             },
-                                           ),
-                                           Container(
-                                             height: 100,
-                                             width: MediaQuery.of(context).size.width-40,
-                                             child: RaisedButton(
-                                               child:Text(document["description"],textAlign: TextAlign.center,style: TextStyle(color: Colors.black,fontSize: 18),),
-                                               color: Colors.white,
-                                               onPressed: (){},
-                                               elevation: 10,
-                                               ),
-                                           ),
-                                           ]
-                                           ),
-                                           Container(
-                                             padding: EdgeInsets.symmetric(horizontal: 20),
-                                             child: RaisedButton(
-                                               
-                                               color: Colors.white,
-                                               onPressed: (){},
-                                             child: 
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.center,
-                                             children: <Widget>[
-                                             IconButton(
-                                               splashColor: Colors.green,
-                                               onPressed: (){
-                                             showDialog(context: c,builder: (c){
-                                                   return CupertinoAlertDialog(
-                                                     title: Text("Thank you for your feedback"),
-                                                     content: FutureBuilder(
-                                                       future:Firestore.instance.collection("polls").document(document.documentID).get(),
-                                                       builder: (c,s){
-                                                         if(s.connectionState!=ConnectionState.done){
-                                                           return ColorLoader3();
-                                                         }else{
-                 
-                                                           if(s.data["yes"]!=null){
-                                                             int amount = s.data["yes"];
-                                                             var amountMap = new Map<String,int>();
-                                                             amountMap["yes"]=amount+1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amountMap);
-                 
-                                                           }else{
-                                                             var amount = new Map<String,int>();
-                                                             amount["yes"]=1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amount);
-                                                           }
-                                                           return RaisedButton(child: Text("Thank you"),onPressed: (){
-                                                             Navigator.of(context).pop();
-                                                           },);
-                                                         }
-                                                       },
-                                                     ),
-                                                   );
-                                                 });
-                 
-                                               },
-                                               icon: Icon(Icons.thumb_up,color: Colors.black,),
-                                             ),
-                                             SizedBox(width: 30),
-                                             IconButton(
-                                               splashColor: Colors.red,
-                                               onPressed: (){
-                                                 showDialog(context: c,builder: (c){
-                                                   return CupertinoAlertDialog(
-                                                     title: Text("Thank you for your feedback"),
-                                                     content: FutureBuilder(
-                                                       future:Firestore.instance.collection("polls").document(document.documentID).get(),
-                                                       builder: (c,s){
-                                                         if(s.connectionState!=ConnectionState.done){
-                                                           return ColorLoader3();
-                                                         }else{
-                 
-                                                           if(s.data["no"]!=null){
-                                                             int amount = s.data["no"];
-                                                             var amountMap = new Map<String,int>();
-                                                             amountMap["no"]=amount+1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amountMap);
-                 
-                                                           }else{
-                                                             var amount = new Map<String,int>();
-                                                             amount["no"]=1;
-                                                             Firestore.instance.collection("polls").document(document.documentID).updateData(amount);
-                                                           }
-                                                           return RaisedButton(child: Text("Thank you"),onPressed: (){
-                                                             Navigator.of(context).pop();
-                                                           },);
-                                                         }
-                                                       },
-                                                     ),
-                                                   );
-                                                 });
-                                               },
-                                               icon: Icon(Icons.thumb_down,color: Colors.black,),
-                                             ),
-                 
-                                           ],)
-                                             )
-                                           )
-                                         ],
-                                       ),
-                                       );
-                                   },
-                                 );
-                               }
-                             },
-                           )
-                         ],
-                         controller: eventstabController,
-                       )
-                     ,  
+                     
                           
-                          );
->>>>>>> parent of 3819e4a... 4.04 iOS Update ready
+                          
                  
                    }
                    
@@ -1558,62 +1389,6 @@ IconButton infoButton() {
                      });
 
                    }
-
-  void checkNotificationPermissions() async{
-    PermissionStatus permissionStatus =await NotificationPermissions.getNotificationPermissionStatus();
-
-   // PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.reminders);
-
-//    PermissionStatus permissionStatus =  await NotificationPermissions.getNotificationPermissionStatus();
-//    if(permissionStatus == PermissionStatus.granted){
-  if(permissionStatus == PermissionStatus.granted){
-      showCupertinoModalPopup(
-        context: context,
-        builder: (c){
-          return CupertinoAlertDialog(
-            title: Text("You got it!"),
-            content: Text("Your notification permssions are already setup!"),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text("Ok"),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        }
-      );
-    }else{
-      showCupertinoModalPopup(
-        context: context,
-        builder: (c){
-          return CupertinoAlertDialog(
-            title: Text("Turn notifications on?"),
-            content: Text("Enabling notifications will allow SAMO Connect to remind you when you need to do something"),
-            actions: <Widget>[
-              CupertinoDialogAction(
-                child: Text("Enable"),
-                isDefaultAction: true,
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  FirebaseMessaging notificationHub = new FirebaseMessaging();
-                  notificationHub.requestNotificationPermissions();
-                  
-                },
-              ),
-              CupertinoDialogAction(
-                child: Text("Nah"),
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        }
-      );
-    }
-  }
 
 }
 
