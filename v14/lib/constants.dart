@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:share/share.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:rounded_modal/rounded_modal.dart';
 class Constants{
   static Future<void> shareString(String shareStr) => Share.share(shareStr);
   static Color baseColor = Colors.indigoAccent[700];
