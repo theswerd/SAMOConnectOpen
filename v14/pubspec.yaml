@@ -48,12 +48,12 @@ dependencies:
   firebase_messaging: ^5.0.4
   flutter_local_notifications: ^0.8.0
 
-
   flutter_webview_plugin: ^0.3.5
   shared_preferences: ^0.5.2
   cookie_jar: ^1.0.0
 
   flutter_material_color_picker:
+  rounded_modal: ^1.0.0
 
   vibrate: ^0.0.4
   vibration:

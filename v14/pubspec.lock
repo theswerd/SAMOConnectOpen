@@ -180,14 +180,14 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2"
+
   flutter_material_color_picker:
     dependency: "direct main"
     description:
       name: flutter_material_color_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -199,7 +199,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.7"
+
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -298,6 +298,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.7"
+
   path:
     dependency: "direct main"
     description:
@@ -319,13 +320,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.4.0"
+
   platform:
     dependency: transitive
     description:
@@ -347,6 +342,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  rounded_modal:
+    dependency: "direct main"
+    description:
+      name: rounded_modal
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   share:
     dependency: "direct main"
     description:
@@ -471,6 +473,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.5.0"
+    version: "0.3.10+3"
 sdks:
   dart: ">=2.4.0 <3.0.0"
   flutter: ">=1.6.0 <2.0.0"

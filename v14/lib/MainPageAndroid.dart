@@ -31,8 +31,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
-
 import 'package:localstorage/localstorage.dart';
+
 //import 'package:path_provider/path_provider.dart'
 //import 'package:latlong/latlong.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -305,7 +305,6 @@ IconButton infoButton() {
             }else if(currentIndex==4){
               Constants.showInfoBottomSheet(
                 [
-                  
                   Constants.ratingAction(context),
                   CupertinoActionSheetAction(
                     child: Text("Extra Info"),
@@ -988,8 +987,7 @@ IconButton infoButton() {
                    if(theImages==null){
                      eventImages.setItem("images",new Map());
                    }
-                     return 
-                           FutureBuilder(
+                     return FutureBuilder(
                              future:Firestore.instance.collection("events").getDocuments(),
                              builder: (c,s){
                                if(s.hasError){
@@ -1108,13 +1106,8 @@ IconButton infoButton() {
                                  }
                                }
                              },
-                           
-                           
                            );
-                           
-                     
-                          
-                          
+                         
                  
                    }
                    
@@ -1389,6 +1382,8 @@ IconButton infoButton() {
                      });
 
                    }
+
+
 
 }
 

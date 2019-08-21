@@ -43,11 +43,6 @@ class _DeveloperPageState extends State<DeveloperPage> {
                 TextSpan(text: "inspire this app. \n\n",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 
                 TextSpan(text: "Thanks to ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
-                TextSpan(text: "Claudia Sherman",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                TextSpan(text: " for helping ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
-                TextSpan(text: "write translations.\n\n",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-
-                TextSpan(text: "Thanks to ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
                 TextSpan(text: "Matteo Marquez",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                 TextSpan(text: " for inspiring the ",style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),),
                 TextSpan(text: "ASB Event View and Polls\n\n",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
@@ -475,7 +470,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                         style: TextStyle(fontWeight: FontWeight.bold)
                                       ),
                                       TextSpan(
-                                        text: ". She is also the soul source of our android app feedback."
+                                        text: ". She is also the sole source of our android app feedback."
                                       ),
                                     ]
                                   ),

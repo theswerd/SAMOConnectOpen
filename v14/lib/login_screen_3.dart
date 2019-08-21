@@ -974,12 +974,12 @@ class _LoginScreen3State extends State<LoginScreen3>
       if(password!=""){
         //FirebaseAuth.instance.signInWithCredential(TwitterAuthProvider.getCredential());
         Future<AuthResult> theUser = FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-        
+
         theUser.catchError((onError){
           loginKey.currentState.showSnackBar(invalidPasswordSnackbar);
         });
         AuthResult cUser = await theUser;
-        if(cUser!=null){
+        if(cUser.user!=null){
             Navigator.of(context).pushNamed(MainWindowAndroid.tag);
           
         };

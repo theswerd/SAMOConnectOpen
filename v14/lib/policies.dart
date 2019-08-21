@@ -10,6 +10,7 @@ import 'constants.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 
+
 class PolicyPage extends StatefulWidget {
 
   static String tag = "Policies";
@@ -165,6 +166,7 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
               CupertinoActionSheetAction(
                 child: Text("Extra Info"),
                 onPressed: () {
+
                   showCupertinoModalPopup(
                     context: context,
                     builder: (c){
@@ -390,6 +392,17 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
                 //Navigator.of(context).pop();
               }
             ),
+            CupertinoDialogAction(
+              isDefaultAction: false,
+              child: Text("Copy"),
+              onPressed: (){
+                //Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
+                Clipboard.setData(ClipboardData(text: description));
+                Navigator.of(context).pop();
+              }
+            ),
+      
+            
             CupertinoDialogAction(
               isDefaultAction: false,
               child: Text("Copy"),
