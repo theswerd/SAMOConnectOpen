@@ -1,4 +1,22 @@
+//import 'MainPage.dart';
+import 'MainPageAndroid.dart';
+
 import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'bellSchedule.dart';
+import 'collegeCenter.dart';
+import 'clubs.dart';
+import 'teachers.dart';
+import 'illuminate.dart';
+import 'attendance.dart';
+import 'login_screen_3.dart';
+import 'policies.dart';
+import 'library.dart';
+import 'bulletin.dart';
+import 'developerPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -6,7 +24,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FirebaseInAppMessaging.instance.setAutomaticDataCollectionEnabled(true);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {
+        BellSchedule.tag: (context)=> BellSchedule(),
+        Clubs.tag: (context)=> Clubs(),
+        Teachers.tag:(context)=>Teachers(),
+        CollegeCenter.tag:(context)=>CollegeCenter(),
+        Illuminate.tag:(context)=>Illuminate(),
+        Attendance.tag:(context)=>Attendance(),
+        LoginScreen3.tag:(context)=>LoginScreen3(),
+        MainWindowAndroid.tag:(context)=>MainWindowAndroid(),
+        PolicyPage.tag:(context)=>PolicyPage(),
+        LibraryPage.tag:(context)=>LibraryPage(),
+        BulletinPage.tag:(context)=>BulletinPage(),
+        DeveloperPage.tag:(context)=>DeveloperPage()
+       // SingleSchedule.tag: (context)=> SingleSchedule()
+
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -20,7 +56,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainWindowAndroid()
     );
   }
 }
@@ -69,13 +105,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("Fish"),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
+          // Column is also layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
           //
