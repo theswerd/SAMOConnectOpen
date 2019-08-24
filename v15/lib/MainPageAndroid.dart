@@ -397,7 +397,7 @@ IconButton infoButton() {
           );
         }
                  
-        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["android"]>10;
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.04;
                  
         Future getTheNewUpdateDialog() {
           return showCupertinoModalPopup(

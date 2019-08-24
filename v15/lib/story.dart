@@ -7,6 +7,7 @@ import 'package:html/dom.dart'as dom;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:share/share.dart';
+import 'constants.dart';
 class Story extends StatefulWidget {
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -57,13 +58,8 @@ String when;
             icon: Icon(Icons.info_outline),
             splashColor: Colors.yellow,
             onPressed: (){
-              showModalBottomSheet(
-                backgroundColor: Colors.white,
-                context: context,
-                builder: (c){
-                  return CupertinoActionSheet(
-                    title: Text("Extra Info"),
-                    actions: <Widget>[
+              Constants.showInfoBottomSheet(
+                [
                       CupertinoActionSheetAction(
                         child: Text("Official Website"),
                         onPressed: (){
@@ -79,13 +75,8 @@ String when;
                         },
                       ),
                       
-                    ],
-                  );
-                }
-              );
-            },
-            padding: EdgeInsets.zero,
-          )
+                    ],context);
+            })
         ],
         ),
         body: FutureBuilder(

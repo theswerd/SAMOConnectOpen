@@ -1,4 +1,4 @@
-package com.example.v15
+package com.swerd.SamoConnect
 
 import android.os.Bundle
 

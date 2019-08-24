@@ -8,7 +8,7 @@ import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'constants.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
+//import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 
 
 class PolicyPage extends StatefulWidget {
@@ -27,13 +27,13 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
   double textSize = 14;
   List<Widget> actions = [];
   List currentPolicies = [];
-  String currentLanguage = SupportedLanguages.English;
+  //String currentLanguage = SupportedLanguages.English;
   AnimationController animationC;
   Widget body;
-  LanguageTranslator englishToSpanish;
-  LanguageTranslator englishToFrench;
-  LanguageTranslator englishToChinese;
-  LanguageTranslator englishToSomeRandomLanguage;
+  // LanguageTranslator englishToSpanish;
+  // LanguageTranslator englishToFrench;
+  // LanguageTranslator englishToChinese;
+  // LanguageTranslator englishToSomeRandomLanguage;
   Icon translateIcon = Icon(MdiIcons.translate);
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
@@ -146,152 +146,152 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
       "type":["","Santa Monica High School allows the use of electronic devices for non-academic means on campus ONLY BEFORE SCHOOL, BETWEEN PERIODS, DURING LUNCH, and AFTER SCHOOL.\n\nElectronic devices include, but are not limited to: cell phones, cameras, iPods/MP3 players, laptops/tablets, portable speakers, handheld electronic games, headphones/earbuds, etc.Students and their parents/guardians take full responsibility for any and all electronic signaling devices (including cell phones) which the student may bring to school.In no event or circumstance will the district or its staff be held responsible or liable for the loss, theft or damage to any such device. This includes the loss, theft, or damage of confiscated cell phones and similar devices (SMMUSD AR 5131.8).\nShould you be in violation of this policy, the following progressive steps will be taken:\n\nConsequences:\n1st offense: Phone taken away. Phone will be released to student at end of the day. Student conference with advisor. House personnel will make parent contact.\n\n2nd offense: Phone taken away. Confiscation of item until parent/guardian come to retrieve it. Parent/Student conference with advisor. Lunch detention assigned.\n\n3rd or more offenses: Phone taken away until parent/guardian come to retrieve it. Two hours of Saturday School will be assigned. Student will turn in cell phone for 3 days to house office from beginning to end of school day. Parent conference with House Principal.\n\nSanta Monica High School reserves the right to take away phones at any time for inappropriate use. Santa Monica High School is not responsible for lost or stolen phones."]
     }
     ];
-    englishToSpanish = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Spanish);
-    englishToFrench = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.French);
-    englishToChinese = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Chinese);
-    englishToSomeRandomLanguage = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Urdu);
+    // englishToSpanish = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Spanish);
+    // englishToFrench = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.French);
+    // englishToChinese = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Chinese);
+    // englishToSomeRandomLanguage = FirebaseLanguage.instance.languageTranslator(SupportedLanguages.English, SupportedLanguages.Urdu);
 
     animationC = new AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     currentPolicies = allPolicies;
     usedPolicies = currentPolicies;
     title = Text("Policies");
     actions = [
-      Tooltip(
-        message: "Powered by Google Translate",
-        child: IconButton(
-          icon: translateIcon,
-          splashColor: Colors.yellowAccent,
-          onPressed: (){
-            showCupertinoModalPopup(
-              context: context,
-              builder: (c)=>CupertinoActionSheet(
-                cancelButton: Constants.cancelAction(context),
-                title: Text("Languages"),
-                actions: <Widget>[
-                    CupertinoActionSheetAction(
-                    child: Text("Spanish"),
-                    onPressed: () async{
+      // Tooltip(
+      //   message: "Powered by Google Translate",
+      //   child: IconButton(
+      //     icon: translateIcon,
+      //     splashColor: Colors.yellowAccent,
+      //     onPressed: (){
+      //       showCupertinoModalPopup(
+      //         context: context,
+      //         builder: (c)=>CupertinoActionSheet(
+      //           cancelButton: Constants.cancelAction(context),
+      //           title: Text("Languages"),
+      //           actions: <Widget>[
+      //               CupertinoActionSheetAction(
+      //               child: Text("Spanish"),
+      //               onPressed: () async{
                       
-                      Navigator.of(context).pop();
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(content: Text("Translating to Spanish can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
-                      );
-                      List newList = [];
-                      for (Map policy in allPolicies) {
-                        Map newPolicy = policy;
-                        String newName = await englishToSpanish.processText(policy['name']);
-                        // String newDescription = await englishToSpanish.processText(policy['name']);
-                        if(policy['inlineView']){
-                          newPolicy['type'][0] = newName;
-                          String newDescription = await englishToSpanish.processText(newPolicy['type'][1]);
-                          newPolicy['type'][1] = newDescription;
-                        }
+      //                 Navigator.of(context).pop();
+      //                 _scaffoldKey.currentState.showSnackBar(
+      //                   SnackBar(content: Text("Translating to Spanish can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
+      //                 );
+      //                 List newList = [];
+      //                 for (Map policy in allPolicies) {
+      //                   Map newPolicy = policy;
+      //                   String newName = await englishToSpanish.processText(policy['name']);
+      //                   // String newDescription = await englishToSpanish.processText(policy['name']);
+      //                   if(policy['inlineView']){
+      //                     newPolicy['type'][0] = newName;
+      //                     String newDescription = await englishToSpanish.processText(newPolicy['type'][1]);
+      //                     newPolicy['type'][1] = newDescription;
+      //                   }
                         
-                        newPolicy['name'] = newName;
-                        newList.add(newPolicy);
-                      }
-                      setState(() {
-                        setState(() {
-                          translateIcon = Icon(MdiIcons.translateOff);
-                        });
-                        currentLanguage = SupportedLanguages.Spanish;
-                        currentPolicies = newList;
-                        body = bodyMaker(currentPolicies);
-                      });
-                    },
-                  ),
-                  CupertinoActionSheetAction(
-                    child: Text("French"),
-                    onPressed: () async{
-                      Navigator.of(context).pop();
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(content: Text("Translating to French can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
-                      );
-                      List newList = [];
-                      for (Map policy in allPolicies) {
-                        Map newPolicy = policy;
-                        String newName = await englishToFrench.processText(policy['name']);
-                        // String newDescription = await englishToSpanish.processText(policy['name']);
-                        if(policy['inlineView']){
-                          newPolicy['type'][0] = newName;
-                          String newDescription = await englishToFrench.processText(newPolicy['type'][1]);
-                          newPolicy['type'][1] = newDescription;
-                        }
+      //                   newPolicy['name'] = newName;
+      //                   newList.add(newPolicy);
+      //                 }
+      //                 setState(() {
+      //                   setState(() {
+      //                     translateIcon = Icon(MdiIcons.translateOff);
+      //                   });
+      //                   currentLanguage = SupportedLanguages.Spanish;
+      //                   currentPolicies = newList;
+      //                   body = bodyMaker(currentPolicies);
+      //                 });
+      //               },
+      //             ),
+      //             CupertinoActionSheetAction(
+      //               child: Text("French"),
+      //               onPressed: () async{
+      //                 Navigator.of(context).pop();
+      //                 _scaffoldKey.currentState.showSnackBar(
+      //                   SnackBar(content: Text("Translating to French can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
+      //                 );
+      //                 List newList = [];
+      //                 for (Map policy in allPolicies) {
+      //                   Map newPolicy = policy;
+      //                   String newName = await englishToFrench.processText(policy['name']);
+      //                   // String newDescription = await englishToSpanish.processText(policy['name']);
+      //                   if(policy['inlineView']){
+      //                     newPolicy['type'][0] = newName;
+      //                     String newDescription = await englishToFrench.processText(newPolicy['type'][1]);
+      //                     newPolicy['type'][1] = newDescription;
+      //                   }
                         
-                        newPolicy['name'] = newName;
-                        newList.add(newPolicy);
-                      }
-                      setState(() {
-                        currentLanguage = SupportedLanguages.French;
-                        currentPolicies = newList;
-                        //body = bodyMaker(newList);
-                      });
-                    },
-                  ),
-                  CupertinoActionSheetAction(
-                    child: Text("Chinese"),
-                    onPressed: () async{
-                      Navigator.of(context).pop();
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(content: Text("Translating to Chinese can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
-                      );
-                      List newList = [];
-                      for (Map policy in allPolicies) {
-                        Map newPolicy = policy;
-                        String newName = await englishToChinese.processText(policy['name']);
-                        // String newDescription = await englishToSpanish.processText(policy['name']);
-                        if(policy['inlineView']){
-                          newPolicy['type'][0] = newName;
-                          String newDescription = await englishToChinese.processText(newPolicy['type'][1]);
-                          newPolicy['type'][1] = newDescription;
-                        }
+      //                   newPolicy['name'] = newName;
+      //                   newList.add(newPolicy);
+      //                 }
+      //                 setState(() {
+      //                   currentLanguage = SupportedLanguages.French;
+      //                   currentPolicies = newList;
+      //                   //body = bodyMaker(newList);
+      //                 });
+      //               },
+      //             ),
+      //             CupertinoActionSheetAction(
+      //               child: Text("Chinese"),
+      //               onPressed: () async{
+      //                 Navigator.of(context).pop();
+      //                 _scaffoldKey.currentState.showSnackBar(
+      //                   SnackBar(content: Text("Translating to Chinese can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
+      //                 );
+      //                 List newList = [];
+      //                 for (Map policy in allPolicies) {
+      //                   Map newPolicy = policy;
+      //                   String newName = await englishToChinese.processText(policy['name']);
+      //                   // String newDescription = await englishToSpanish.processText(policy['name']);
+      //                   if(policy['inlineView']){
+      //                     newPolicy['type'][0] = newName;
+      //                     String newDescription = await englishToChinese.processText(newPolicy['type'][1]);
+      //                     newPolicy['type'][1] = newDescription;
+      //                   }
                         
-                        newPolicy['name'] = newName;
-                        newList.add(newPolicy);
-                      }
-                      setState(() {
-                        currentLanguage = SupportedLanguages.Chinese;
-                        currentPolicies = newList;
-                        //body = bodyMaker(newList);
-                      });
-                    },
-                  ),
+      //                   newPolicy['name'] = newName;
+      //                   newList.add(newPolicy);
+      //                 }
+      //                 setState(() {
+      //                   currentLanguage = SupportedLanguages.Chinese;
+      //                   currentPolicies = newList;
+      //                   //body = bodyMaker(newList);
+      //                 });
+      //               },
+      //             ),
 
-                  CupertinoActionSheetAction(
-                    child: Text("Urdu"),
-                    onPressed: () async{
-                      Navigator.of(context).pop();
-                      _scaffoldKey.currentState.showSnackBar(
-                        SnackBar(content: Text("Translating to Urdu can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
-                      );
-                      List newList = [];
-                      for (Map policy in allPolicies) {
-                        Map newPolicy = policy;
-                        String newName = await englishToSomeRandomLanguage.processText(policy['name']);
-                        // String newDescription = await englishToSpanish.processText(policy['name']);
-                        if(policy['inlineView']){
-                          newPolicy['type'][0] = newName;
-                          String newDescription = await englishToSomeRandomLanguage.processText(newPolicy['type'][1]);
-                          newPolicy['type'][1] = newDescription;
-                        }
+      //             CupertinoActionSheetAction(
+      //               child: Text("Urdu"),
+      //               onPressed: () async{
+      //                 Navigator.of(context).pop();
+      //                 _scaffoldKey.currentState.showSnackBar(
+      //                   SnackBar(content: Text("Translating to Urdu can take up to 30 seconds depending on your device"),action: SnackBarAction(label: "Ok",textColor: Colors.white,onPressed: ()=>_scaffoldKey.currentState.hideCurrentSnackBar()),backgroundColor: Constants.baseColor,behavior: SnackBarBehavior.fixed,duration: Duration(seconds: 15),)
+      //                 );
+      //                 List newList = [];
+      //                 for (Map policy in allPolicies) {
+      //                   Map newPolicy = policy;
+      //                   String newName = await englishToSomeRandomLanguage.processText(policy['name']);
+      //                   // String newDescription = await englishToSpanish.processText(policy['name']);
+      //                   if(policy['inlineView']){
+      //                     newPolicy['type'][0] = newName;
+      //                     String newDescription = await englishToSomeRandomLanguage.processText(newPolicy['type'][1]);
+      //                     newPolicy['type'][1] = newDescription;
+      //                   }
                         
-                        newPolicy['name'] = newName;
-                        newList.add(newPolicy);
-                      }
-                      setState(() {
-                        currentLanguage = SupportedLanguages.Urdu;
-                        currentPolicies = newList;
-                        //body = bodyMaker(newList);
-                      });
-                    },
-                  ),
+      //                   newPolicy['name'] = newName;
+      //                   newList.add(newPolicy);
+      //                 }
+      //                 setState(() {
+      //                   currentLanguage = SupportedLanguages.Urdu;
+      //                   currentPolicies = newList;
+      //                   //body = bodyMaker(newList);
+      //                 });
+      //               },
+      //             ),
 
-                ],
-              )
-            );
-          },
-        ),
-      ),
+      //           ],
+      //         )
+      //       );
+      //     },
+      //   ),
+      // ),
       IconButton(
         splashColor: Colors.yellow,
         color: Colors.white,
