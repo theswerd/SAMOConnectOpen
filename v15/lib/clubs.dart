@@ -78,7 +78,7 @@ class _ClubsState extends State<Clubs> {
               CupertinoActionSheetAction(
                 child: Text("Club Charter"),
                 onPressed: (){
-                  launch("http://www.samohi.smmusd.org/Students/clubs/ClubCharterFall1819.pdf");
+                  launch("http://www.samohi.smmusd.org/Students/clubs/ClubCharterFall19-20.pdf");
                 },
               ),
               Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Students/clubs/index.html"),
@@ -86,9 +86,13 @@ class _ClubsState extends State<Clubs> {
               Constants.ratingAction(context),
               CupertinoActionSheetAction(
                 child: Text("Extra Info"),
-                onPressed: (){
-                  
-                },
+                onPressed: ()=>showCupertinoModalPopup(
+                  context: context,
+                  builder: (c)=>CupertinoAlertDialog(
+                    title: Text("Extra Info"),
+                    content: Text("This is a list of all the clubs at SAMOHI, pulled live from the SAMOHI Website"),
+                  )
+                )
               )
               
             ],
