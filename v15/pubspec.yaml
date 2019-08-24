@@ -40,11 +40,13 @@ dependencies:
   requests: ^2.0.1
   #flutter_html_view: 
   flutter_html:
-  webview_flutter:
   launch_review: ^2.0.0
   google_maps_flutter: ^0.5.17
   unicorndial: ^1.1.5
   
+
+  webview_flutter: ^0.3.13
+
   firebase_messaging: ^5.0.4
   flutter_local_notifications: ^0.8.0
 

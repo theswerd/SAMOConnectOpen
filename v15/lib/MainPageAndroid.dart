@@ -604,7 +604,13 @@ IconButton infoButton() {
                            subtitle: Text("SAMOHI Policies"),
                            trailing: Icon(MdiIcons.ruler,color: Colors.black,),
                            onTap: (){
-                             Navigator.of(context).pushNamed(PolicyPage.tag);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>PolicyPage(),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                          ),
                           ListTile(
