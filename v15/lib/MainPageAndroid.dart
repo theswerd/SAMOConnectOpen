@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'constants.dart';
 import 'color_loader_3.dart';
 import 'color_loader_4.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 //import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:html/parser.dart' show parse;
@@ -94,7 +95,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
    TabController eventstabController;
   Widget titleWidget = Text("ASB Event Feed");
   var calenderUrl = "https://calendar.google.com/calendar/embed?title=Santa%20Monica%20High%20School%20Calendar&mode=AGENDA&height=600&wkst=1&bgcolor=%23ffffff&src=smmk12.org_21bhbi3q00vuvdf2rak3rrrll8%40group.calendar.google.com&color=%23875509&src=8tn1onqvkup6g281q19s6oon3s%40group.calendar.google.com&color=%230F4B38&src=smmk12.org_tfdd6j1jr5hatfbcj87rro5k9c%40group.calendar.google.com&color=%23125A12&src=smmk12.org_7qnt6q53j7934lvcl0t754of9c%40group.calendar.google.com&color=%23711616&src=smmk12.org_4h8qa262239su4p66islu1e5vg%40group.calendar.google.com&color=%2323164E&src=smmk12.org_t60qs7u1uktrievfsk7gq5c73s%40group.calendar.google.com&color=%23182C57&src=smmk12.org_8umjrnuec40aa66o36lhd1huh8%40group.calendar.google.com&color=%23333333&src=smmk12.org_u8qc6umps8tqttms2sg3456jg8%40group.calendar.google.com&color=%236B3304&ctz=America%2FLos_Angeles";
-  dynamic physics = ScrollPhysics();
+  dynamic physics = NeverScrollableScrollPhysics();
   @override
   void initState() {
     checkUpToDate();
@@ -129,21 +130,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
     
     
      
-   if(!tabController.hasListeners){
-     tabController.addListener((){
-        if(tabController.index==0){
-          setTabScroll(true);
-        }else if(tabController.index==1){
-          setTabScroll(false);
-        }else if(tabController.index==2){
-          setTabScroll(false);
-        }else if(tabController.index==3){
-          setTabScroll(true);
-        }else if(tabController.index==4){
-          setTabScroll(true);
-        }
-      });
-    }
+  
                            
                  
 }
@@ -532,7 +519,20 @@ IconButton infoButton() {
                            trailing: Icon(CupertinoIcons.book,color: Colors.black,),
                            onTap: (){
                              //Navigator.of(context).pushNamed(Illuminate.tag);
-                             launch("https://smmusd.illuminatehc.com/login",enableJavaScript: true);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>new WebviewScaffold(
+                                  url: "https://smmusd.illuminatehc.com/",
+                                  appBar: new AppBar(
+                                    
+                                    backgroundColor: Constants.baseColor,
+                                    title: new Text("Illuminate"),
+                                  ),
+                                ),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                          ),
                          ListTile(
@@ -540,7 +540,22 @@ IconButton infoButton() {
                            subtitle: Text("For College"),
                            trailing: Icon(MdiIcons.brain,color: Colors.black,),
                            onTap: (){
-                             launch("https://clever.com/oauth/authorize?response_type=code&state=7e61a70abe76142b7e225f5bf580dfe6675ccf7bbff8edc379aeea2b34c217b3&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&client_id=4c63c1cf623dce82caac&confirmed=true&channel=clever&district_id=52e02e628b625cb10d006ce5",enableJavaScript: true);
+                              Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 
+                                 builder: (c)=>new WebviewScaffold(
+                                   userAgent: "A person",
+                                  url: "https://clever.com/oauth/authorize?response_type=code&state=7e61a70abe76142b7e225f5bf580dfe6675ccf7bbff8edc379aeea2b34c217b3&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&client_id=4c63c1cf623dce82caac&confirmed=true&channel=clever&district_id=52e02e628b625cb10d006ce5",
+                                  appBar: new AppBar(
+                                    
+                                    backgroundColor: Constants.baseColor,
+                                    title: new Text("Clever"),
+                                  ),
+                                ),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                  
                            },
                          ),
@@ -549,7 +564,22 @@ IconButton infoButton() {
                            subtitle: Text("New Schedule"),
                            trailing: Icon(MdiIcons.timelapse,color: Colors.black,),
                            onTap: (){
-                             launch("http://www.samohi.smmusd.org/flextime-pilot.html",enableJavaScript: true);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 
+                                 builder: (c)=>new WebviewScaffold(
+                                   userAgent: "A person",
+                                  url: "http://www.samohi.smmusd.org/flextime-pilot.html",
+                                  appBar: new AppBar(
+                                    
+                                    backgroundColor: Constants.baseColor,
+                                    title: new Text("Flex Time"),
+                                  ),
+                                ),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                          ),
                          Container(height: 50,color: Colors.grey[200],child: Text("Info Links:"),alignment: Alignment.bottomLeft,padding: EdgeInsets.all(5),),
@@ -629,7 +659,20 @@ IconButton infoButton() {
                            trailing: Icon(MdiIcons.bulletinBoard,color: Colors.black,),
                            onTap: (){
                              //launch("http://www.samohi.smmusd.org/BB.pdf",enableJavaScript: true);
-                             Navigator.of(context).pushNamed(BulletinPage.tag);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>new WebviewScaffold(
+                                  url: "http://www.samohi.smmusd.org/BB.pdf",
+                                  appBar: new AppBar(
+                                    
+                                    backgroundColor: Constants.baseColor,
+                                    title: new Text("Daily Bulletin"),
+                                  ),
+                                ),
+                                 maintainState: true,
+                                 fullscreenDialog: true
+                               )
+                             );
                            },
                          ),
                           ListTile(

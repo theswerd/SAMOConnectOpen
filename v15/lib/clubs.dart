@@ -200,6 +200,7 @@ class _ClubsState extends State<Clubs> {
                    //height: 300,
                    padding: EdgeInsets.symmetric(horizontal:20),
                    child: RaisedButton(
+                     splashColor: Colors.redAccent[400],
                      color: Colors.white,
                      elevation: 10,
                      padding: EdgeInsets.all(15),
