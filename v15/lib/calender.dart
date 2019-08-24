@@ -3,23 +3,23 @@ import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart'as dom;
-class Calender extends StatefulWidget {
+class Calendar extends StatefulWidget {
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
  static String tag = "CalenderView";
-  Calender();
+  Calendar();
 
   // This class is the configuration for the state. It holds the values (in this
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
   @override
-  _CalenderState createState() => new _CalenderState();
+  _CalendarState createState() => new _CalendarState();
 }
 
-class _CalenderState extends State<Calender> with TickerProviderStateMixin {
+class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
    return Scaffold(

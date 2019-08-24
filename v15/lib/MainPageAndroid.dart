@@ -826,7 +826,7 @@ IconButton infoButton() {
                        //physics: ScrollPhysics(parent: ScrollPhysics().cr()),
                        controller: tabController,
                        children: <Widget>[
-                         Calender(),
+                         Calendar(),
                          map(),
                          eventView(),
                          news(),
