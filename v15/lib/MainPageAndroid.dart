@@ -794,7 +794,7 @@ IconButton infoButton() {
                             subtitle: Text("Your feedback helps us make the app better"),
                             trailing: Icon(MdiIcons.phoneInTalk,color: Colors.black,),
                             onTap: (){
-                              launch("https://forms.gle/vyJF2XWDgycXifQg7");
+                              launch("https://forms.gle/yatqmYVVSnxk57uR6");
                             },
                           ),
                             //https://forms.gle/xcn1KVUndTVry3X36
