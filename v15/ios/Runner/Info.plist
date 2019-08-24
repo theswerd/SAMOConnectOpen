@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>SAMO Connect</string>
+	<string>SAMOHI Connect</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>FacebookAppID</key>
 	<string>445797636248140</string>
 	<key>FacebookDisplayName</key>
@@ -44,6 +44,13 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+	</dict>
 	<key>NSLocationAlwaysUsageDescription </key>
 	<string>So you can see youself on the map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -74,12 +81,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-    	<key>NSAllowsArbitraryLoads</key>
-    	<true/>
-    	<key>NSAllowsArbitraryLoadsInWebContent</key>
-    	<true/>
-	</dict>
 </dict>
 </plist>

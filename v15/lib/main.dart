@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FirebaseInAppMessaging.instance.setAutomaticDataCollectionEnabled(true);
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       routes: {
         BellSchedule.tag: (context)=> BellSchedule(),
