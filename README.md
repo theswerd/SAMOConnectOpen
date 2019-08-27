@@ -12,7 +12,9 @@ To run:
   - Flutter installed
  
 in the v15 directory:
+  
   flutter clean
+  
   flutter run
   
   
