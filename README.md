@@ -9,10 +9,9 @@ With assistantance from Lucas Soeth
 
 
 To run:
-  - Apple Computer
   - Flutter installed
  
-in the v14 directory:
+in the v15 directory:
   flutter clean
   flutter run
   
