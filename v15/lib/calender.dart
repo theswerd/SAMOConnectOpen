@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart'as dom;
+
+import 'package:localstorage/localstorage.dart';
+
 class Calendar extends StatefulWidget {
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -20,10 +24,11 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
+  Widget calendarBody;
+  String currentDay = DateTime.now().year.toString()+"-"+DateTime.now().month.toString()+"-"+DateTime.now().day.toString();
   @override
-  Widget build(BuildContext context) {
-   return Scaffold(
-     body: StreamBuilder(
+  void initState() {
+    Widget networkCalendar =  StreamBuilder(
        //stream:http.get("https://calendar.google.com/calendar/htmlembed?mode=AGENDA&src=smmk12.org_21bhbi3q00vuvdf2rak3rrrll8%40group.calendar.google.com").asStream(),
        stream:http.get("https://calendar.google.com/calendar/htmlembed?mode=AGENDA&src=smmk12.org_21bhbi3q00vuvdf2rak3rrrll8%40group.calendar.google.com&src=8tn1onqvkup6g281q19s6oon3s%40group.calendar.google.com&src=smmk12.org_tfdd6j1jr5hatfbcj87rro5k9c%40group.calendar.google.com&src=smmk12.org_7qnt6q53j7934lvcl0t754of9c%40group.calendar.google.com&src=smmk12.org_4h8qa262239su4p66islu1e5vg%40group.calendar.google.com&src=smmk12.org_t60qs7u1uktrievfsk7gq5c73s%40group.calendar.google.com&src=smmk12.org_8umjrnuec40aa66o36lhd1huh8%40group.calendar.google.com&src=smmk12.org_u8qc6umps8tqttms2sg3456jg8%40group.calendar.google.com").asStream(),
        builder: (c,s){
@@ -77,69 +82,144 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
              todaysMap["day"]=day;
              todaysMap["events"]=events;
              days.add(todaysMap);
+
            }
+
            print(days);
-           return ListView.builder(
-             itemCount: days.length,
-             itemBuilder: (c,i){
-               Map today = days[i];
-               return Container(
-                 padding: EdgeInsets.symmetric(horizontal:30,vertical: 20),
-                 child:Card(
-                   color: Colors.white,
-                   
-                 elevation: 10,
-                 child: Column(
-                   
-                   children: <Widget>[
-                     Row(children: <Widget>[
-                       Container(
-                         padding: EdgeInsets.only(left:20,top: 20),
-                         child: 
-                       Text(today["day"],style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),)
-                       )
-                     ],),
-                    // Text(today["events"].length.toString()),
-                     Container(
-                       height: (today["events"].length*125).toDouble(),
-                       child: ListView.builder(
-                         itemCount: today["events"].length,
-                         itemBuilder: (c,i){
-                           String time =  today["events"][i][0];
-                           if(time ==""){
-                             time = "All Day";
-                           }
-                           String event = today["events"][i][1];
-                           return Container(
-                             padding: EdgeInsets.all(20),
-                             child: RaisedButton(
-                               onPressed: (){},
-                               padding: EdgeInsets.all(15),
-                               color: Colors.white,
-                               elevation: 10,
-                               child: Column(  
-                                 children: <Widget>[
-                                  Text(time, style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
-                                  Container(height: 5,),
-                                  Text(event,style: TextStyle(color: Colors.grey[700],fontSize: 18),textAlign: TextAlign.center,)
-                                 ],),
-                             ),
-                           );
-                         },
-                       ),
-                       )
-                 
-                 ],
-                 ),
-                 //child: Text(today.toString()),
-               ),
-               
-               );
-             },
-           );
+           return calendarViewMaker(days);
          }
        },
-     ),
-   );
-  }
-}
+     );
+    super.initState();
+    calendarBody = networkCalendar;
+    setCalendarType();
+    setCalendarTest();
+        }
+    
+      @override
+      Widget build(BuildContext context) {
+      
+       return Scaffold(
+         body: calendarBody
+         
+         );
+      }
+    
+       ListView calendarViewMaker(List days) {
+        storeTodaysCalendar(days);
+            return ListView.builder(
+                   itemCount: days.length,
+                   itemBuilder: (c,i){
+                     Map today = days[i];
+                     return Container(
+                       padding: EdgeInsets.symmetric(horizontal:30,vertical: 20),
+                       child:Card(
+                         color: Colors.white,
+                         
+                       elevation: 10,
+                       child: Column(
+                         
+                         children: <Widget>[
+                           Row(children: <Widget>[
+                             Container(
+                               padding: EdgeInsets.only(left:20,top: 20),
+                               child: 
+                             Text(today["day"],style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),)
+                             )
+                           ],),
+                          // Text(today["events"].length.toString()),
+                           Container(
+                             height: (today["events"].length*125).toDouble(),
+                             child: ListView.builder(
+                               itemCount: today["events"].length,
+                               itemBuilder: (c,i){
+                                 String time =  today["events"][i][0];
+                                 if(time ==""){
+                                   time = "All Day";
+                                 }
+                                 String event = today["events"][i][1];
+                                 return Container(
+                                   padding: EdgeInsets.all(20),
+                                   child: RaisedButton(
+                                     onPressed: (){},
+                                     padding: EdgeInsets.all(15),
+                                     color: Colors.white,
+                                     elevation: 10,
+                                     child: Column(  
+                                       children: <Widget>[
+                                        Text(time, style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+                                        Container(height: 5,),
+                                        Text(event,style: TextStyle(color: Colors.grey[700],fontSize: 18),textAlign: TextAlign.center,)
+                                       ],),
+                                   ),
+                                 );
+                               },
+                             ),
+                             )
+                       
+                       ],
+                       ),
+                       //child: Text(today.toString()),
+                     ),
+                     
+                     );
+                   },
+                 );
+           }
+           void setCalendarType() async{
+             LocalStorage theStorage =  LocalStorage("calendar");
+             Future<bool> ready = theStorage.ready;
+            if(await ready){
+              
+            
+              print("READDYY:");
+              print(await ready);
+            List allStorage;
+            try {
+              allStorage = theStorage.getItem(currentDay);
+            } catch (e) {
+            }
+            allStorage = theStorage.getItem(currentDay);
+            if(allStorage==null){
+              //Sometimes it won't work till data is inputted
+              theStorage.setItem("tryWork", ['1','2','3']);
+              theStorage.clear();
+              
+            }else{
+              setState(() {
+                calendarBody = calendarViewMaker(allStorage);
+
+              });
+            }
+            }else{
+              setState(() {
+                calendarBody = Container(color: Colors.orange,);
+              });
+              return;
+            }
+        
+          }
+        
+          void storeTodaysCalendar(List days) async{
+            LocalStorage theStorage =  LocalStorage("calendar");
+             Future<bool> ready = theStorage.ready;
+            if(await ready){
+              theStorage.setItem(currentDay, days);
+            }else{
+              return;
+            }
+            
+        
+          }
+        
+          void setCalendarTest() {
+            setState(() {
+             // calendarBody = Container(color:Constants.baseColor,);
+            });
+          }
+      
+    }
+
+  
+
+  

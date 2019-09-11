@@ -569,7 +569,7 @@ IconButton infoButton() {
                                  
                                  builder: (c)=>new WebviewScaffold(
                                    userAgent: "A person",
-                                  url: "http://www.samohi.smmusd.org/flextime-pilot.html",
+                                  url: "https://app.enrichingstudents.com/",
                                   appBar: new AppBar(
                                     
                                     backgroundColor: Constants.baseColor,
