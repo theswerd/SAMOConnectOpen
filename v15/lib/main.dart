@@ -1,4 +1,6 @@
 //import 'MainPage.dart';
+import 'package:samohiConnect/constants.dart';
+
 import 'MainPageAndroid.dart';
 
 import 'package:flutter/material.dart';
@@ -46,6 +48,9 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       theme: ThemeData(
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Constants.baseColor
+        ),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the

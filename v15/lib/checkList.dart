@@ -119,7 +119,7 @@ class _ChecklistState extends State<Checklist> {
                 text: ". Press the "
               ),
               TextSpan(
-                text: "purple button",
+                text: "blue button",
                 style: TextStyle(color: Constants.baseColor, fontWeight: FontWeight.bold),
               ),
               TextSpan(
@@ -169,7 +169,7 @@ class _ChecklistState extends State<Checklist> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                  Text(currentMap['title'], style: TextStyle(fontSize: 20, color: Color(currentMap['color'])),),
+                  SelectableText(currentMap['title'], style: TextStyle(fontSize: 20, color: Color(currentMap['color'])),),
                   currentMap['hasEmoji']==true?Text(currentMap['emoji'],style: TextStyle(fontSize: 28),):Container(height: 0),
 
                 ],),
@@ -177,7 +177,7 @@ class _ChecklistState extends State<Checklist> {
                  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                  Text(currentMap['subtitle'], style: TextStyle(fontSize: 18, color: Colors.grey[700]),),
+                  SelectableText(currentMap['subtitle'], style: TextStyle(fontSize: 18, color: Colors.grey[700]),),
                 ],
                 ),
                 

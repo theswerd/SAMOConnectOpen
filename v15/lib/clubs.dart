@@ -18,8 +18,7 @@ class Clubs extends StatefulWidget {
   _ClubsState createState() => new _ClubsState();
 }
 
-class _ClubsState extends State<Clubs> {
-  String _platformVersion = 'Unknown';
+class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
   Widget titleText =Text("Clubs");
   bool isSearching = false;
   Widget title =Text("Clubs");
@@ -31,18 +30,19 @@ class _ClubsState extends State<Clubs> {
       Share.share("Not sure which clubs you want to join? Check them out on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
     },
   );
-  Widget searchButton = IconButton(
-    icon: Icon(Icons.search),
-    color: Colors.red,
+  Widget searchButton = FloatingActionButton(
+    child: Icon(Icons.search),
     onPressed: (){
 
     },
   );
   Widget body = Container(color: Colors.white,);
-
+  AnimationController searchAnimationController;
   @override
   initState() {
+
     super.initState();
+    searchAnimationController = new AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     setState(() {
       body = FutureBuilder(
            future:http.get("http://www.samohi.smmusd.org/Students/clubs/index.html"),
@@ -101,15 +101,15 @@ class _ClubsState extends State<Clubs> {
     }
 
   );
-    searchButton = IconButton(
-    icon: Icon(Icons.search),
+    searchButton = FloatingActionButton(
+    child: AnimatedIcon(icon: AnimatedIcons.search_ellipsis, progress: searchAnimationController),
     splashColor: Colors.yellow,
 
-    color: Colors.white,
+    foregroundColor: Colors.white,
     onPressed: (){
       if(clubs.isNotEmpty){
         if(!isSearching){
-          
+          searchAnimationController.forward();
           isSearching = true;
            setState(() {
           title =Container(
@@ -139,6 +139,7 @@ class _ClubsState extends State<Clubs> {
           );
         });
         }else{
+          searchAnimationController.reverse();
           isSearching = false;
           setState(() {
             title = titleText;
@@ -154,9 +155,10 @@ class _ClubsState extends State<Clubs> {
           backgroundColor:  Colors.indigoAccent[700],
           centerTitle: false,
           title: title,
-          actions: <Widget>[shareButton,infoButton,searchButton],
+          actions: <Widget>[shareButton,infoButton],
           
           ),
+          floatingActionButton: searchButton,
          body: body 
         );
         }

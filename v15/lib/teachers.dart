@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:vibrate/vibrate.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
@@ -20,12 +21,12 @@ class Teachers extends StatefulWidget {
   _TeachersState createState() => new _TeachersState();
 }
 
-class _TeachersState extends State<Teachers> {
-  String _platformVersion = 'Unknown';
+class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
   Widget titleText =Text("Teachers");
   bool isSearching = false;
   Widget title =Text("Teachers");
   List<dom.Element> teachers = [];
+  AnimationController searchAnimationController;
   IconButton shareButton = IconButton(
     icon: Icon(Icons.share),
     splashColor: Colors.yellowAccent,
@@ -33,9 +34,8 @@ class _TeachersState extends State<Teachers> {
       Share.share("Don't know your teachers email? You can find it on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
     },
   );
-  Widget searchButton = IconButton(
-    icon: Icon(Icons.search),
-    color: Colors.red,
+  Widget searchButton = FloatingActionButton(
+    child: Icon(Icons.search),
     onPressed: (){
 
     },
@@ -45,6 +45,7 @@ class _TeachersState extends State<Teachers> {
   @override
   initState() {
     super.initState();
+    searchAnimationController = new AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     setState(() {
        body = FutureBuilder(
            future:http.get("http://www.samohi.smmusd.org/Admin/staff.html"),
@@ -132,16 +133,15 @@ class _TeachersState extends State<Teachers> {
 
           },
   );
-    searchButton = IconButton(
-    icon: Icon(Icons.search),
+    searchButton = FloatingActionButton(
+    child: AnimatedIcon(icon: AnimatedIcons.search_ellipsis,progress: searchAnimationController,),
     splashColor: Colors.yellow,
 
-    color: Colors.white,
     onPressed: (){
       if(teachers.isNotEmpty){
         print("TEACHERS ISNT EMPTY");
         if(!isSearching){
-          
+          searchAnimationController.forward();
           isSearching = true;
            setState(() {
           title =Container(
@@ -173,6 +173,8 @@ class _TeachersState extends State<Teachers> {
         });
         }else{
           isSearching = false;
+          searchAnimationController.reverse();
+
           setState(() {
             title = titleText;
 
@@ -187,10 +189,11 @@ class _TeachersState extends State<Teachers> {
           backgroundColor:  Colors.indigoAccent[700],
           centerTitle: false,
           title: title,
-          actions: <Widget>[shareButton,infoButton,searchButton],
+          actions: <Widget>[shareButton,infoButton],
           
           ),
-         body: body 
+          floatingActionButton: searchButton,
+          body: body 
         );
         }
 
@@ -359,6 +362,7 @@ class _TeachersState extends State<Teachers> {
                                       child: Text("Copy"),
                                       onPressed: (){
                                         s.Clipboard.setData(s.ClipboardData(text: email));
+                                        Vibrate.feedback(FeedbackType.success);
                                         Navigator.of(context).pop();
                                       },
                                     )

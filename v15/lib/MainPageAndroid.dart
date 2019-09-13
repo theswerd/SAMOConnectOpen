@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart' as mIcons;
 import 'package:http/http.dart' as http;
+import 'package:samohiConnect/checklist.dart';
+import 'package:samohiConnect/checklist.dart' as prefix0;
 import 'constants.dart';
 import 'color_loader_3.dart';
 import 'color_loader_4.dart';
@@ -53,6 +55,7 @@ import 'map.dart';
 import 'library.dart';
 import 'bulletin.dart';
 import 'developerPage.dart';
+import 'checklist.dart';
 //AIzaSyDv1ZVTEAzB00t0LAMHqmyWr-Zr2-CV3no
 
 class MainWindowAndroid extends StatefulWidget {
@@ -323,24 +326,7 @@ IconButton infoButton() {
                       );
                     },
                   ),
-                  CupertinoActionSheetAction(
-                    child: Text("Clear"),
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                      try {
-                        setState(() {
-                          titleWidget = Text("Loading");
-                        });
-                        SharedPreferences.getInstance().then((prefs){
-                          prefs.setStringList(ChecklistPageState.listKey, []);
-                          setState(() {
-                            titleWidget = Text("Checklist");
-                          });
-                        });
-                      } catch (e) {
-                      }
-                    },
-                  ),
+                  
                   MainWindowAndroid.reportABug
                 ],
               context
@@ -495,17 +481,7 @@ IconButton infoButton() {
                                              //Navigator.of(context).pushNamed(LoginScreen3.tag);
                                            },
                                          );
-                                         print("Display name:::");
-                                         FirebaseUserMetadata m = theUser.metadata;
-                                         return RaisedButton(
-                                           child: Text("Sign Out",style: TextStyle(color: Colors.white),),
-                                           color: Colors.indigoAccent[700],
-                                           onPressed: (){
-                                             print("Sign OOOt");
-                                             FirebaseAuth.instance.signOut();
-                                             Navigator.of(context).popAndPushNamed(MainWindowAndroid.tag);
-                                           },
-                                         );
+                                         
                                        }
                                    }
                                  },
@@ -649,7 +625,13 @@ IconButton infoButton() {
                            trailing: Icon(MdiIcons.cardsClub,color: Colors.black,),
                            onTap: (){
                              //launch("http://www.samohi.smmusd.org/Students/clubs/index.html",enableJavaScript: true);
-                             Navigator.of(context).popAndPushNamed(Clubs.tag);
+                             Navigator.of(context).push(
+                               MaterialPageRoute(
+                                 builder: (c)=>Clubs(),
+                                 fullscreenDialog: true,
+                                 maintainState: true
+                               )
+                             );
                            },
                           ),
                           
@@ -879,7 +861,7 @@ IconButton infoButton() {
                          map(),
                          eventView(),
                          news(),
-                         ChecklistPage()
+                         prefix0.Checklist()
                        ],
                      ),
                      // floatingActionButton: FloatingActionButton(
@@ -932,6 +914,8 @@ IconButton infoButton() {
                    void houseRoute(BuildContext context, String house) {
                      Navigator.of(context).push(
                        MaterialPageRoute(
+                         fullscreenDialog: true,
+                         maintainState: true,
                          builder: (c){
                            return HouseViewV2(House:house);
                          }
