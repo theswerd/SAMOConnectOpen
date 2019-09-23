@@ -103,7 +103,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
   void initState() {
     checkUpToDate();
     checkSignIn();
-
+    checkUnofficial(); 
     // TODO: implement initState
     super.initState();
 
@@ -350,6 +350,23 @@ IconButton infoButton() {
           }
         );
       }
+      Future<dynamic> checkUnofficial(){
+        return SharedPreferences.getInstance().then(( SharedPreferences onValue){
+        if(!onValue.containsKey("unnoficial")){
+          showCupertinoDialog(
+            context: context,
+            builder: (c)=>CupertinoAlertDialog(
+              content: Text("SAMOHI Connect is completely student lead.\nSAMOHI Connect is not affiliated with SMMUSD in any way, and not recognized as official by them."),
+              actions: <Widget>[CupertinoDialogAction(child: Text("Ok"),onPressed: (){
+                Constants.pop(context);
+                onValue.setBool("unnoficial", true);
+                },)],
+            )
+          );
+        }
+        });
+          
+      }
                  
       Future<dynamic> checkUpToDate() {
         return Firestore.instance.collection("update").document("update").get().then(
@@ -383,7 +400,7 @@ IconButton infoButton() {
           );
         }
                  
-        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>4.04;
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>5.0;
                  
         Future getTheNewUpdateDialog() {
           return showCupertinoModalPopup(
@@ -412,17 +429,8 @@ IconButton infoButton() {
                      child: ListView.custom(
                        padding: EdgeInsets.zero,
                        childrenDelegate: SliverChildListDelegate([
-                         DrawerHeader(
-                           margin: EdgeInsets.zero,
-                           
-                           decoration: BoxDecoration(
-                             color: Colors.blueAccent[700]
-                           ),
-                           
-                           child: Image.asset("assets/logo.png",fit: BoxFit.contain),
-                           padding: EdgeInsets.all(5),
-                         ),
-                                       FutureBuilder(
+                         
+                      FutureBuilder(
                                  future:FirebaseAuth.instance.currentUser(),
                                  builder: (c,s){
                                    if(s.hasError){
@@ -494,21 +502,21 @@ IconButton infoButton() {
                            subtitle: Text("Gradebook"),
                            trailing: Icon(CupertinoIcons.book,color: Colors.black,),
                            onTap: (){
-                             //Navigator.of(context).pushNamed(Illuminate.tag);
-                             Navigator.of(context).push(
-                               MaterialPageRoute(
-                                 builder: (c)=>new WebviewScaffold(
-                                  url: "https://smmusd.illuminatehc.com/",
-                                  appBar: new AppBar(
+                             Navigator.of(context).pushNamed(Illuminate.tag);
+                            //  Navigator.of(context).push(
+                            //    MaterialPageRoute(
+                            //      builder: (c)=>new WebviewScaffold(
+                            //       url: "https://smmusd.illuminatehc.com/",
+                            //       appBar: new AppBar(
                                     
-                                    backgroundColor: Constants.baseColor,
-                                    title: new Text("Illuminate"),
-                                  ),
-                                ),
-                                 maintainState: true,
-                                 fullscreenDialog: true
-                               )
-                             );
+                            //         backgroundColor: Constants.baseColor,
+                            //         title: new Text("Illuminate"),
+                            //       ),
+                            //     ),
+                            //      maintainState: true,
+                            //      fullscreenDialog: true
+                            //    )
+                            //  );
                            },
                          ),
                          ListTile(

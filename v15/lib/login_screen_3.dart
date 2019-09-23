@@ -123,7 +123,7 @@ class _LoginScreen3State extends State<LoginScreen3>
               context: context,
               applicationName: "SAMO Connect",
               applicationVersion: "3.13",
-              applicationIcon: Image.asset("assets/logo.png",height: 50,),
+              applicationIcon: Image.asset("assets/university.png",height: 50,),
               applicationLegalese: "In accordance with federal FERPA laws, SAMO Connect does not collect any student information, including student ID's or illuminate logins. "
             );
           },
@@ -189,7 +189,7 @@ class _LoginScreen3State extends State<LoginScreen3>
               Container(
                 padding: EdgeInsets.only(top: 50.0),
                 child: Center(
-                  child: Image.asset("assets/logo.png",height: 150,)
+                  child: Image.asset("assets/university.png",height: 150,)
                 ),
               ),
               Container(
