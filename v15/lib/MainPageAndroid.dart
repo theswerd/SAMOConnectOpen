@@ -400,7 +400,7 @@ IconButton infoButton() {
           );
         }
                  
-        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>5.0;
+        checkUpdate(DocumentSnapshot currentUpdate) => currentUpdate.data["iOSupdate"]>5.01;
                  
         Future getTheNewUpdateDialog() {
           return showCupertinoModalPopup(

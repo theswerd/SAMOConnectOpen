@@ -262,8 +262,20 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                             for (dom.Element grade in unformattedGrades) {
                               Map classMap = new Map();
                               classMap['grade'] = grade.children.first.innerHtml.split(" ").first;
-                              classMap['gradeColor'] = grade.attributes['style'].split("#").last.toString().toLowerCase();
-                              classMap['gradePercent'] = double.tryParse(grade.children.first.innerHtml.split(" ").last.split('%').first.toString());
+                              Color color = Colors.black;
+                              try {
+                                color = Color(int.parse("0xff"+grade.attributes['style'].split("#").last.toString().toLowerCase()));
+                              } catch (e) {
+                                color = Colors.black;
+                              }
+                              classMap['gradeColor'] = color;
+                              double gradePercent = 100;
+                              try {
+                                gradePercent = double.parse(grade.children.first.innerHtml.split(" ").last.split('%').first.toString());
+                              } catch (e) {
+                                gradePercent = 100;
+                              }
+                              classMap['gradePercent'] = gradePercent;
                               classMap['class'] = grade.children[1].innerHtml;
                               classMap['teacher'] = grade.children[3].innerHtml;
                               classMap['lastUpdated'] = grade.children[4].innerHtml;
@@ -288,7 +300,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(formattedGrades[i]['class'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                                        Text(formattedGrades[i]['grade'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(int.parse("0xff"+formattedGrades[i]['gradeColor']))))
+                                        Text(formattedGrades[i]['grade'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
                                       ],
                                     ),
                                     Row(

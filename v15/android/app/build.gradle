@@ -84,11 +84,11 @@ flutter {
 
 dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-auth:18.1.0'
-    implementation 'com.google.firebase:firebase-firestore:20.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-firestore:21.1.1'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
-    implementation 'com.google.firebase:firebase-storage:18.1.0'
-    implementation 'com.google.firebase:firebase-analytics:17.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.0.1'
+    implementation 'com.google.firebase:firebase-analytics:17.1.0'//com.google.firebase:firebase-analytics:17.2.0
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-inappmessaging:19.0.0'
     implementation 'com.google.firebase:firebase-inappmessaging-display:19.0.0'
