@@ -53,7 +53,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
       future:http.get("https://smmusd.illuminatehc.com/login"),
       builder: (c,s){
         if(s.hasError){
-          return Center(child: Text("Network Handshake Error, Check your connection"),);
+          return Center(child: Text("Network Handshake Error; Check your connection"),);
         }
         if(s.connectionState!=ConnectionState.done){
           return Column(
@@ -601,6 +601,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
 
                 format.add(newMap);
               }
+               
             } catch (e) {
               return Center(child: Text("Sorry, we couldn't proccess your attendance records"));
             }
