@@ -593,15 +593,89 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
               dom.Element totals = recordsUnF.removeLast();
               for (dom.Element recordsUnF in recordsUnF) {
                 Map newMap = new Map();
-                newMap['category'] = recordsUnF.children.first.text.trim();
-                newMap['totalAD'] = recordsUnF.children[1].text.trim();
-                newMap['percentAD'] = recordsUnF.children[2].text.trim();
-                newMap['totalC'] = recordsUnF.children[3].text.trim();
-                newMap['percentC'] = recordsUnF.children[4].text.trim();
+                try {
+                  newMap['category'] = recordsUnF.children.first.text.trim();
+                  Color categoryColor = Colors.grey;
+                  switch (newMap['category']) {
+                    case "On Time":
+                      print("On Time");
+                      categoryColor = Color(0xff64D195);
+                      break;
+                    case "Tardy":
+                      categoryColor = Color(0xffFF8349);
+                      print("Tardy");
+                      break;
+                    //FFD76B
+                    case "Excused":
+                      categoryColor = Color(0xffFFD76B);
+                      print("Excused");
 
-                format.add(newMap);
+                      break;
+                    case "Unexcused":
+                      categoryColor = Color(0xffFF5959);
+                      print("Unexcused");
+                      break;
+                    default:
+                  }
+                  newMap['color'] = categoryColor;
+                  newMap['totalAD'] = double.parse(recordsUnF.children[1].text.trim());
+                  newMap['percentAD'] = recordsUnF.children[2].text.trim();
+                  newMap['totalC'] = double.parse(recordsUnF.children[3].text.trim());
+                  newMap['percentC'] = recordsUnF.children[4].text.trim();
+                  if(newMap['category']=="On Time"||newMap['category']=="Tardy"||newMap['category']=="Excused"||newMap['category']=="Unexcused"){
+                    format.add(newMap);
+                  }
+                } catch (e) {
+                }
               }
-               
+              List<CircularSegmentEntry> segmentsAllDay = [];
+              List<CircularSegmentEntry> segmentsClasses = [];
+
+              for (Map item in format) {
+                segmentsAllDay.add(CircularSegmentEntry(item['totalAD'], item['color']));
+                segmentsClasses.add(CircularSegmentEntry(item['totalC'], item['color']));
+
+              }
+              
+               return ListView(
+                 padding: EdgeInsets.all(25),
+                 children: <Widget>[
+                   RaisedButton(
+                     color: Colors.white,
+                     onPressed: (){},
+                     elevation: 15,
+                     padding: EdgeInsets.all(10),
+                     child: Column(
+                       
+                       children: <Widget>[
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           
+                           children: <Widget>[
+                             Text("Attendance Chart:", style: TextStyle(fontSize: 22)),
+                             IconButton(icon: Icon(MdiIcons.informationOutline),onPressed: (){},)
+                           ],
+                         ),
+                         AnimatedCircularChart(
+                           edgeStyle: SegmentEdgeStyle.round,
+                           size: Size(MediaQuery.of(context).size.width-70,MediaQuery.of(context).size.width-70),
+                           holeLabel: format[0]['percentC'].toString().trim().split("%").first.replaceAll("\n", "")+"% On Time",
+                           labelStyle: TextStyle(fontSize: 20, color: Colors.black),
+                           initialChartData: [
+                             CircularStackEntry(
+                               segmentsAllDay,
+                               
+                             ),
+                             CircularStackEntry(
+                               segmentsClasses,
+                             )
+                           ],
+                         ),
+                       ],
+                     )
+                   )
+                 ],
+               );
             } catch (e) {
               return Center(child: Text("Sorry, we couldn't proccess your attendance records"));
             }
