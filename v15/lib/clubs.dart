@@ -91,6 +91,12 @@ class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
                   builder: (c)=>CupertinoAlertDialog(
                     title: Text("Extra Info"),
                     content: Text("This is a list of all the clubs at SAMOHI, pulled live from the SAMOHI Website"),
+                    actions: <Widget>[
+                      CupertinoDialogAction(
+                        child: Text("Ok"),
+                        onPressed: ()=>Navigator.of(context).pop(),
+                      )
+                    ],
                   )
                 )
               )
@@ -154,7 +160,7 @@ class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
         appBar: AppBar(
           backgroundColor:  Colors.indigoAccent[700],
           centerTitle: false,
-          title: title,
+          title: AnimatedSwitcher(child:title, duration: Duration(milliseconds: 500),transitionBuilder: (w,a)=>ScaleTransition(child: w, scale: a,alignment: Alignment.centerLeft,)),
           actions: <Widget>[shareButton,infoButton],
           
           ),

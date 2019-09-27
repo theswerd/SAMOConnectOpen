@@ -4,6 +4,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:vibrate/vibrate.dart';
 import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'constants.dart';
@@ -554,25 +555,14 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
                 //Navigator.of(context).pop();
               }
             ),
-            CupertinoDialogAction(
-              isDefaultAction: false,
-              child: Text("Copy"),
-              onPressed: (){
-                //Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-                Clipboard.setData(ClipboardData(text: description));
-                Navigator.of(context).pop();
-              }
-            ),
+            
+            
       
             
             CupertinoDialogAction(
               isDefaultAction: false,
               child: Text("Copy"),
-              onPressed: (){
-                //Share.share("The SAMOHI "+title+": \n"+description+"\n\n To see all the SAMOHI Policies, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-                Clipboard.setData(ClipboardData(text: description));
-                Navigator.of(context).pop();
-              }
+              onPressed: ()=>Constants.copy(description, context)
             ),
 
             CupertinoDialogAction(

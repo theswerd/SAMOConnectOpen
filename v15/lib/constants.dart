@@ -5,6 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:share/share.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:flutter/services.dart';
+import 'package:vibrate/vibrate.dart';
+
 class Constants{
   static Future<void> shareString(String shareStr) => Share.share(shareStr);
   static Color baseColor = Colors.indigoAccent[700];
@@ -66,6 +70,11 @@ class Constants{
   }
   static void pop(BuildContext context){
     Navigator.of(context).pop();
+  }
+  static void copy(String text, BuildContext context){
+    Clipboard.setData(ClipboardData(text: text));
+    Navigator.of(context).pop();
+    Vibrate.feedback(FeedbackType.success);
   }
   static CupertinoActionSheetAction actionWithPop(BuildContext context, String title, String url) {
     return CupertinoActionSheetAction(

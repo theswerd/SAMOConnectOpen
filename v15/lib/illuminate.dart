@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:samohiConnect/constants.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
@@ -34,12 +35,16 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
   TextEditingController usernameController;
   TextEditingController passwordController;
 
+  CupertinoActionSheetAction officialWebsiteAction;
+
+  Widget menuIcon = Container();
   @override
   void initState() {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
 
+    officialWebsiteAction =  Constants.officialWebsiteAction(context, "https://smmusd.illuminatehc.com/");
     bodyWidget =loginPage();
   }
 
@@ -68,8 +73,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
           print(header);
           return Padding(
             padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: ListView(
               children: <Widget>[
                 Column(
                   children: <Widget>[
@@ -78,8 +82,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                     Text("Illuminate", textAlign: TextAlign.center,style: TextStyle(fontSize: 32),),
                   ],
                 ),
-
-                
+                Container(height: 80,),
                 Column(
                   children: <Widget>[
                     Row(
@@ -114,13 +117,36 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                     ),
                     Container(height: 50,),
                     Container(
-                      child: FlatButton(
+                      child: RaisedButton(
+                        elevation: 10,
                         padding: EdgeInsets.symmetric(vertical:25, horizontal:(MediaQuery.of(context).size.width-140)/2),
                         color: Constants.baseColor,
                         onPressed: (){
-                          setState(() {
-                            bodyWidget = checkLogin(header, usernameController.text, passwordController.text);
-                          });
+                          if(usernameController.text.isEmpty){
+                            scaffoldKey.currentState.showSnackBar(
+                              SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.redAccent,
+                                content: Text("Please enter your username"),
+                                action: SnackBarAction(label: "Ok",onPressed: ()=>scaffoldKey.currentState.hideCurrentSnackBar()),
+                              )
+                            );
+                          }else{
+                            if(passwordController.text.isEmpty){
+                              scaffoldKey.currentState.showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  backgroundColor: Colors.redAccent,
+                                  content: Text("Please enter your password"),
+                                  action: SnackBarAction(label: "Ok",onPressed: ()=>scaffoldKey.currentState.hideCurrentSnackBar(),),
+                                )
+                              );
+                            }else{
+                              setState(() {
+                                bodyWidget = checkLogin(header, usernameController.text, passwordController.text);
+                              });
+                            }
+                          }
                         },
                         child: Text("LOGIN", style: TextStyle(color: Colors.white, fontSize: 22),),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(70)),
@@ -151,7 +177,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
             splashColor: Colors.yellowAccent,
             onPressed: (){
               Constants.showInfoBottomSheet([
-                Constants.officialWebsiteAction(context, "https://smmusd.illuminatehc.com/"),
+                officialWebsiteAction,
                 Constants.ratingAction(context),
                 CupertinoActionSheetAction(
                   child: Text("Extra Info"),
@@ -283,6 +309,10 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
 
                               formattedGrades.add(classMap);
                             }
+                            officialWebsiteAction = new CupertinoActionSheetAction(
+                              child: Text("View on website"),
+                              onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com/gradebooks/", "Gradebook")
+                            );
                             return ListView.separated(
                               padding: EdgeInsets.all(50),
                               itemCount: formattedGrades.length,
@@ -359,6 +389,16 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
     }
   }
 
+  Future gradebookWebview(String header,url, title) {
+    return Navigator.of(context).push(
+                              MaterialPageRoute(
+                                fullscreenDialog: true,
+                                maintainState: true,
+                                builder: (c)=>WebviewScaffold(url: url, headers: {"cookie":header},appBar: AppBar(title: Text(title),actions: <Widget>[IconButton(icon: Icon(Icons.launch),onPressed: ()=>launch(url),),]))
+                              )
+                            );
+  }
+
   openClassGradebook(String header, String url, String subject){
     print("THE URLLL");
     print(url);
@@ -369,6 +409,9 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
         builder: (c)=>Scaffold(
           appBar: AppBar(
             title: Text(subject),
+            actions: <Widget>[
+              IconButton(icon: Icon(Icons.launch),onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com"+url, "Gradebook"),)
+            ],
           ),
           body: FutureBuilder(
             future: http.get("https://smmusd.illuminatehc.com"+url, headers: {"cookie":header}),
@@ -394,6 +437,27 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                   theMap['category'] = item.children.first.text;
                   theMap['name'] = item.children[1].children.first.text.toString();
                   theMap['points'] = item.children[2].text.trim().split("\n").join(" ");
+                  bool ace = false;
+                  try {
+                    ace = theMap['points'].toString().split("/").first.trim()==theMap['points'].toString().split("/").last.trim();
+                  } catch (e) {
+                    ace = false;
+                  }
+                  theMap['ace'] = ace;
+                  bool extraCredit = false;
+                  try {
+                    extraCredit = theMap['points'].toString().split("/").last.trim()=="-";
+                  } catch (e) {
+                    extraCredit = false;
+                  }
+                  theMap['extraCredit'] = extraCredit;
+                  bool graded = true;
+                  try {
+                    graded = theMap['points'].toString().split("/").first.trim()!="-";
+                  } catch (e) {
+                    graded = true;
+                  }
+                  theMap['graded'] = graded;
                   theMap['missing'] = item.children[2].text.trim()=="Missing";
                   theMap['grade'] = item.children[3].text.trim();
                   theMap['due'] = item.children[5].text.trim();
@@ -422,7 +486,12 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(theAssignmentsF[i]['category'], style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.grey[700]),),
-                            theAssignmentsF[i]['missing']?FloatingActionButton(backgroundColor: Colors.redAccent[400],onPressed: (){},tooltip: "Missing",child: Icon(MdiIcons.alertCircleOutline),mini: true,):Container()
+                            Row(children: <Widget>[
+                              theAssignmentsF[i]['extraCredit']?FloatingActionButton(backgroundColor: Constants.baseColor,onPressed: (){}, tooltip: "Extra Credit!", child: Icon(MdiIcons.thumbUpOutline),mini: true,):Container(),
+                              !theAssignmentsF[i]['graded']?FloatingActionButton(backgroundColor: Colors.cyanAccent,onPressed: (){}, tooltip: "Not graded yet", child: Text("-", style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),mini: true,):Container(),
+                              theAssignmentsF[i]['ace']?FloatingActionButton(backgroundColor: Color.fromRGBO(255,215,0, 1),onPressed: (){}, tooltip: "100%", child: Icon(MdiIcons.starOutline),mini: true,):Container(),
+                              theAssignmentsF[i]['missing']?FloatingActionButton(backgroundColor: Colors.redAccent[400],onPressed: (){},tooltip: "Missing",child: Icon(MdiIcons.alertCircleOutline),mini: true,):Container(),
+                            ],)
 
                         ],),
                       ],

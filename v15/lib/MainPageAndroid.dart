@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart' as mIcons;
 import 'package:http/http.dart' as http;
 import 'package:samohiConnect/checklist.dart';
-import 'package:samohiConnect/checklist.dart' as prefix0;
 import 'constants.dart';
 import 'color_loader_3.dart';
-import 'color_loader_4.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 //import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -14,13 +11,11 @@ import 'package:html/parser.dart' show parse;
 import 'story.dart';
 //import 'package:mapbox_gl/mapbox_gl.dart';
 import 'calender.dart';
-import 'checkList.dart';
 //import 'dart:io';
 //import 'dart:math';
 import 'package:url_launcher/url_launcher.dart';
 //import 'story.dart';
 //import 'dart:convert';
-import 'package:unicorndial/unicorndial.dart';
 import 'package:html/parser.dart';
 import 'login_screen_3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,15 +42,11 @@ import 'bellSchedule.dart';
 import 'collegeCenter.dart';
 import 'clubs.dart';
 import 'teachers.dart';
-import 'houses.dart';
 import 'housesV2.dart';
 import 'illuminate.dart';
 import 'policies.dart';
 import 'map.dart';
-import 'library.dart';
-import 'bulletin.dart';
 import 'developerPage.dart';
-import 'checklist.dart';
 //AIzaSyDv1ZVTEAzB00t0LAMHqmyWr-Zr2-CV3no
 
 class MainWindowAndroid extends StatefulWidget {
@@ -192,8 +183,6 @@ IconButton infoButton() {
           [
 
             Constants.actionWithPop(context, "View Official School Map", "http://www.samohi.smmusd.org/houses/images/campus.gif"),
-            Constants.actionWithPop(context,"View Old Version","https://api.mapbox.com/styles/v1/swerd/cjw4hcm3u1xkd1cnw1zswdrub.html?fresh=true&title=true&access_token=pk.eyJ1Ijoic3dlcmQiLCJhIjoiY2p3NGV3bzBnMWhnaDQ5cXZlMHgzZG5rNyJ9.d_agU8wGRZYZUHOmrrHBjQ#16.1/34.011844/-118.486192/0"),
-            Constants.ratingAction(context),
             CupertinoActionSheetAction(
                   child: Text("Where does this data come from?"),
                   onPressed: (){
@@ -534,6 +523,9 @@ IconButton infoButton() {
                                     
                                     backgroundColor: Constants.baseColor,
                                     title: new Text("Clever"),
+                                    actions: <Widget>[
+                                      IconButton(icon: Icon(MdiIcons.launch), onPressed: ()=>launch("https://clever.com/oauth/authorize?response_type=code&state=7e61a70abe76142b7e225f5bf580dfe6675ccf7bbff8edc379aeea2b34c217b3&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&client_id=4c63c1cf623dce82caac&confirmed=true&channel=clever&district_id=52e02e628b625cb10d006ce5")),
+                                    ],
                                   ),
                                 ),
                                  maintainState: true,
@@ -657,6 +649,9 @@ IconButton infoButton() {
                                     
                                     backgroundColor: Constants.baseColor,
                                     title: new Text("Daily Bulletin"),
+                                    actions: <Widget>[
+                                      IconButton(icon: Icon(MdiIcons.launch),onPressed: ()=>launch("http://www.samohi.smmusd.org/BB.pdf"),)
+                                    ],
                                   ),
                                 ),
                                  maintainState: true,
@@ -869,7 +864,7 @@ IconButton infoButton() {
                          map(),
                          eventView(),
                          news(),
-                         prefix0.Checklist()
+                         Checklist()
                        ],
                      ),
                      // floatingActionButton: FloatingActionButton(
@@ -946,68 +941,6 @@ IconButton infoButton() {
                          //  },
                          //)
                    
-                   }
-                 
-                   Scaffold MapScaffoldMaker(Widget mappView) {
-                    List<UnicornButton> childButtons = List<UnicornButton>();
-                    childButtons.add(
-                      UnicornButton(
-                        hasLabel: true,
-                        labelText: "Buildings",
-                        currentButton: FloatingActionButton(
-                          heroTag: "Buildings",
-                          mini: true,
-                          backgroundColor: Colors.redAccent[400],
-                          child: Icon(MdiIcons.officeBuilding),
-                          onPressed: () {},
-                        )
-                      )
-                    );
-                    childButtons.add(
-                     UnicornButton(
-                     hasLabel: true,
-                     labelText: "Important Rooms",
-                         currentButton: FloatingActionButton(
-                             heroTag: "Important Rooms",
-                             backgroundColor: Colors.deepPurple,
-                             mini: true,
-                             onPressed: (){
-                               print("IN MOTION??");
-                               setState(() {
-                                 mainMapView = Container(color: Colors.red,);
-                           //      buildings ={constructionZone};
-                               });
-                             },
-                             child: Icon(CupertinoIcons.bookmark))));
-                    childButtons.add(
-                    UnicornButton(
-                       labelText: "All",
-                       hasLabel: true,
-                         currentButton: FloatingActionButton(
-                             heroTag: "All",
-                             
-                             backgroundColor: Colors.indigoAccent[700],
-                             mini: true,
-                             onPressed: (){},
-                             child: Image.asset("assets/logo.png"),
-                             )));
-                 
-                     return Scaffold(
-                    body:  mappView,
-                  floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                  floatingActionButton: UnicornDialer(
-                    parentButtonBackground: Colors.indigoAccent[700],
-                    childPadding: 4,
-                    childButtons: childButtons,
-                    parentButton: Icon(Icons.menu),
-                    finalButtonIcon: Icon(Icons.close),
-                    hasNotch: false,
-                    hasBackground: false,
-                    
-                    backgroundColor: Colors.indigoAccent[700],
-                 
-                  ),
-                  );
                    }
                  
                    GoogleMap googleMap(Set<Marker> buildings) {
@@ -1091,7 +1024,7 @@ IconButton infoButton() {
                                                      child:Stack(
                                                        fit: StackFit.expand,
                                                        children: <Widget>[
-                                                         Image.asset("assets/vikingC3.png",fit: BoxFit.fitWidth,),
+                                                         Container()
                                                         // Text("Looks like you are looking for something that doesn't work")
                                                        ],
                                                      ),
@@ -1345,7 +1278,7 @@ IconButton infoButton() {
                                               print(theHeader);
                                              Navigator.push(
                                                context,
-                                                 MaterialPageRoute(builder: (context) => Story(header: theHeader,link: link,by:writtenBy,when:writtenWhen)),
+                                                 MaterialPageRoute(maintainState: true, fullscreenDialog: true ,builder: (context) => Story(header: theHeader,link: link,by:writtenBy,when:writtenWhen)),
                                                );                              
                                              },
                                              color: Colors.white,

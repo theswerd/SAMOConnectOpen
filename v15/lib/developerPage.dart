@@ -257,9 +257,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                             CupertinoActionSheetAction(
                                               isDefaultAction: true,
                                               child: Text("Copy",textScaleFactor: textScale,),
-                                              onPressed: (){
-                                                Clipboard.setData(ClipboardData(text: "@swerdlowben"));
-                                              },
+                                              onPressed: ()=>Constants.copy("@swerdlowben", context),
                                               
                                             ),
                                             CupertinoActionSheetAction(
@@ -291,17 +289,13 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                               CupertinoActionSheetAction(
                                                 isDefaultAction: true,
                                                 child: Text("Copy"),
-                                                onPressed: (){
-                                                  Clipboard.setData(ClipboardData(text: "Swerdlowbenjamin@gmail.com"));
-                                                  Constants.pop(context);
-                                                },
+                                                onPressed: ()=>Constants.copy("Swerdlowbenjamin@gmail.com", context),
                                               ),
                                               CupertinoActionSheetAction(
                                                 
                                                 child: Text("Share"),
                                                 onPressed: (){
                                                   Constants.shareString("Email Ben at swerdlowbenjamin@gmail.com -- to find out more about Ben, check out his bio on https://samoconnect.page.link/SamoConnect");
-                                                  //Clipboard.setData(ClipboardData(text: "Swerdlowbenjamin@gmail.com"));
                                                   Constants.pop(context);
                                                 },
                                               )
@@ -329,11 +323,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                             CupertinoActionSheetAction(
                                               isDefaultAction: true,
                                               child: Text("Copy",textScaleFactor: textScale,),
-                                              onPressed: (){
-                                                Constants.pop(context);
-                                                Clipboard.setData(ClipboardData(text: "https://www.linkedin.com/in/benjamin-swerdlow-076089171"));
-                                              },
-                                              
+                                              onPressed: ()=>Constants.copy("https://www.linkedin.com/in/benjamin-swerdlow-076089171", context),
                                             ),
                                             CupertinoActionSheetAction(
                                               isDefaultAction: false,
@@ -498,11 +488,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                             CupertinoDialogAction(
                                               isDefaultAction: true,
                                               child: Text("Copy",textScaleFactor: textScale,),
-                                              onPressed: (){
-                                                Clipboard.setData(ClipboardData(text: "@jessica_pixel2"));
-                                                Constants.pop(context);
-                                              },
-                                              
+                                              onPressed: ()=>Constants.copy("@jessica_pixel2", context)
                                             ),
                                             CupertinoDialogAction(
                                               isDefaultAction: false,
@@ -533,12 +519,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                             CupertinoActionSheetAction(
                                               isDefaultAction: true,
                                               child: Text("Copy"),
-                                              onPressed: (){
-                                                Constants.pop(context);
-                                                Clipboard.setData(
-                                                  ClipboardData(text: "jessicagolden412@gmail.com")
-                                                );
-                                              },
+                                              onPressed: ()=>Constants.copy("jessicagolden412@gmail.com", context)
                                             ),
                                             CupertinoActionSheetAction(
                                               isDefaultAction: false,
@@ -573,11 +554,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                             CupertinoActionSheetAction(
                                               isDefaultAction: true,
                                               child: Text("Copy",textScaleFactor: textScale,),
-                                              onPressed: (){
-                                                Constants.pop(context);
-                                                Clipboard.setData(ClipboardData(text: "https://www.linkedin.com/in/jessica-golden-441153187"));
-                                              },
-                                              
+                                              onPressed: ()=>Constants.copy("https://www.linkedin.com/in/jessica-golden-441153187", context)
                                             ),
                                             CupertinoActionSheetAction(
                                               isDefaultAction: false,

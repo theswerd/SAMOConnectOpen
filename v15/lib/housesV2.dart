@@ -327,11 +327,7 @@ TeacherDialog(String name, String email, String house, BuildContext context) {
           CupertinoActionSheetAction(
           isDefaultAction: false,
           child: Text("Copy"),
-          onPressed: (){
-           Constants.pop(context);
-           Clipboard.setData(ClipboardData(text:email));
-           //Constants.shareString(name+"'s email is "+email+". To learn more about "+name+" and the other "+house+" House Staff, check out SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-          },
+          onPressed: ()=>Constants.copy(email, context)
           )
         ],
     )

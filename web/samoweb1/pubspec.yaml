@@ -15,7 +15,7 @@ dev_dependencies:
   pedantic: ^1.7.0
 
 assets:
-    - assets/logo.png
+    - assets/
     - assets/backgroundv1.jpg
 
 dependency_overrides:

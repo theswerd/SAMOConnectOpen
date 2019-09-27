@@ -188,7 +188,7 @@ class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
         appBar: AppBar(
           backgroundColor:  Colors.indigoAccent[700],
           centerTitle: false,
-          title: title,
+          title: AnimatedSwitcher(child:title, duration: Duration(milliseconds: 500),transitionBuilder: (w,a)=>ScaleTransition(scale: a,child: w,),),
           actions: <Widget>[shareButton,infoButton],
           
           ),
@@ -360,11 +360,7 @@ class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
                                     CupertinoDialogAction( 
                                       isDefaultAction: false,
                                       child: Text("Copy"),
-                                      onPressed: (){
-                                        s.Clipboard.setData(s.ClipboardData(text: email));
-                                        Vibrate.feedback(FeedbackType.success);
-                                        Navigator.of(context).pop();
-                                      },
+                                      onPressed: ()=>Constants.copy(email, context)
                                     )
                                   ],
                                 );

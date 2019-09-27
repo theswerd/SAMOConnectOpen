@@ -127,10 +127,7 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                                       CupertinoActionSheetAction(
                                         isDefaultAction: false,
                                         child: Text("Copy"),
-                                        onPressed: (){
-                                          Clipboard.setData(ClipboardData(text: theCurrentDocument["email"]));
-                                          Navigator.of(context).pop();
-                                        },
+                                        onPressed: ()=>Constants.copy(theCurrentDocument["email"], context),
                                       )
                                     ],
                                    );
@@ -199,15 +196,7 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                },
                itemBuilder: (c,i){
                  if(i==0){
-                   return DrawerHeader(
-          margin: EdgeInsets.zero,
-          decoration: BoxDecoration(
-            color: Colors.indigoAccent[700]
-          ),
-          
-          child: Image.asset("assets/logo.png"),
-          padding: EdgeInsets.all(15),
-        );    
+                   return Container(height: 0);
                  }
                  Widget link = Container(color: Colors.white,);
                  if(linkList[i]["url"]!=null&&linkList[i]["url"]!=""){

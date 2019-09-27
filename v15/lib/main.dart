@@ -5,9 +5,6 @@ import 'MainPageAndroid.dart';
 
 import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
-import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'bellSchedule.dart';
 import 'collegeCenter.dart';
 import 'clubs.dart';
@@ -16,8 +13,7 @@ import 'illuminate.dart';
 import 'attendance.dart';
 import 'login_screen_3.dart';
 import 'policies.dart';
-import 'library.dart';
-import 'bulletin.dart';
+
 import 'developerPage.dart';
 
 void main() => runApp(MyApp());
@@ -26,7 +22,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    FirebaseInAppMessaging.instance.setAutomaticDataCollectionEnabled(true);
     return MaterialApp(
       
       debugShowCheckedModeBanner: false,
@@ -40,8 +35,6 @@ class MyApp extends StatelessWidget {
         LoginScreen3.tag:(context)=>LoginScreen3(),
         MainWindowAndroid.tag:(context)=>MainWindowAndroid(),
         PolicyPage.tag:(context)=>PolicyPage(),
-        LibraryPage.tag:(context)=>LibraryPage(),
-        BulletinPage.tag:(context)=>BulletinPage(),
         DeveloperPage.tag:(context)=>DeveloperPage()
        // SingleSchedule.tag: (context)=> SingleSchedule()
 
@@ -55,6 +48,7 @@ class MyApp extends StatelessWidget {
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: Constants.baseColor
         ),
+        snackBarTheme: SnackBarThemeData(actionTextColor: Colors.white),
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
