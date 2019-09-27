@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:vibrate/vibrate.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';

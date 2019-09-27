@@ -209,7 +209,13 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
             future: http.post("https://smmusd.illuminatehc.com/login_check", headers: {"cookie":header}, body: {"_username":username,"_password":password}),
             builder: (c, s){
               if(s.connectionState!=ConnectionState.done){
-                return Center(child: ColorLoader3(),);
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(child: ColorLoader3()),
+                    Text("Attempting to login", textAlign: TextAlign.center,)
+                  ],
+                );
               }else{
                 http.Response r = s.data;
                 print(r.headers['set-cookie']);
@@ -222,6 +228,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                 
                   print("Logged In success");
                 try {
+                  
                   return loggedInBuilder(header);
 
                 } catch (e) {
@@ -234,41 +241,74 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
           );
   }
 
-  FutureBuilder<http.Response> loggedInBuilder(String header) {
+  Widget loggedInBuilder(String header) {
     try {
       
     
-      return FutureBuilder(
-                    future: http.get("https://smmusd.illuminatehc.com/student-path?login=1", headers: {"cookie":header}),
-                    builder: (c,s){
-                      if(s.connectionState!=ConnectionState.done){
-                        return Center(child: ColorLoader3(),);
-                      }else{
-                        dom.Document doc = parse(s.data.body);
-                        print(doc.children.first.children);
-                        print(doc.body.innerHtml);
-                        try {
-                          return gradebookBuilder(header);
+      return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(child: Icon(MdiIcons.menu),onPressed: ()=>showCupertinoModalPopup(
+          context: context,
+          builder: (c)=>CupertinoActionSheet(
+            title: Text("See more of your illuminate"),
+            actions: <Widget>[
+              CupertinoActionSheetAction(
+                child: Text("Attendance Records"),
+                onPressed: ()=>attendanceBuilder(header),
+              )
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              child: Text("Cancel"),
+              onPressed: ()=>Navigator.of(context).pop(),
+            ),
+          )
+        ),),
+        body: FutureBuilder(
+                      future: http.get("https://smmusd.illuminatehc.com/student-path?login=1", headers: {"cookie":header}),
+                      builder: (c,s){
+                        if(s.connectionState!=ConnectionState.done){
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(child: ColorLoader3(),),
+                              Text("Verifying login", textAlign: TextAlign.center,)
+                            ],
+                          );
+                        }else{
+                          dom.Document doc = parse(s.data.body);
+                          print(doc.children.first.children);
+                          print(doc.body.innerHtml);
+                          try {
+                            return gradebookBuilder(header);
+                          } catch (e) {
+                            return loginPage();
+                          }
 
-                        } catch (e) {
+                          
                         }
-
-                        
-                      }
-                    },
-                  );
+                      },
+                    ),
+      );
     } catch (e) {
       return loginPage();
     }
   }
 
   FutureBuilder<http.Response> gradebookBuilder(String header) {
+    
     try {
+      
       return FutureBuilder(
                         future: http.get("https://smmusd.illuminatehc.com/gradebooks/", headers: {"cookie":header}),
                         builder: (c,s){
                           if(s.connectionState!=ConnectionState.done){
-                            return Center(child: ColorLoader3(),);
+                            return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(child: ColorLoader3(),),
+                              Text("Loading gradebook", textAlign: TextAlign.center,)
+                            ],
+                          );
                           }else{
                             try {
                               
@@ -309,6 +349,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
 
                               formattedGrades.add(classMap);
                             }
+                            
                             officialWebsiteAction = new CupertinoActionSheetAction(
                               child: Text("View on website"),
                               onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com/gradebooks/", "Gradebook")
@@ -520,9 +561,80 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
       )
     );
   }
+      
+      
+
+  attendanceBuilder(String header) async{
+      Widget attendanceBody = FutureBuilder(
+        future: http.get("https://smmusd.illuminatehc.com/attendance/summary", headers: {"cookie":header}),
+        builder: (c,s){
+          if(s.hasError){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("There was an error connecting"),
+                Text("("+s.error.toString()+")")
+              ],
+            );
+          }
+          if(s.connectionState!=ConnectionState.done){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(child: ColorLoader3(),),
+                Text("Loading your attendance")
+              ],
+            );
+          }else{
+            try {
+              dom.Document attendanceDoc = parse(s.data.body);
+              List<dom.Element> recordsUnF = attendanceDoc.getElementsByClassName("table").first.children.last.children;
+              List<Map> format = [];
+              dom.Element totals = recordsUnF.removeLast();
+              for (dom.Element recordsUnF in recordsUnF) {
+                Map newMap = new Map();
+                newMap['category'] = recordsUnF.children.first.text.trim();
+                newMap['totalAD'] = recordsUnF.children[1].text.trim();
+                newMap['percentAD'] = recordsUnF.children[2].text.trim();
+                newMap['totalC'] = recordsUnF.children[3].text.trim();
+                newMap['percentC'] = recordsUnF.children[4].text.trim();
+
+                format.add(newMap);
+              }
+            } catch (e) {
+              return Center(child: Text("Sorry, we couldn't proccess your attendance records"));
+            }
+          }
+        },
+      );        
+    
+    try {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          maintainState: true,
+          builder: (c)=>Scaffold(
+            appBar: AppBar(title: Text("Attendance"),actions: <Widget>[
+              IconButton(icon: Icon(MdiIcons.launch),onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com/attendance/summary", "Attendance"),),
               
-                
+            ],),
+            body: attendanceBody
+          )
+        )
+      );
+    } catch (e) {
+
+      Navigator.of(context).pop();
+      scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text("Sorry, there was an error proccessing your request"),
+          action: SnackBarAction(label: "Ok", onPressed: ()=>scaffoldKey.currentState.hideCurrentSnackBar()),
+        )
+      );
+    }
+  }
 }
+  
 Color hexToColor(String hexString, {String alphaChannel = 'FF'}) {
   return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
 }

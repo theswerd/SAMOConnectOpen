@@ -12,7 +12,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'; 
-import 'package:webview_flutter/webview_flutter.dart';
 class MapClass extends StatefulWidget {
   static String tag = "MAPP";
   @override

@@ -5,7 +5,6 @@ import 'package:samohiConnect/checklist.dart';
 import 'constants.dart';
 import 'color_loader_3.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-//import 'package:flutter_html_view/flutter_html_view.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:html/parser.dart' show parse;
 import 'story.dart';
@@ -95,6 +94,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
     checkUpToDate();
     checkSignIn();
     checkUnofficial(); 
+    
     // TODO: implement initState
     super.initState();
 

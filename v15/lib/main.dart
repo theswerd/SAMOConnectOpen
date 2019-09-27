@@ -41,8 +41,10 @@ class MyApp extends StatelessWidget {
       },
       title: 'Flutter Demo',
       theme: ThemeData(
+
         appBarTheme: AppBarTheme(color: Constants.baseColor),
         buttonTheme: ButtonThemeData(
+
           splashColor: Constants.baseColor
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(

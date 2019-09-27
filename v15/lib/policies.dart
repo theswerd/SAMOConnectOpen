@@ -4,11 +4,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:vibrate/vibrate.dart';
 import 'color_loader_3.dart';
 import 'package:flutter/cupertino.dart';
 import 'constants.dart';
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 //import 'package:firebase_mlkit_language/firebase_mlkit_language.dart';
 
 

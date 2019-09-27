@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'constants.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:localstorage/localstorage.dart';
@@ -504,6 +505,7 @@ class _AddToChecklistState extends State<AddToChecklist> {
                   print(originalList);
                   checklistStorage.setItem('items',originalList);
                   Navigator.of(context).pop();
+                  if(newTodo['hasDate']){scheduleTodo(newTodo);}
                 }else{
                   _scaffoldKey.currentState.showSnackBar(
                     SnackBar(
@@ -528,4 +530,38 @@ class _AddToChecklistState extends State<AddToChecklist> {
       ),
     );
   }
+
+  
 }
+void scheduleTodo(Map newTodo) async{
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+  AndroidInitializationSettings initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+  IOSInitializationSettings initializationSettingsIOS = new IOSInitializationSettings(onDidReceiveLocalNotification: null);
+
+  InitializationSettings initializationSettings = new InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
+
+  flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: null);
+
+  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    'SAMOHI Connect', 'SAMOHI Connect', 'Checklist notifications',
+    importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
+  var iOSPlatformChannelSpecifics = IOSNotificationDetails(presentBadge: true);
+  var platformChannelSpecifics = NotificationDetails(
+      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);//millisecondsSinceEpoch
+
+  DateTime theDate =  DateTime.fromMillisecondsSinceEpoch(newTodo['date']);
+  theDate.subtract(Duration(hours: theDate.hour, seconds: theDate.second));
+  theDate.add(Duration(hours: 7, minutes: 15));
+  await flutterLocalNotificationsPlugin.schedule(
+      newTodo['date']%(2^31), newTodo['title'], 'Check your school checklist on SAMOHI Connect',theDate,platformChannelSpecifics,
+      payload: 'item x');
+}
+//newTodo['title']=title;
+// newTodo['subtitle'] = subtitle;
+// newTodo['color'] = color.value;
+// newTodo['hasColor'] = hasColor;
+// newTodo['date'] = theDate.millisecondsSinceEpoch;
+// newTodo['hasDate'] = hasDate;
+// newTodo['emoji'] = emoji;
+// newTodo['hasEmoji'] = hasEmoji;                  
