@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:samohiConnect/constants.dart';
 import 'color_loader_3.dart';
@@ -36,14 +37,16 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
   TextEditingController passwordController;
 
   CupertinoActionSheetAction officialWebsiteAction;
-
-  Widget menuIcon = Container();
+  AnimationController menuController;
   @override
   void initState() {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
-
+    menuController = new AnimationController(
+      duration: Duration(milliseconds: 500),
+      vsync: this
+    );
     officialWebsiteAction =  Constants.officialWebsiteAction(context, "https://smmusd.illuminatehc.com/");
     bodyWidget =loginPage();
   }
@@ -244,10 +247,11 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
   Widget loggedInBuilder(String header) {
     try {
       
-    
       return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton(child: Icon(MdiIcons.menu),onPressed: ()=>showCupertinoModalPopup(
+        floatingActionButton: FloatingActionButton(child: AnimatedIcon(icon:AnimatedIcons.menu_close, progress: menuController),onPressed: (){
+          menuController.forward();
+          showCupertinoModalPopup(
           context: context,
           builder: (c)=>CupertinoActionSheet(
             title: Text("See more of your illuminate"),
@@ -262,7 +266,11 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
               onPressed: ()=>Navigator.of(context).pop(),
             ),
           )
-        ),),
+        ).then((onValue)=>menuController.reverse());
+
+        
+        }
+        ),
         body: FutureBuilder(
                       future: http.get("https://smmusd.illuminatehc.com/student-path?login=1", headers: {"cookie":header}),
                       builder: (c,s){
@@ -562,7 +570,24 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
     );
   }
       
-      
+  classListBuilder(String header) async{
+    try {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          maintainState: true,
+          builder: (c)=>Scaffold(
+            appBar: AppBar(
+              title: Text("Classes"),
+            ),
+          )
+        )
+      );
+    } catch (e) {
+      Navigator.of(context).pop();
+    }
+    
+  }
 
   attendanceBuilder(String header) async{
       Widget attendanceBody = FutureBuilder(
@@ -599,20 +624,20 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                   switch (newMap['category']) {
                     case "On Time":
                       print("On Time");
-                      categoryColor = Color(0xff64D195);
+                      categoryColor = Colors.greenAccent[400];
                       break;
                     case "Tardy":
-                      categoryColor = Color(0xffFF8349);
+                      categoryColor = Colors.orange;
                       print("Tardy");
                       break;
                     //FFD76B
                     case "Excused":
-                      categoryColor = Color(0xffFFD76B);
+                      categoryColor = Colors.yellowAccent[400];
                       print("Excused");
 
                       break;
                     case "Unexcused":
-                      categoryColor = Color(0xffFF5959);
+                      categoryColor = Colors.redAccent[400];
                       print("Unexcused");
                       break;
                     default:
@@ -653,9 +678,40 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                            
                            children: <Widget>[
                              Text("Attendance Chart:", style: TextStyle(fontSize: 22)),
-                             IconButton(icon: Icon(MdiIcons.informationOutline),onPressed: (){},)
+                             IconButton(
+                               icon: Icon(MdiIcons.informationOutline),
+                               onPressed: ()=>showCupertinoModalPopup(
+                                 context: context,
+                                 builder: (c)=>CupertinoAlertDialog(
+                                   title: Text("Legend"),
+                                   content: RichText(
+                                     text: TextSpan(
+                                       style: TextStyle(color: Colors.black, fontSize: 22),
+                                       children: [
+                                         TextSpan(text: "Green", style: TextStyle(fontWeight: FontWeight.bold, decorationColor: Colors.greenAccent[400], decoration: TextDecoration.underline, decorationThickness: 2.0)),
+                                         TextSpan(text: ": On Time\n"),
+                                         TextSpan(text: "Orange", style: TextStyle(fontWeight: FontWeight.bold, decorationColor: Colors.orange, decoration: TextDecoration.underline, decorationThickness: 2.0)),
+                                         TextSpan(text: ": Tardy\n"),
+                                         TextSpan(text: "Yellow", style: TextStyle(fontWeight: FontWeight.bold, decorationColor: Colors.yellowAccent[400], decoration: TextDecoration.underline, decorationThickness: 2.0)),
+                                         TextSpan(text: ": Excused\n"),
+                                         TextSpan(text: "Red", style: TextStyle(fontWeight: FontWeight.bold, decorationColor: Colors.redAccent[400], decoration: TextDecoration.underline, decorationThickness: 2.0), ),
+                                         TextSpan(text: ": Unexcused"),
+                                         
+                                       ]
+                                     ),
+                                   ),
+                                   actions: <Widget>[
+                                     CupertinoDialogAction(
+                                       child: Text("Ok"),
+                                       onPressed: ()=>Navigator.of(context).pop()
+                                     )
+                                   ],
+                                 )
+                               ),
+                               )
                            ],
                          ),
+                         Divider(color: Colors.black,),
                          AnimatedCircularChart(
                            edgeStyle: SegmentEdgeStyle.round,
                            size: Size(MediaQuery.of(context).size.width-70,MediaQuery.of(context).size.width-70),
@@ -673,6 +729,34 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                          ),
                        ],
                      )
+                   ),
+                   Container(height: 30),
+                   RaisedButton(
+                     color: Colors.white,
+                     onPressed: (){},
+                     elevation: 15,
+                     padding: EdgeInsets.all(10),
+                     child: Column(
+                       children: <Widget>[
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: <Widget>[
+                           Text("Raw Data:",style: TextStyle(fontSize: 22)),
+                           
+                         ],),
+                         Divider(color: Colors.black,),
+                         attendanceRawDataRowMaker(format[0]),
+                         Divider(),
+                         attendanceRawDataRowMaker(format[1]),
+                         Divider(),
+                         Text("Absences", style: TextStyle(fontWeight: FontWeight.bold)),
+                         Divider(),
+                         attendanceRawDataRowMaker(format[2]),
+                         Divider(),
+                         attendanceRawDataRowMaker(format[3]),
+                         Divider()
+                       ],
+                     ),
                    )
                  ],
                );
@@ -707,6 +791,16 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
         )
       );
     }
+  }
+
+  Row attendanceRawDataRowMaker(Map format) {
+    return Row(children: <Widget>[
+                         Text(format['category'].toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+                         VerticalDivider(),
+                         Text(format['totalC'].toInt().toString()+" Times"),
+                         VerticalDivider(),
+                         Text(format['percentC'].toString().split("%").first.trim()+"% of the time"),
+                       ],);
   }
 }
   
