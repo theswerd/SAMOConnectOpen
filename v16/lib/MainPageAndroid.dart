@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
-import 'package:samohiconnect/checklist.dart';
+import 'checklist.dart';
 import 'constants.dart';
 import 'color_loader_3.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -94,7 +95,7 @@ class _MainWindowAndroidState extends State<MainWindowAndroid> with TickerProvid
     checkSignIn();
     checkUnofficial(); 
     
-    // TODO: implement initState
+    // ADD NOTIFICATION PERMISSIONS REQUEST
     super.initState();
 
    
@@ -1121,7 +1122,9 @@ IconButton infoButton() {
                          if(s.error.runtimeType.toString()=="SocketException"){
                            error = "Handshake Failure";
                          }
-                         //if()  
+                         //if()
+                        
+                         
                          return Column(
                            mainAxisAlignment: MainAxisAlignment.center,
                            children: <Widget>[
@@ -1165,7 +1168,10 @@ IconButton infoButton() {
                                    return Container(height: 0,);
                                  },
                                  itemBuilder: (c,i){
-                                   try { 
+                                   try {
+                                     
+                                  
+                                   
                                    print("New Post");
                                    print(priceElement[i].localName);
                                    print("HTML");
@@ -1233,17 +1239,7 @@ IconButton infoButton() {
                                    String link = headerSplit[1].toString().split("\"")[1];
                                    //print(imageSplit[1]);
                                    //return Container(color: Colors.indigo,height: 10,);
-                                   Widget newsText = Expanded(child:Column(
-                                               mainAxisAlignment: MainAxisAlignment.center,
-                                               children: <Widget>[
-                                                 Text(theHeader,maxLines: 3,style: TextStyle(color: Colors.black,fontSize: 20),textAlign: TextAlign.center,),
-                                                 Text(writtenWhen,maxLines: 3,style: TextStyle(color: Colors.grey[700],fontSize: 16),textAlign: TextAlign.center,),
-                                                 Text(writtenBy,maxLines: 3,style: TextStyle(color: Colors.grey[800],fontSize: 18),textAlign: TextAlign.center,),
-                 
-                                               ],
-                                             ));
-                                  try {
-                                     return FutureBuilder(
+                                   return FutureBuilder(
                                      future: http.get(imageSplit[1]),
                                      builder: (c,s){
                                        if(s.hasError){
@@ -1266,7 +1262,6 @@ IconButton infoButton() {
                                          
                                          );
                                        }else{
-                                         
                                          return Container(
                                            height: 200,
                                            padding: EdgeInsets.symmetric(horizontal:25,vertical: 10),
@@ -1290,7 +1285,20 @@ IconButton infoButton() {
                                                
                                              children: <Widget>[
                                               Container(child:ClipRRect(child:Image.memory(s.data.bodyBytes,fit: BoxFit.cover,), borderRadius: BorderRadius.circular(25)),width: 155,height: 175,padding: EdgeInsets.zero,),
-                                             newsText,
+                                                
+                                              
+                                             Expanded(child:Column(
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: <Widget>[
+                                                 Text(theHeader,maxLines: 3,style: TextStyle(color: Colors.black,fontSize: 20),textAlign: TextAlign.center,),
+                                                 Text(writtenWhen,maxLines: 3,style: TextStyle(color: Colors.grey[700],fontSize: 16),textAlign: TextAlign.center,),
+                                                 Text(writtenBy,maxLines: 3,style: TextStyle(color: Colors.grey[800],fontSize: 18),textAlign: TextAlign.center,),
+                 
+                                               ],
+                                             )),
+                                             
+                                                
+                                             
                                              ],)),
                                          );
                                          
@@ -1298,20 +1306,7 @@ IconButton infoButton() {
                                        }
                                      },
                                  );
-                                  
                                   } catch (e) {
-                                    return RaisedButton(
-                                      child: newsText,
-                                      onPressed: ()=>Navigator.push(
-                                               context,
-                                                 MaterialPageRoute(maintainState: true, fullscreenDialog: true ,builder: (context) => Story(header: theHeader,link: link,by:writtenBy,when:writtenWhen)),
-                                               ),
-                                      color: Colors.white,
-                                      
-                                    );
-                                  }          
-                                  } catch (e) {
-                                    
                                     return Container(height:0);
                                    }
                                  },

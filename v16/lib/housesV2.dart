@@ -453,8 +453,7 @@ Widget makePrincipalView(List<dom.Element> unformattedElements, String house, Bu
       //height: 300,
       //maxHeight: 300,
       width: MediaQuery.of(context).size.width*.9,
-      child: RaisedButton(
-        onPressed: (){},
+      child: Card(
         elevation: 15,
         color: Colors.white,
         shape: RoundedRectangleBorder(

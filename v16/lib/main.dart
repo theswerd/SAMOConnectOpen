@@ -1,5 +1,5 @@
 //import 'MainPage.dart';
-import 'package:samohiconnect/constants.dart';
+import 'constants.dart';
 
 import 'MainPageAndroid.dart';
 
