@@ -1,0 +1,6 @@
+framework module vibrate {
+  umbrella header "vibrate-umbrella.h"
+
+  export *
+  module * { export * }
+}
