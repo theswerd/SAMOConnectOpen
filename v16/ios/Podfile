@@ -5,10 +5,6 @@ platform :ios, '9.0'
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
 
-pod 'Firebase/MLVisionBarcodeModel'
-pod 'Firebase/MLVisionFaceModel'
-pod 'Firebase/MLVisionLabelModel'
-pod 'Firebase/MLVisionTextModel'
 
 project 'Runner', {
   'Debug' => :debug,

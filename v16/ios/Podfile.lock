@@ -22,18 +22,6 @@ PODS:
   - Firebase/Firestore (6.7.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.4.4)
-  - Firebase/MLVisionBarcodeModel (6.7.0):
-    - Firebase/CoreOnly
-    - FirebaseMLVisionBarcodeModel (~> 0.17.0)
-  - Firebase/MLVisionFaceModel (6.7.0):
-    - Firebase/CoreOnly
-    - FirebaseMLVisionFaceModel (~> 0.17.0)
-  - Firebase/MLVisionLabelModel (6.7.0):
-    - Firebase/CoreOnly
-    - FirebaseMLVisionLabelModel (~> 0.17.0)
-  - Firebase/MLVisionTextModel (6.7.0):
-    - Firebase/CoreOnly
-    - FirebaseMLVisionTextModel (~> 0.17.0)
   - Firebase/Storage (6.7.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.4.0)
@@ -97,14 +85,6 @@ PODS:
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
-  - FirebaseMLVisionBarcodeModel (0.17.0):
-    - GoogleMobileVision/BarcodeDetector (~> 1.4)
-  - FirebaseMLVisionFaceModel (0.17.0):
-    - GoogleMobileVision/FaceDetector (~> 1.4)
-  - FirebaseMLVisionLabelModel (0.17.0):
-    - GoogleMobileVision/LabelDetector (~> 1.4)
-  - FirebaseMLVisionTextModel (0.17.0):
-    - GoogleMobileVision/TextDetector (~> 1.4)
   - FirebaseStorage (3.4.0):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
@@ -132,24 +112,6 @@ PODS:
   - GoogleMaps/Base (3.3.0)
   - GoogleMaps/Maps (3.3.0):
     - GoogleMaps/Base
-  - GoogleMobileVision/BarcodeDetector (1.6.0):
-    - GoogleMobileVision/Detector (~> 1.6)
-  - GoogleMobileVision/Detector (1.6.0):
-    - GoogleToolboxForMac/Logger (~> 2.1)
-    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - GTMSessionFetcher/Core (~> 1.1)
-    - Protobuf (~> 3.1)
-  - GoogleMobileVision/FaceDetector (1.6.0):
-    - GoogleMobileVision/Detector (~> 1.6)
-  - GoogleMobileVision/LabelDetector (1.6.0):
-    - GoogleMobileVision/Detector (~> 1.6)
-  - GoogleMobileVision/TextDetector (1.6.0):
-    - GoogleMobileVision/Detector (~> 1.6)
-  - GoogleToolboxForMac/Defines (2.2.1)
-  - GoogleToolboxForMac/Logger (2.2.1):
-    - GoogleToolboxForMac/Defines (= 2.2.1)
-  - "GoogleToolboxForMac/NSData+zlib (2.2.1)":
-    - GoogleToolboxForMac/Defines (= 2.2.1)
   - GoogleUtilities/AppDelegateSwizzler (6.2.5):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -207,10 +169,6 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - Firebase/MLVisionBarcodeModel
-  - Firebase/MLVisionFaceModel
-  - Firebase/MLVisionLabelModel
-  - Firebase/MLVisionTextModel
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -238,17 +196,11 @@ SPEC REPOS:
     - FirebaseCoreDiagnosticsInterop
     - FirebaseFirestore
     - FirebaseInstanceID
-    - FirebaseMLVisionBarcodeModel
-    - FirebaseMLVisionFaceModel
-    - FirebaseMLVisionLabelModel
-    - FirebaseMLVisionTextModel
     - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleMaps
-    - GoogleMobileVision
-    - GoogleToolboxForMac
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
@@ -305,10 +257,6 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
   FirebaseFirestore: c457c22c49ccf15a0fbe95bfcbcf69b984dec285
   FirebaseInstanceID: 8b42755db950682e7de0d167bc6fb26a57b244af
-  FirebaseMLVisionBarcodeModel: 4ac90a8ed5a92e1ed8d9278b92d794230a01dd16
-  FirebaseMLVisionFaceModel: 14dc2ae87fac3108b993739e4bfafab7316019e5
-  FirebaseMLVisionLabelModel: 284a87850732244733cbabcb5f1f730ff367d7fb
-  FirebaseMLVisionTextModel: 2a660797599db1be13a9f453df88b7f7c96bba74
   FirebaseStorage: 618dd8fd886b30adf6e5d1915b1f5c18cb5c3944
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
@@ -318,8 +266,6 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 9c3d63ed82f882a9a74d4be67dd7ad01bf046102
   GoogleDataTransportCCTSupport: 6b545f7149111180763dc18c6f372c963de4a310
   GoogleMaps: cfee83da305b9aaeccf92c24ac79df11c3003492
-  GoogleMobileVision: 31cfb4319fd0c03d80105680abd9eae9da5e3b47
-  GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
   GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
@@ -334,6 +280,6 @@ SPEC CHECKSUMS:
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
   vibrate: 967ba16b8bd87d2fa3646472bb10429f1927c32f
 
-PODFILE CHECKSUM: 2060d4ed08e840a6d0358a49ad4f0a7fa95f9b35
+PODFILE CHECKSUM: 07a32dc303cdfcbf17b5c9b4d34007270d0cf060
 
 COCOAPODS: 1.7.4
