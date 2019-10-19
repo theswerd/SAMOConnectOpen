@@ -43,6 +43,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
         appBarTheme: AppBarTheme(color: Constants.baseColor),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.black
+        ),
+        indicatorColor: Constants.baseColor,
         buttonTheme: ButtonThemeData(
 
           splashColor: Constants.baseColor

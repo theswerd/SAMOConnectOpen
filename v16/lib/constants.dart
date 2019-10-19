@@ -38,7 +38,6 @@ class Constants{
           cancelButton: CupertinoActionSheetAction(
             
             child: Text("Cancel"),
-            isDestructiveAction: true,
             onPressed: (){
               Constants.pop(context);
             },

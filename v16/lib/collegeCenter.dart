@@ -33,13 +33,7 @@ class CollegeCenter extends StatefulWidget {
 class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateMixin {
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  IconButton shareButton = IconButton(
-    icon: Icon(Icons.share),
-    splashColor: Colors.yellowAccent,
-    onPressed: (){
-      Share.share("Want to go to college? You can see the College Center on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-    },
-  );
+  
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -48,7 +42,6 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
        backgroundColor: Colors.indigoAccent[700],
        title: Text("College Center"),
        actions: <Widget>[
-         shareButton,
            IconButton(
            icon: Icon(MdiIcons.informationOutline),
            onPressed: (){
@@ -56,7 +49,10 @@ class _CollegeCenterState extends State<CollegeCenter> with TickerProviderStateM
                [
                  Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/collegecenter/"),
                  Constants.ratingAction(context),
-                
+                 CupertinoActionSheetAction(
+                   child: Text("Share"),
+                   onPressed: ()=>Share.share("Want to go to college? You can see the College Center on SAMOHI Connect -- https://samoconnect.page.link/SamoConnect"),
+                 )
                ],
                context);
             

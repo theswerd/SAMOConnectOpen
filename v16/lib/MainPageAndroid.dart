@@ -549,6 +549,12 @@ IconButton infoButton() {
                                     
                                     backgroundColor: Constants.baseColor,
                                     title: new Text("Flex Time"),
+                                    actions: <Widget>[
+                                      IconButton(
+                                        icon: Icon(MdiIcons.launch),
+                                        onPressed: ()=>launch("https://app.enrichingstudents.com/"),
+                                      )
+                                    ],
                                   ),
                                 ),
                                  maintainState: true,
@@ -833,7 +839,7 @@ IconButton infoButton() {
                      appBar: AppBar(
                        backgroundColor: Colors.indigoAccent[700],
                        centerTitle: true,
-                       title: TabBarView(
+                       title:Center(child:Text("SAMOHI Connect")), /*TabBarView(
                          
                          controller: tabController,
                          children: <Widget>[
@@ -843,7 +849,7 @@ IconButton infoButton() {
                            Center(child:Text("The SAMOHI News")),
                            Center(child:Text("Checklist")),
                          ],
-                       ),
+                       ),*/
                        actions: <Widget>[shareAction,infoAction],
                        leading: IconButton(
                          icon: Icon(Icons.menu,),
@@ -1181,8 +1187,12 @@ IconButton infoButton() {
                                    try {
                                      imageHope = document2.getElementsByClassName("omc-image-blog-one wp-post-image");
                                    } catch (e) {
+                                     try {
+                                       
+                                     
                                      imageHope = document2.getElementsByClassName("omc-image-blog-one");
-                 
+                                      } catch (e) {
+                                     }
                                      //omc-image-blog-one
                                    }
                                    
@@ -1209,33 +1219,35 @@ IconButton infoButton() {
                  
                                    //omc-blog-one-heading
                                    print("WITHIN");
+
                                    dynamic imagedoc;
                                    dynamic headingdoc;
                                    print(headingHope.first);
-                                   for (var item in imageHope) {
-                 
-                                     imagedoc =item.outerHtml;
-                 
-                 
+                                   try {
+                                    for (var item in imageHope) {
+                                      imagedoc =item.outerHtml;
+                                    }
+                                   } catch (e) {
                                    }
                                    for (var item in headingHope) {
                  
                                      headingdoc =item.outerHtml;
-                 
-                 
-                                   }
+                                  }
                  
                                    print("INSIDE");
-                                   print(imagedoc.runtimeType);
+                                   //print(imagedoc.runtimeType);
                                    String headerString =headingdoc.toString();
-                                   String imageString = imagedoc.toString();
-                                   print("HEADER STRING");
-                                   print(headerString);
-                                   List imageSplit =imageString.split("""\"""");    
                                    List headerSplit =headerString.split(">");     
+                                   String theHeader = headerSplit[2].toString().split("<")[0];
+                                   List imageSplit;
+                                  try {
+                                    String imageString = imagedoc.toString();
+                                      imageSplit = imageString.split("""\"""");  
+                                   } catch (e) {
+                                     imageSplit = [null,"http://www.thesamohi.com/wp-content/themes/gonzo/images/no-image-half-landscape.png"];
+                                  }  
                                    print("HEADER SPLIT");               
                                    print(headerSplit[1].toString().split("\"")[1]);
-                                   String theHeader = headerSplit[2].toString().split("<")[0];
                                    String link = headerSplit[1].toString().split("\"")[1];
                                    //print(imageSplit[1]);
                                    //return Container(color: Colors.indigo,height: 10,);

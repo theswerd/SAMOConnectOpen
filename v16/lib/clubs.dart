@@ -23,13 +23,7 @@ class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
   bool isSearching = false;
   Widget title =Text("Clubs");
   List<dom.Element> clubs = [];
-  IconButton shareButton = IconButton(
-    icon: Icon(Icons.share),
-    splashColor: Colors.yellowAccent,
-    onPressed: (){
-      Share.share("Not sure which clubs you want to join? Check them out on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-    },
-  );
+  
   Widget searchButton = FloatingActionButton(
     child: Icon(Icons.search),
     onPressed: (){
@@ -83,7 +77,10 @@ class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
               ),
               Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Students/clubs/index.html"),
              
-              Constants.ratingAction(context),
+              CupertinoActionSheetAction(
+                child: Text("Share"),
+                onPressed: ()=>Share.share("Not sure which clubs you want to join? Check them out on SAMO Connect -- https://samoconnect.page.link/SamoConnect"),
+              ),
               CupertinoActionSheetAction(
                 child: Text("Extra Info"),
                 onPressed: ()=>showCupertinoModalPopup(
@@ -126,7 +123,12 @@ class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
               setState(() {
                 List searchedClubs = [];
                 for (var item in clubs) {
-                  if(item.children[0].text.toString().toLowerCase().contains(text.toLowerCase()) || item.children[4].text.toString().toLowerCase().contains(text.toLowerCase())){
+                  if(
+                    item.children[0].text.toString().toLowerCase().contains(text.toLowerCase()) || 
+                    item.children[1].text.toString().toLowerCase().contains(text.toLowerCase()) ||
+                    item.children[3].text.toString().toLowerCase().contains(text.toLowerCase()) ||
+                    item.children[4].text.toString().toLowerCase().contains(text.toLowerCase())
+                    ){
                     searchedClubs.add(item);
                   }
                   
@@ -160,8 +162,10 @@ class _ClubsState extends State<Clubs> with TickerProviderStateMixin{
         appBar: AppBar(
           backgroundColor:  Colors.indigoAccent[700],
           centerTitle: false,
-          title: AnimatedSwitcher(child:title, duration: Duration(milliseconds: 500),transitionBuilder: (w,a)=>ScaleTransition(child: w, scale: a,alignment: Alignment.centerLeft,)),
-          actions: <Widget>[shareButton,infoButton],
+          title: Container(
+            height: 60,
+            child:AnimatedSwitcher(child:title, duration: Duration(milliseconds: 500),transitionBuilder: (w,a)=>ScaleTransition(child: w, scale: a,alignment: Alignment.centerLeft,))),
+          actions: <Widget>[infoButton],
           
           ),
           floatingActionButton: searchButton,

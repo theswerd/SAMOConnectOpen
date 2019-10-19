@@ -8,12 +8,15 @@ import 'package:html/dom.dart' as dom;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart' as mIcons;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart' as s;
-import 'package:launch_review/launch_review.dart';
-import 'package:share/share.dart';
-import 'constants.dart';
 
+import 'constants.dart';
+/*
+  String name = teachersList[i].children[0].text.toString();
+  String ext = teachersList[i].children[1].text.toString();
+  String room = teachersList[i].children[2].text.toString();
+  department = teachersList[i].children[3].text.toString(); PLEASE NOTE: DOESN'T ALWAYS EXIST PLEASE PUT IN TRY CATCH
+  house = teachersList[i].children[4].text.toString(); DOESN'T ALWAYS WORK EITHER
+ */
 class Teachers extends StatefulWidget {
   static String tag = "teachers";
   @override
@@ -26,13 +29,7 @@ class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
   Widget title =Text("Teachers");
   List<dom.Element> teachers = [];
   AnimationController searchAnimationController;
-  IconButton shareButton = IconButton(
-    icon: Icon(Icons.share),
-    splashColor: Colors.yellowAccent,
-    onPressed: (){
-      Share.share("Don't know your teachers email? You can find it on SAMO Connect -- https://samoconnect.page.link/SamoConnect");
-    },
-  );
+  
   Widget searchButton = FloatingActionButton(
     child: Icon(Icons.search),
     onPressed: (){
@@ -90,8 +87,11 @@ class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
     onPressed: (){
       Constants.showInfoBottomSheet(
         [
-          Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Admin/staff.html"),
-          Constants.ratingAction(context),
+          Constants.officialWebsiteAction(context, "http://www.samohi.smmusd.org/Admin/staff.html"),         
+          CupertinoActionSheetAction(
+            child: Text("Share"),
+            onPressed: ()=>Constants.shareString("Don't know your teachers email? You can find it on SAMO Connect -- https://samoconnect.page.link/SamoConnect"),
+          ),
           CupertinoActionSheetAction(
             child: Text("Extra Info"),
             onPressed: (){
@@ -151,7 +151,11 @@ class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
               setState(() {
                 List searchedteachers = [];
                 for (var item in teachers) {
-                  if(item.children[0].text.toString().toLowerCase().contains(text.toLowerCase()) || item.children[4].text.toString().toLowerCase().contains(text.toLowerCase())){
+                  if(
+                    item.children[0].text.toString().toLowerCase().contains(text.toLowerCase()) ||
+                    item.children[4].text.toString().toLowerCase().contains(text.toLowerCase()) ||
+                    item.children[2].text.toString().toLowerCase().contains(text.toLowerCase())
+                    ){
                     searchedteachers.add(item);
                   }
                   
@@ -187,8 +191,10 @@ class _TeachersState extends State<Teachers> with TickerProviderStateMixin {
         appBar: AppBar(
           backgroundColor:  Colors.indigoAccent[700],
           centerTitle: false,
-          title: AnimatedSwitcher(child:title, duration: Duration(milliseconds: 500),transitionBuilder: (w,a)=>ScaleTransition(scale: a,child: w,),),
-          actions: <Widget>[shareButton,infoButton],
+          title: Container(
+            height: 60,
+            child:AnimatedSwitcher(child:title, duration: Duration(milliseconds: 500),transitionBuilder: (w,a)=>ScaleTransition(scale: a,child: w,),)),
+          actions: <Widget>[infoButton],
           
           ),
           floatingActionButton: searchButton,

@@ -480,7 +480,9 @@ class _PolicyPageState extends State<PolicyPage> with TickerProviderStateMixin {
       ),
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent[700],
-        title: AnimatedSwitcher(child: title, duration: Duration(milliseconds: 400),transitionBuilder: (w,a)=>ScaleTransition(scale: a,child: w,),),
+        title: Container(
+          height: 60,
+          child: AnimatedSwitcher(child: title, duration: Duration(milliseconds: 400),transitionBuilder: (w,a)=>ScaleTransition(scale: a,child: w,),)),
         actions: actions,
       ),
       body: body,
