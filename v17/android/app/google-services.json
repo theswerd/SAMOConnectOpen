@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "575996028209",
+    "firebase_url": "https://samoapp-30940.firebaseio.com",
+    "project_id": "samoapp-30940",
+    "storage_bucket": "samoapp-30940.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575996028209:android:8d8a175ecb02478c",
+        "android_client_info": {
+          "package_name": "com.swerd.SamoConnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575996028209-ajnrht0uc8hoelere3dmt71glbjdahru.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv1ZVTEAzB00t0LAMHqmyWr-Zr2-CV3no"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575996028209-lia4nlj0t5o2i7i90tqklqm5culptgu6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "575996028209-jp049p40jc7nm9dinapi4rbffro1ksso.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "t.a.b.2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

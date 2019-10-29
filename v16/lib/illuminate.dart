@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:v16/color_loader_5.dart';
 import 'constants.dart';
 import 'color_loader_3.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart';
 import 'package:html/dom.dart'as dom;
 import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart'; 
 import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
 
@@ -31,6 +30,9 @@ class Illuminate extends StatefulWidget {
 }
 
 class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
+  static String baseURL = "https://smmusd.illuminatehc.com";
+
+
   Widget bodyWidget;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController usernameController;
@@ -38,6 +40,8 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
 
   CupertinoActionSheetAction officialWebsiteAction;
   AnimationController menuController;
+
+  TabController gradebookTabController;
   @override
   void initState() {
     super.initState();
@@ -47,16 +51,18 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 500),
       vsync: this
     );
-    officialWebsiteAction =  Constants.officialWebsiteAction(context, "https://smmusd.illuminatehc.com/");
+
+    gradebookTabController = new TabController(length: 2, vsync: this);
+    officialWebsiteAction =  Constants.officialWebsiteAction(context, baseURL);
     bodyWidget =loginPage();
   }
 
   FutureBuilder<http.Response> loginPage() {
     return FutureBuilder(
-      future:http.get("https://smmusd.illuminatehc.com/login"),
+      future:http.get(baseURL+"/login"),
       builder: (c,s){
         if(s.hasError){
-          return Center(child: Text("Network Handshake Error; Check your connection"),);
+          return Center(child: Text("Network Handshake Error;\nCheck your connection"),);
         }
         if(s.connectionState!=ConnectionState.done){
           return Column(
@@ -209,7 +215,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
 
   FutureBuilder<http.Response> checkLogin(String header,String username, String password) {
     return FutureBuilder(
-            future: http.post("https://smmusd.illuminatehc.com/login_check", headers: {"cookie":header}, body: {"_username":username,"_password":password}),
+            future: http.post(baseURL+"/login_check", headers: {"cookie":header}, body: {"_username":username,"_password":password}),
             builder: (c, s){
               if(s.connectionState!=ConnectionState.done){
                 return Column(
@@ -249,7 +255,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
       
       return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton(child: AnimatedIcon(icon:AnimatedIcons.menu_close, progress: menuController),onPressed: (){
+        floatingActionButton: FloatingActionButton(child: AnimatedIcon(icon:AnimatedIcons.menu_close, progress: menuController),heroTag: "Menu",onPressed: (){
           menuController.forward();
           showCupertinoModalPopup(
           context: context,
@@ -272,7 +278,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
         }
         ),
         body: FutureBuilder(
-                      future: http.get("https://smmusd.illuminatehc.com/student-path?login=1", headers: {"cookie":header}),
+                      future: http.get(baseURL+"/student-path?login=1", headers: {"cookie":header}),
                       builder: (c,s){
                         if(s.connectionState!=ConnectionState.done){
                           return Column(
@@ -307,7 +313,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
     try {
       
       return FutureBuilder(
-                        future: http.get("https://smmusd.illuminatehc.com/gradebooks/", headers: {"cookie":header}),
+                        future: http.get(baseURL+"/gradebooks/", headers: {"cookie":header}),
                         builder: (c,s){
                           if(s.connectionState!=ConnectionState.done){
                             return Column(
@@ -330,7 +336,6 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                                 print("ALSO TRURRRR");
                               }
                             }
-                            //https://smmusd.illuminatehc.com/gradebooks/
                             List<dom.Element> unformattedGrades = doc.body.getElementsByClassName("ibox-content").last.children.first.children.first.children.last.children;
                             List formattedGrades = [];
                             for (dom.Element grade in unformattedGrades) {
@@ -360,56 +365,197 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                             
                             officialWebsiteAction = new CupertinoActionSheetAction(
                               child: Text("View on website"),
-                              onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com/gradebooks/", "Gradebook")
+                              onPressed: ()=>gradebookWebview(header, baseURL+"/gradebooks/", "Gradebook")
                             );
-                            return ListView.separated(
-                              padding: EdgeInsets.all(50),
-                              itemCount: formattedGrades.length,
+                            return Scaffold(
+                              appBar: TabBar(
+                                controller: gradebookTabController,
+                                tabs: <Widget>[
+                                  Tab(icon: Icon(MdiIcons.grid),),
+                                  Tab(icon: Icon(Icons.filter_list),)
+                                ],
+                              ),
+                              body: TabBarView(
+                                controller: gradebookTabController,
+                                children: <Widget>[
+                                  GridView.builder(
+                                    
+                                    itemCount: formattedGrades.length,
+                                    padding: EdgeInsets.all(15),
+                                    itemBuilder: (c,i){
+                                      Map thisClass = formattedGrades[i];
+                                      Row theClassHeading = Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                              Text(thisClass['class']),
+                                              Text(thisClass['grade'], style: TextStyle(color: thisClass['gradeColor'], fontWeight: FontWeight.bold)),
+                                            ],);
 
-                              separatorBuilder: (c,i)=>Container(height: 30,),
-                              itemBuilder: (c,i)=>RaisedButton(
-                                elevation: 15,
-                                
-                                splashColor: Constants.baseColor,
-                                padding: EdgeInsets.all(15),
-                                color: Colors.white,
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(formattedGrades[i]['class'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                                        Text(formattedGrades[i]['grade'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
-                                      ],
+                                      double chartSize = ((MediaQuery.of(context).size.width-30)/2-45);
+                                      return RaisedButton(
+                                        padding: EdgeInsets.all(10),
+                                        elevation: 15,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                                        color: Colors.white,
+                                        child:Column(
+                                          children: <Widget>[
+                                            theClassHeading,
+                                            AnimatedCircularChart(
+                                            chartType: CircularChartType.Radial,
+                                            size: Size(chartSize,chartSize),
+                                            holeLabel: formattedGrades[i]['gradePercent'].toString()+"%",
+                                            labelStyle: TextStyle(color: Colors.black, fontSize: 28),
+                                            initialChartData: [
+                                              CircularStackEntry(
+                                                [
+                                                  CircularSegmentEntry(
+                                                    formattedGrades[i]['gradePercent'],Colors.greenAccent[400]
+                                                  ),
+                                                  CircularSegmentEntry(
+                                                    100-formattedGrades[i]['gradePercent'],Colors.redAccent[400]
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                          ),
+
+                                          ],
+                                        ),
+                                        onPressed: ()=>openClassGradebook(header, formattedGrades[i]['url'], formattedGrades[i]['class']),
+                                      );
+                                    },
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:2, crossAxisSpacing: 15, mainAxisSpacing: 15, ),
+                                  ),
+                                  ListView.separated(
+                                    padding: EdgeInsets.all(50),
+                                    itemCount: formattedGrades.length,
+
+                                    separatorBuilder: (c,i)=>Container(height: 30,),
+                                    itemBuilder: (c,i)=>RaisedButton(
+                                      elevation: 15,
+                                      
+                                      splashColor: Constants.baseColor,
+                                      padding: EdgeInsets.all(15),
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(formattedGrades[i]['class'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                              Text(formattedGrades[i]['grade'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(formattedGrades[i]['teacher'], style: TextStyle(fontSize: 19, fontWeight: FontWeight.normal, color: Colors.grey[600]),),
+                                              Text(formattedGrades[i]['lastUpdated'], style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold))
+                                            ],
+                                          ),
+                                          AnimatedCircularChart(
+                                            chartType: CircularChartType.Radial,
+                                            size: Size(MediaQuery.of(context).size.width-160,MediaQuery.of(context).size.width-160),
+                                            holeLabel: formattedGrades[i]['gradePercent'].toString()+"%",
+                                            labelStyle: TextStyle(color: Colors.black, fontSize: 28),
+                                            initialChartData: [
+                                              CircularStackEntry(
+                                                [
+                                                  CircularSegmentEntry(
+                                                    formattedGrades[i]['gradePercent'],Colors.greenAccent[400]
+                                                  ),
+                                                  CircularSegmentEntry(
+                                                    100-formattedGrades[i]['gradePercent'],Colors.redAccent[400]
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                          ),
+                                          FutureBuilder(
+                                            future: http.get(baseURL+formattedGrades[i]['url'], headers: {"cookie":header}),
+                                            builder: (c,s){
+                                              if(s.connectionState!=ConnectionState.done){
+                                                return Center(child: ColorLoader5());
+                                              }else{
+                                                try {
+                                                   List<Map> theAssignments = formatGradebook(s);
+                                                    Map infoAnalysis = new Map();
+                                                    infoAnalysis['hasMissings'] = false;
+                                                    infoAnalysis['hasAces'] = false;
+
+                                                    for (Map assignment in theAssignments) {
+                                                      try {
+                                                        
+                                                      
+                                                      print(assignment);
+                                                      if(assignment['missing']){
+                                                        infoAnalysis['missings']!=null?infoAnalysis['missings']++:infoAnalysis['missings']=1;
+                                                        infoAnalysis['hasMissings'] = true;
+                                                        print("WE HAVE A MISSING");
+                                                      }else if(assignment['ace']){
+                                                         infoAnalysis['aces']!=null?infoAnalysis['aces']++:infoAnalysis['aces']=1;
+                                                         infoAnalysis['hasAces'] = true;
+                                                          print("WE HAVE AN ACE");
+                                                      }
+                                                      } catch (e) {
+                                                      }
+                                                    }
+                                                    Widget missingWidget = Container();
+                                                    Widget aceWidget = Container();
+
+                                                    if(infoAnalysis['hasMissings']){
+                                                      missingWidget = Column(children: <Widget>[
+                                                        FloatingActionButton(
+                                                          mini: true,
+                                                          onPressed: (){
+
+                                                          },
+                                                          backgroundColor: Colors.redAccent[400],
+                                                          child: Icon(MdiIcons.alertCircleOutline),
+                                                          tooltip: infoAnalysis['missings'].toString()+" Missing",
+                                                          heroTag: formattedGrades[i].toString()/*Stopping scheduler conflicts */,
+                                                        ),
+                                                        Text(infoAnalysis['missings'].toString()+" Missing")
+                                                      ],);
+                                                    }
+                                                    if(infoAnalysis['hasAces']){
+                                                      aceWidget = Column(children: <Widget>[
+                                                        FloatingActionButton(
+                                                          mini: true,
+                                                          onPressed: (){
+
+                                                          },
+                                                          backgroundColor: Color.fromRGBO(255,215,0, 1),
+                                                          child: Icon(MdiIcons.starOutline),
+                                                          tooltip: infoAnalysis['aces'].toString()+" Aces",
+                                                          heroTag: formattedGrades[i].toString()+"ACE"/*Stopping scheduler conflicts */,
+                                                        ),
+                                                        Text(infoAnalysis['aces'].toString()+" Aces")
+                                                      ],);
+                                                    }
+                                                    return Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: <Widget>[
+                                                        missingWidget,
+                                                        aceWidget
+                                                      ],
+                                                    );
+                
+                                                } catch (e) {
+                                                  print("OH I GOTTA ERROR");
+                                                  print(e);
+                                                  return Container(height: 0);
+                                                }
+                                              }
+                                            },
+                                          
+                                          )
+                                        ],
+                                      ),
+                                      onPressed: ()=>openClassGradebook(header, formattedGrades[i]['url'], formattedGrades[i]['class']),
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(formattedGrades[i]['teacher'], style: TextStyle(fontSize: 19, fontWeight: FontWeight.normal, color: Colors.grey[600]),),
-                                        Text(formattedGrades[i]['lastUpdated'], style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold))
-                                      ],
-                                    ),
-                                    AnimatedCircularChart(
-                                      chartType: CircularChartType.Radial,
-                                      size: Size(MediaQuery.of(context).size.width-160,MediaQuery.of(context).size.width-160),
-                                      holeLabel: formattedGrades[i]['gradePercent'].toString()+"%",
-                                      labelStyle: TextStyle(color: Colors.black, fontSize: 28),
-                                      initialChartData: [
-                                        CircularStackEntry(
-                                          [
-                                            CircularSegmentEntry(
-                                              formattedGrades[i]['gradePercent'],Colors.greenAccent[400]
-                                            ),
-                                            CircularSegmentEntry(
-                                              100-formattedGrades[i]['gradePercent'],Colors.redAccent[400]
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                onPressed: ()=>openClassGradebook(header, formattedGrades[i]['url'], formattedGrades[i]['class']),
+                                  ),
+                                ],
                               ),
                             );//
                             } catch (e) {
@@ -459,15 +605,14 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
           appBar: AppBar(
             title: Text(subject),
             actions: <Widget>[
-              IconButton(icon: Icon(Icons.launch),onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com"+url, "Gradebook"),)
+              IconButton(icon: Icon(Icons.launch),onPressed: ()=>gradebookWebview(header,baseURL+url, "Gradebook"),)
             ],
           ),
           body: FutureBuilder(
-            future: http.get("https://smmusd.illuminatehc.com"+url, headers: {"cookie":header}),
+            future: http.get(baseURL+url, headers: {"cookie":header}),
             builder: (c,s){
               try {
-                
-              
+               
               if(s.connectionState!=ConnectionState.done){
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -477,41 +622,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
                   ],
                 );
               }else{
-                dom.Document theDoc = parse(s.data.body);
-                dom.Element theGradebook = theDoc.getElementById("assignment_list");
-                List<dom.Element> theAssignments = theGradebook.children.last.children;
-                List<Map> theAssignmentsF = [];
-                for (dom.Element item in theAssignments) {
-                  Map theMap = new Map();
-                  theMap['category'] = item.children.first.text;
-                  theMap['name'] = item.children[1].children.first.text.toString();
-                  theMap['points'] = item.children[2].text.trim().split("\n").join(" ");
-                  bool ace = false;
-                  try {
-                    ace = theMap['points'].toString().split("/").first.trim()==theMap['points'].toString().split("/").last.trim();
-                  } catch (e) {
-                    ace = false;
-                  }
-                  theMap['ace'] = ace;
-                  bool extraCredit = false;
-                  try {
-                    extraCredit = theMap['points'].toString().split("/").last.trim()=="-";
-                  } catch (e) {
-                    extraCredit = false;
-                  }
-                  theMap['extraCredit'] = extraCredit;
-                  bool graded = true;
-                  try {
-                    graded = theMap['points'].toString().split("/").first.trim()!="-";
-                  } catch (e) {
-                    graded = true;
-                  }
-                  theMap['graded'] = graded;
-                  theMap['missing'] = item.children[2].text.trim()=="Missing";
-                  theMap['grade'] = item.children[3].text.trim();
-                  theMap['due'] = item.children[5].text.trim();
-                  theAssignmentsF.add(theMap);
-                }
+                List<Map> theAssignmentsF = formatGradebook(s);
                 return ListView.separated(
                   padding: EdgeInsets.all(25),
                   itemCount: theAssignmentsF.length,
@@ -569,6 +680,48 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
       )
     );
   }
+
+  List<Map> formatGradebook(AsyncSnapshot s) {
+    dom.Document theDoc = parse(s.data.body);
+    dom.Element theGradebook = theDoc.getElementById("assignment_list");
+    List<dom.Element> theAssignments = theGradebook.children.last.children;
+    List<Map> theAssignmentsF = [];
+    for (dom.Element item in theAssignments) {
+      Map theMap = new Map();
+      theMap['category'] = item.children.first.text;
+      theMap['name'] = item.children[1].children.first.text.toString();
+      theMap['points'] = item.children[2].text.trim().split("\n").join(" ");
+      bool ace = false;
+      try {
+        ace = theMap['points'].toString().split("/").first.trim()==theMap['points'].toString().split("/").last.trim();
+      } catch (e) {
+        ace = false;
+      }
+      theMap['ace'] = ace;
+      bool extraCredit = false;
+      try {
+        extraCredit = theMap['points'].toString().split("/").last.trim()=="-";
+      } catch (e) {
+        extraCredit = false;
+      }
+      theMap['extraCredit'] = extraCredit;
+      bool graded = true;
+      try {
+        graded = theMap['points'].toString().split("/").first.trim()!="-";
+      } catch (e) {
+        graded = true;
+      }
+      theMap['graded'] = graded;
+      theMap['missing'] = item.children[2].text.trim()=="Missing";
+      if(theMap['missing']){
+        theMap['ace']=false;
+      }
+      theMap['grade'] = item.children[3].text.trim();
+      theMap['due'] = item.children[5].text.trim();
+      theAssignmentsF.add(theMap);
+    }
+    return theAssignmentsF;
+  }
       
   classListBuilder(String header) async{
     try {
@@ -591,7 +744,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
 
   attendanceBuilder(String header) async{
       Widget attendanceBody = FutureBuilder(
-        future: http.get("https://smmusd.illuminatehc.com/attendance/summary", headers: {"cookie":header}),
+        future: http.get(baseURL+"/attendance/summary", headers: {"cookie":header}),
         builder: (c,s){
           if(s.hasError){
             return Column(
@@ -774,7 +927,7 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
           maintainState: true,
           builder: (c)=>Scaffold(
             appBar: AppBar(title: Text("Attendance"),actions: <Widget>[
-              IconButton(icon: Icon(MdiIcons.launch),onPressed: ()=>gradebookWebview(header,"https://smmusd.illuminatehc.com/attendance/summary", "Attendance"),),
+              IconButton(icon: Icon(MdiIcons.launch),onPressed: ()=>gradebookWebview(header,baseURL+"/attendance/summary", "Attendance"),),
               
             ],),
             body: attendanceBody
