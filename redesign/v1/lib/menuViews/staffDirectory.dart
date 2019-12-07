@@ -62,25 +62,11 @@ class _StaffDirectoryState extends State<StaffDirectory> with TickerProviderStat
     });
     if(hasError){
       setState(() {
-        body = Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("We are having trouble connecting right now", textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
-            Divider(),
-            RaisedButton(
-              child: Text("Try again?"),
-              onPressed: (){
-                setState(() {
-                  body = Center(child: CircularProgressIndicator());
-                });
-                getTeachers();
-              },
-            )
-          ],
-        );
+        body = networkErrorView(getTeachers);
       });
       return;
     }
+    
     Response response = await teachersRaw;
     String data = response.body;
     dom.Document doc = parse(data);
@@ -114,6 +100,25 @@ class _StaffDirectoryState extends State<StaffDirectory> with TickerProviderStat
       body = teacherListView();
       floatingActionButton = searchButton();
     });
+  }
+
+  Column networkErrorView(Function reload) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("We are having trouble connecting right now", textAlign: TextAlign.center, style: TextStyle(fontSize: 18)),
+          Divider(),
+          RaisedButton(
+            child: Text("Try again?"),
+            onPressed: (){
+              setState(() {
+                body = Center(child: CircularProgressIndicator());
+              });
+              reload();
+            },
+          )
+        ],
+      );
   }
   FloatingActionButton searchButton(){
     return FloatingActionButton(

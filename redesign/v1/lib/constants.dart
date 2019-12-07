@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
-
 class Constants {
   static void giveARating() {
     LaunchReview.launch(
