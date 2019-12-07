@@ -123,8 +123,7 @@ class _StaffDirectoryState extends State<StaffDirectory> with TickerProviderStat
       ),
       onPressed: (){
         Widget newTitle;
-        FocusNode focusNode = new FocusNode();
-
+        Vibrate.feedback(FeedbackType.light);
         if(isSearching){
           isSearching = false;
           searchButtonAnimationController.reverse();
@@ -138,10 +137,14 @@ class _StaffDirectoryState extends State<StaffDirectory> with TickerProviderStat
           newTitle = Padding(
             padding: const EdgeInsets.symmetric(vertical:8.0),
             child: TextField(
-              focusNode: focusNode,
+              autofocus: true,
+              style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: "Search Staff",
-                border: UnderlineInputBorder()
+                border: UnderlineInputBorder(
+
+                )
+
               ),
               onChanged: (v){
                 activeTeachers = [];
@@ -166,7 +169,6 @@ class _StaffDirectoryState extends State<StaffDirectory> with TickerProviderStat
           );
           setState(() {
             title = newTitle;
-            FocusScope.of(context).requestFocus(focusNode);
           });
         }
         
@@ -180,6 +182,7 @@ class _StaffDirectoryState extends State<StaffDirectory> with TickerProviderStat
       itemCount: activeTeachers.length,
       separatorBuilder: (c,i)=>Container(height: 30),
       itemBuilder: (c,i)=>RaisedButton(
+        
         padding: EdgeInsets.all(20),
         elevation: 25,
         onPressed: (){},
