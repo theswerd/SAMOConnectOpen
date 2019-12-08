@@ -14,12 +14,14 @@ class MyApp extends StatelessWidget {
         primaryColor: primaryColor,
         accentColor: primaryColor,
         brightness: Brightness.light,
+        splashColor: primaryColor,
         buttonColor: Colors.white,
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: primaryColor),
       ),
       darkTheme: ThemeData(
         primaryColor: Colors.grey[900],
         brightness: Brightness.dark,
+        splashColor: primaryColor,
         buttonColor: Colors.grey[800],
         floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: primaryColor),
         accentColor: primaryColor

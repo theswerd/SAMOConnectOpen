@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'config.dart';
 
 import 'menuViews/staffDirectory.dart';
+import 'menuViews/clubDirectory.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -52,7 +53,13 @@ class _HomePageState extends State<HomePage> {
           title: Text("Clubs", style: TextStyle(color: Colors.white),),
           subtitle: Text("Club Directory", style: TextStyle(color: Colors.grey[100])),
           trailing: Icon(MdiIcons.cardsClub, color: Colors.white),
-          onTap: (){},
+          onTap: ()=>Navigator.of(context).push(
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              maintainState: true,
+              builder: (c)=>ClubDirectory()
+            )
+          ),
         ),
         ListTile(
           title: Text("Daily Bulletin", style: TextStyle(color: Colors.white),),
@@ -109,10 +116,9 @@ class _HomePageState extends State<HomePage> {
             applicationName: "SAMOHI Connect",
             applicationVersion: "2.0",
             applicationLegalese: "SAMOHI Connect is a completetly student lead project to help modernize SAMOHI's online resources. We are not affiliated with SMMUSD in any way."
-
           ),
         ),
-      
+        Container(height: 20,)
       ],),
     );
   }

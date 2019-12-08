@@ -15,8 +15,8 @@ class _ClubDirectoryState extends State<ClubDirectory> {
   FloatingActionButton floatingActionButton;
   Widget body;
 
-  List<Club> allClubs;
-  List<Club> activeClubs;
+  List<Club> allClubs = [];
+  List<Club> activeClubs = [];
 
   @override
   void initState() {
@@ -85,7 +85,26 @@ class _ClubDirectoryState extends State<ClubDirectory> {
 
   void parseClubs(List clubsUnformatted) {
     for (dom.Element element in clubsUnformatted) {
-      print(element);
+      try {
+        String name = element.children[0].text.trim();
+        String room = element.children[1].text.trim();
+        String day  = element.children[2].text.trim();
+        String advisor  = element.children[3].text.trim();
+        String description = element.children[4].text.trim();
+        Club club = Club(
+          name: name,
+          room: room,
+          day: day,
+          advisor: advisor,
+          description: description
+        );
+        allClubs.add(club);
+      } catch (e) {
+      }
+      activeClubs = allClubs;
+
+      
+      
     }
   }
 }
@@ -93,23 +112,18 @@ class _ClubDirectoryState extends State<ClubDirectory> {
 class Club {
   String name;
   String room;
-  String meetingDay;
+  String day;
   String advisor;
-  String mission;
-
+  String description;
+  
   Club(
     {
       @required this.name,
       @required this.room,
       @required this.advisor,
-      @required this.meetingDay,
-      @required this.mission
+      @required this.day,
+      @required this.description
     }
   );
 
-  //Club Name
-// Room #
-// Meeting Day
-// Advisor
-// Mission Statement
 }
