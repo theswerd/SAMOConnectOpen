@@ -16,7 +16,13 @@ class MyApp extends StatelessWidget {
     return PlatformProvider(
       builder: (c) => PlatformApp(
         title: 'SAMOHI',
-        ios: (c) => CupertinoAppData(theme: CupertinoThemeData()),
+        ios: (c) => CupertinoAppData(
+          theme: CupertinoThemeData(),
+          localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+            DefaultMaterialLocalizations.delegate,
+            DefaultWidgetsLocalizations.delegate,
+          ],
+        ),
         android: (c) => MaterialAppData(
           theme: ThemeData(
             primaryColor: Constants.primary,
