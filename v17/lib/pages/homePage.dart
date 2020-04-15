@@ -4,9 +4,9 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mdi/mdi.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/gradesPage.dart';
-import 'package:v17/pages/newsPage.dart';
+import 'package:v17/pages/newsPage/newsPage.dart';
 import 'package:v17/pages/schoolInfo.dart';
-import 'package:v17/pages/settingsPage.dart';
+import 'package:v17/pages/settings/settingsPage.dart';
 
 class HomePage extends StatelessWidget {
   @override

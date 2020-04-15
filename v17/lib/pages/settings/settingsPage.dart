@@ -5,8 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:v17/components/CustomListTile.dart';
 import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/constants.dart';
-import 'package:v17/pages/developedBy.dart';
-import 'package:v17/pages/legalPage.dart';
+import './developedBy.dart';
+import './legalPage.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -74,6 +74,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                     onTap: () {
                                       PlatformProvider.of(context)
                                           .changeToCupertinoPlatform();
+                                      this
+                                          .sharedPreferences
+                                          .setBool("Material", false);
                                     }),
                               ],
                             )),
@@ -85,8 +88,13 @@ class _SettingsPageState extends State<SettingsPage> {
                         actions: <Widget>[
                           CupertinoActionSheetAction(
                               child: Text("Material"),
-                              onPressed: () => PlatformProvider.of(context)
-                                  .changeToMaterialPlatform()),
+                              onPressed: () {
+                                PlatformProvider.of(context)
+                                    .changeToMaterialPlatform();
+                                this
+                                    .sharedPreferences
+                                    .setBool("Material", true);
+                              }),
                           CupertinoActionSheetAction(
                               child: Text("Cupertino"),
                               onPressed: () {

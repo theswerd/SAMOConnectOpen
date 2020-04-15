@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:v17/api/news/Category.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NewsStory {
   String title;
+  String description;
   String author;
   String authorLink;
   String category;
@@ -12,12 +14,15 @@ class NewsStory {
   bool loadedFullStory;
   String body;
   DateTime posted;
+  String originCategory;
 
   NewsStory({
     @required this.title,
+    @required this.description,
     @required this.author,
     @required this.url,
     @required this.category,
+    @required this.originCategory,
     @required this.categoryURL,
     @required this.imageSRC,
     @required this.posted,
@@ -27,6 +32,8 @@ class NewsStory {
   Color get categoryColor => categoryColors.containsKey(this.category)
       ? categoryColors[this.category]
       : Colors.blue;
+
+  String get timeAgo => timeago.format(this.posted);
 
   static Map<String, Color> categoryColors = {
     "News": Colors.blueAccent,
@@ -42,8 +49,6 @@ class NewsStory {
     Category(title: "Opinion", code: "Opinion"),
     Category(title: "A & E", code: "ae"),
     Category(title: "Feature", code: "feature"),
-    //Category(title: "Photos", code: "photo")
+    Category(title: "Photography", code: "photo")
   ];
-  
 }
-

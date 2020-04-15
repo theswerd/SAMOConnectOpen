@@ -4,7 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:v17/components/CustomListTile.dart';
 import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/constants.dart';
-import 'package:v17/pages/developedBy.dart';
+import './developedBy.dart';
 
 class LegalPage extends StatefulWidget {
   @override
