@@ -10,7 +10,7 @@ class DevelopedBy extends StatelessWidget {
       title: "Developers",
       body: <Widget>[
         SliverList(delegate: SliverChildListDelegate.fixed([
-          CustomListTile(title: "Benjamin Swerdlow", trailingText: "Founder/\nLead developer", subtitle: " - Created SAMOHI Connect in 9th grade\n - Developed versions v0-v9 on his own\n - Leads current development team",),
+          CustomListTile(title: "Benjamin Swerdlow", trailingText: "Founder/\nLead developer", subtitle: " - Created SAMOHI Connect in 9th grade\n - Developed versions v0-v5 on his own\n - Leads current development team",),
           CustomListTile(title: "Jason Telanoff", trailingText: "Developer", subtitle: " - Translated app to Espanól\n - Assisted in developing ______",),
           CustomListTile(title: "Henry Marks", trailingText: "Developer", subtitle: " - Assisted in developing ______",),
           CustomListTile(title: "Jessica Golden", trailingText: "Designer", subtitle: " - Designed Logo",),
