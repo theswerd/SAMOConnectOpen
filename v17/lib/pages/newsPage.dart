@@ -33,7 +33,7 @@ class _NewsPageState extends State<NewsPage> {
         PlatformWidget(
           ios: (c) => CupertinoSliverRefreshControl(
             onRefresh: () async {
-              reGetNews();
+              await reGetNews();
             },
           ),
           android: (c) => SliverToBoxAdapter(
@@ -95,7 +95,7 @@ class _NewsPageState extends State<NewsPage> {
                   ),
                 ),
               ),
-              ...List.generate(
+              ...(this.newsStories.isNotEmpty?List.generate(
                 this.newsStories.length,
                 (index) {
                   NewsStory story = this.newsStories[index];
@@ -155,7 +155,10 @@ class _NewsPageState extends State<NewsPage> {
                     ),
                   );
                 },
-              ),
+              ):[
+                CupertinoActivityIndicator()
+              ]
+              )
             ],
           ),
         )
@@ -170,7 +173,7 @@ class _NewsPageState extends State<NewsPage> {
     });
   }
 
-  void reGetNews() async {
+  Future<bool> reGetNews() async {
     setState(() {
       this.newsStories = [];
     });
@@ -178,7 +181,7 @@ class _NewsPageState extends State<NewsPage> {
       getNews(preference);
       setState(() {});
     }
-    return;
+    return true;
   }
 
   void loadPreferences() async {
