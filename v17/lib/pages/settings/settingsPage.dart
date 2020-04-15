@@ -171,8 +171,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           this.customizedExperience =
                               !(this.customizedExperience ?? false);
                         });
+                        
                         keyToValueBool(
-                            "customizedExperience", this.storeIlluminateLogin);
+                            "customizedExperience", this.customizedExperience);
                       }),
                   onPressed: () {
                     setState(() {
@@ -180,12 +181,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           !(this.customizedExperience ?? false);
                     });
                     keyToValueBool(
-                        "customizedExperience", this.storeIlluminateLogin);
+                        "customizedExperience", this.customizedExperience);
                   }),
               CustomListTile(
                 title: "Clear data",
                 subtitle:
-                    "This will clear all data currently stored on you. This will not clear past analytics data as it is not personally identifiable.",
+                    "This will clear all data that was stored in the background. This will not clear past analytics data or your settings.",
                 onPressed: () => showPlatformDialog(
                   context: context,
                   builder: (c) => PlatformAlertDialog(
@@ -198,8 +199,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           onPressed: () => Navigator.pop(c)),
                       PlatformDialogAction(
                           child: Text("Clear Data"),
-                          onPressed: () => Navigator.pop(
-                              c) /*TODO: IMPLEMENT STORING DATA AND THEN THE NON STORING */)
+                          onPressed: () async {
+                            this.sharedPreferences.setStringList("newsPreferences", null);
+                            Navigator.pop(c);
+                            isMaterial(context)?PlatformProvider.of(context).changeToMaterialPlatform():PlatformProvider.of(context).changeToCupertinoPlatform();//RESTARTS APP
+                            
+                          })
                     ],
                   ),
                 ),
@@ -260,21 +265,25 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void keyToValueBool(String key, bool value) async {
     try {
+      print(key);
       this.sharedPreferences.setBool(key, value);
-    } catch (e) {}
+      print(this.sharedPreferences.getBool(key));
+    } catch (e) {
+
+    }
   }
 
   void checkSharedPreferences() async {
     this.sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       this.storeIlluminateLogin =
-          sharedPreferences.getBool("storeIlluminateLogin") ?? false;
+          sharedPreferences.getBool("storeIlluminateLogin") ?? true;
 
       this.analyticsEnabled =
-          sharedPreferences.getBool("analyticsEnabled") ?? false;
+          sharedPreferences.getBool("analyticsEnabled") ?? true;
 
       this.customizedExperience =
-          sharedPreferences.getBool("customizedExperience") ?? false;
+          sharedPreferences.getBool("customizedExperience") ?? true;
     });
   }
 

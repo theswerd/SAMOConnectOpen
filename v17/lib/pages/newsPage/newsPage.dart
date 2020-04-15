@@ -84,9 +84,13 @@ class _NewsPageState extends State<NewsPage> {
                       onSelected: (v) {
                         if (v) {
                           this.preferences.add(NewsStory.categories[i].code);
+                          if (this
+                                  .sharedPreferences
+                                  .getBool("customizedExperience") ??
+                              true)
+                            this.sharedPreferences.setStringList(
+                                "newsPreferences", this.preferences);
 
-                          this.sharedPreferences.setStringList(
-                              "newsPreferences", this.preferences);
                           getNews(NewsStory.categories[i].code);
                         } else {
                           this.preferences.remove(NewsStory.categories[i].code);
@@ -157,11 +161,13 @@ class _NewsPageState extends State<NewsPage> {
 
   void loadPreferences() async {
     this.sharedPreferences = await SharedPreferences.getInstance();
-    this.preferences =
-        sharedPreferences.getStringList("newsPreferences") ?? ["news"];
-
-    if(this.preferences.isEmpty)
-      preferences.add("news");
+    if (sharedPreferences.getBool("customizedExperience") ?? true) {
+      this.preferences =
+          sharedPreferences.getStringList("newsPreferences") ?? ["news"];
+    } else {
+      this.preferences = ['news'];
+    }
+    if (this.preferences.isEmpty) preferences.add("news");
     for (String preference in this.preferences) {
       getNews(preference);
     }

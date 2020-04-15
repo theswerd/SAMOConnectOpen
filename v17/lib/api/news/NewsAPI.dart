@@ -55,9 +55,7 @@ class NewsAPI {
 
   static Future<List<NewsStory>> getArtistStories(String artistURL) async {
     try {
-      print("STARTING");
       Response latestNews = await get(artistURL);
-      print("RESPONSE");
       dom.Document document = parse(latestNews.body);
       dom.Element main = document.getElementById("omc-main");
       List<NewsStory> newsStories = [];
