@@ -765,7 +765,7 @@ IconButton infoButton() {
                           ),
                           Container(height: 50,color: Colors.grey[200],child: Text("Developed by Benjamin Swerdlow, \u00a9SwerdIsTheWord"),alignment: Alignment.bottomLeft,padding: EdgeInsets.all(5),),
                           ListTile(
-                            title: Text("Developed By"),
+                            title: Text("View developers"),
                             subtitle: Text("See the SAMO Connect Team"),
                             trailing: Icon(MdiIcons.developerBoard,color: Colors.black,),
                             onTap: ()=>Navigator.of(context).pushNamed(DeveloperPage.tag),

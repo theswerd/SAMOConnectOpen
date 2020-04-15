@@ -79,7 +79,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
         return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Developed By"),
+        title: Text("View developers"),
         backgroundColor: Colors.indigoAccent[700],
         actions: <Widget>[
           IconButton(
