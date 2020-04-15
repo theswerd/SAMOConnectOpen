@@ -14,16 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformProvider(
-        builder: (c) => PlatformApp(
-              title: 'SAMOHI',
-              ios: (c) => CupertinoAppData(
-                  theme: CupertinoThemeData()),
-              android: (c) => MaterialAppData(
-                  theme: ThemeData(
-                      primaryColor: Constants.primary,
-                      accentColor: Constants.primary),
-                  darkTheme: ThemeData.dark()),
-              home: HomePage(),
-            ));
+      builder: (c) => PlatformApp(
+        title: 'SAMOHI',
+        ios: (c) => CupertinoAppData(theme: CupertinoThemeData()),
+        android: (c) => MaterialAppData(
+          theme: ThemeData(
+            primaryColor: Constants.primary,
+            accentColor: Constants.primary,
+            iconTheme: IconThemeData(color: Constants.primary),
+          ),
+          darkTheme: ThemeData.dark(),
+        ),
+        home: HomePage(),
+      ),
+    );
   }
 }
