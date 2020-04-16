@@ -980,6 +980,7 @@ List<Teacher> teachers = [
   Teacher(
     name: "Shuli Lotan",
     department: [
+      Departments.mentalHealth,
       Departments.mentalHealthCoordinator,
     ],
     room: "AD502",
@@ -1003,5 +1004,72 @@ List<Teacher> teachers = [
       Departments.math,
     ],
     email: "tluong@smmusd.org",
+  ),
+  Teacher(
+    name: "Vijaya Macwan",
+    ext: "x71317",
+    room: "I317",
+    department: [
+      Departments.science,
+    ],
+    email: "vmacwan@smmusd.org",
+    website: "http://mrsmacwan.weebly.com/grades.html",
+  ),
+  Teacher(
+    name: "Juan Manzur",
+    department: [
+      Departments.it,
+    ],
+    ext: "x71116",
+    room: "I103",
+    email: "jmanzur@smmusd.org",
+  ),
+  Teacher(
+    name: "Ari Marken",
+    department: [
+      Departments.math,
+    ],
+    ext: "x71621",
+    room: "T-1",
+    email: "amarken@smmusd.org",
+  ),
+  Teacher(
+    name: "Grace Maxwell",
+    room: "South Gym",
+    ext: "x71425",
+    email: "gmaxwell@smmusd.org",
+    department: [
+      Departments.art,
+      Departments.dance,
+    ],
+  ),
+  Teacher(
+    name: "Leigh Anne McKellar",
+    ext: "x71307",
+    room: "I307",
+    email: "lmckellar@smmusd.org",
+    department: [
+      Departments.worldLanguages,
+    ],
+  ),
+  Teacher(
+    name: "Kevin McKeown",
+    department: [
+      Departments.art,
+      Departments.music,
+    ],
+    ext: "x71406",
+    room: "M102",
+    email: "komckeown@smmusd.org",
+  ),
+  Teacher(
+    name: "Adrienne Mead",
+    department: [
+      Departments.mentalHealth,
+      Departments.psychologist,
+    ],
+    ext: "x71542",
+    room: "AD202",
+    email: "amead@smmusd.org",
   ),
 ];

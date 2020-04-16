@@ -31,6 +31,8 @@ class Departments {
   //ARTS & MUSIC
   static String art = "Art";
   static String performingArts = "Performing Arts";
+  static String dance = "Dance";
+  static String music = "Music";
   static String acting = "Acting";
   static String ceramics = "Ceramics";
   static String choir = "Choir";
@@ -45,7 +47,10 @@ class Departments {
   static String facilityUse = "Facility Use";
   static String extOperator = "Operator";
   static String healthSupport = "Health Support";
+
+  //IT
   static String labTechnician = "Lab Technician";
+  static String it = "IT Support";
 
   //SPECIAL EDUCATION
   static String specialEducation = "Special Education";
@@ -60,10 +65,13 @@ class Departments {
   static String studentRecords = "Student Records";
   static String outreachSpecialist = "Outreach Specialist";
   static String studentSupport = "Student Support";
-  static String mentalHealthCoordinator = "Mental Health Coordinator";
   static String workability = "Workability1";//WHAT IS THIS?
   static String writingCenter = "writingCenter";
 
+  //MENTAL HEALTH
+  static String mentalHealth = "Mental Health";
+  static String psychologist = "Psychologist";
+  static String mentalHealthCoordinator = "Mental Health Coordinator";
 
   static String housePrincipal(String house) {
     return "$house House Principal";
