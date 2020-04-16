@@ -7,6 +7,8 @@ class Teacher {
   List<String> department;
   String ext;
   String email;
+  bool administration;
+  String house;
 
   Teacher({
     @required this.name,
@@ -15,5 +17,7 @@ class Teacher {
     @required this.ext,
     this.room,
     this.website,
+    this.administration = false,
+    this.house,
   });
 }
