@@ -14,7 +14,7 @@ class Teacher {
     @required this.name,
     @required this.department,
     @required this.email,
-    @required this.ext,
+    this.ext,
     this.room,
     this.website,
     this.administration = false,
