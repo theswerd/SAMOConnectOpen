@@ -5,7 +5,7 @@ import 'package:mdi/mdi.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/gradesPage.dart';
 import 'package:v17/pages/newsPage/newsPage.dart';
-import 'package:v17/pages/schoolInfo.dart';
+import 'package:v17/pages/schoolInfo/schoolInfo.dart';
 import 'package:v17/pages/settings/settingsPage.dart';
 
 class HomePage extends StatelessWidget {

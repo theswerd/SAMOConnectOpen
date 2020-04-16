@@ -8,6 +8,7 @@ class Teacher {
   String ext;
   String email;
   bool administration;
+  bool incomplete;
   String house;
 
   Teacher({
@@ -19,5 +20,19 @@ class Teacher {
     this.website,
     this.administration = false,
     this.house,
+    this.incomplete = false,
   });
+
+  bool shouldIncludeInSearch(String searchString) {
+    if (this.name.contains(searchString) ||
+        this.department.contains(searchString) ||
+        this.email.contains(searchString) ||
+        (this.ext ?? "").contains(searchString) ||
+        (this.website ?? "").contains(searchString) ||
+        (this.website ?? "").contains(searchString)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

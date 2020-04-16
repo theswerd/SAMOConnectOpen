@@ -1072,4 +1072,110 @@ List<Teacher> teachers = [
     room: "AD202",
     email: "amead@smmusd.org",
   ),
+  Teacher(
+    name: "Amy Meadors",
+    ext: "x71315",
+    room: "I315",
+    department: [
+      Departments.science,
+    ],
+    email: "ameadors@smmusd.org",
+  ),
+  Teacher(
+    name: "Dr. Hector Medrano",
+    administration: true,
+    house: "UNKNOWN",
+    department: [
+      Departments.principal,
+      Departments.housePrincipal("UNKNOWN"),
+    ],
+    email: "hmedrano@smmusd.org",
+    ext: "x71269",
+    room: "L200",
+  ),
+  Teacher(
+    name: "Rosa Mejia",
+    department: [
+      Departments.collegeCounselor,
+      "(O-Z)",
+    ],
+    ext: "x71479",
+    room: "B115C",
+    email: "rmejia@smmusd.org",
+  ),
+  Teacher(
+    name: "Dina Mendoza",
+    ext: "x71546",
+    room: "AD100",
+    administration: true,
+    department: [
+      Departments.enrollment,
+    ],
+    email: "dmendoza@smmusd.org",
+  ),
+  Teacher(
+    administration: true,
+    name: "Virginia Mendoza",
+    email: "vmendoza@smmusd.org",
+    ext: "x71132",
+    room: "E109A",
+    house: Houses.H,
+    department: [
+      Departments.advisor,
+      "(9/11)",
+    ],
+  ),
+  Teacher(
+    name: "Katharina Merlob",
+    ext: "x71281",
+    room: "H201",
+    email: "kmerlob@smmusd.org",
+    department: [],
+    incomplete: true,
+  ),
+  Teacher(
+    name: "George Mickelopoulos",
+    department: [
+      Departments.specialEducation,
+      Departments.math,
+    ],
+    ext: "x71182",
+    room: "H102",
+    email: "gmickelopoulos@smmusd.org",
+  ),
+  Teacher(
+    name: "Guadalupe Mireles",
+    ext: "x71309",
+    room: "I309",
+    department: [
+      Departments.worldLanguages,
+      Departments.spanish,
+    ],
+    email: "mireles@smmusd.org",
+  ),
+  Teacher(
+    name: "Terry Morris",
+    ext: "x71250",
+    room: "L200",
+    email: "tmorris@smmusd.org",
+    department: [
+      Departments.houseAssistant(""),
+    ],
+    house: /*Houses.*/ "",
+    incomplete: true,
+  ),
+  Teacher(
+    name: "Jason Mun",
+    department: [
+      Departments.specialEducation,
+      Departments.athletics,
+      Departments.wrestling
+    ],
+    email: "jmun@smmusd.org",
+  ),
+  Teacher(
+    name: null,
+    department: null,
+    email: null,
+  ),
 ];

@@ -20,6 +20,7 @@ class Departments {
   static String basketball = "Basketball";
   static String golf = "Golf";
   static String football = "Football";
+  static String wrestling = "Wrestling";
   static String waterPolo = "Water polo";
   static String swimming = "Swimming";  
   static String lifeguard = "Lifeguard";
@@ -66,7 +67,9 @@ class Departments {
   static String outreachSpecialist = "Outreach Specialist";
   static String studentSupport = "Student Support";
   static String workability = "Workability1";//WHAT IS THIS?
-  static String writingCenter = "writingCenter";
+  static String writingCenter = "Writing Center";
+  static String administration= "Administration";
+  static String enrollment = "Enrollment";
 
   //MENTAL HEALTH
   static String mentalHealth = "Mental Health";
