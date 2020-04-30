@@ -64,6 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     onTap: () {
                                       PlatformProvider.of(context)
                                           .changeToMaterialPlatform();
+                                      Navigator.pop(context);
                                     }),
                                 ListTile(
                                     title: Text("Cupertino"),

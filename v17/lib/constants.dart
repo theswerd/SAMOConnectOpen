@@ -6,6 +6,8 @@ import 'package:package_info/package_info.dart';
 class Constants {
   static Color primary = Color(0xff2B32B2);
 
+  static String website = "https://samoconnect.page.link/SamoConnect";
+
   static Color lightMBlackDarkMWhite(context) {
     if (isMaterial(context)) {
       return Theme.of(context).brightness == Brightness.light
@@ -37,4 +39,8 @@ class Constants {
         packageInfo.buildNumber.toString() +
         ")");
   }
+}
+
+class LocalStorageKeys {
+  static String favoriteTeachers = "favoriteTeachers";
 }

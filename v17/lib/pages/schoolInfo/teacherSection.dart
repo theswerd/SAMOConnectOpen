@@ -1,21 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mdi/mdi.dart';
 import 'package:v17/api/schoolInformation/teacher/teacher.dart';
 import 'package:v17/api/schoolInformation/teacher/teachers.dart';
+import 'package:v17/components/teacherListTile.dart';
 import 'package:v17/constants.dart';
+import 'package:v17/pages/schoolInfo/teacherPage.dart';
 
 class TeacherSection extends StatefulWidget {
+  _TeacherSectionState childState = _TeacherSectionState();
+  set search(String searchValue) {
+    childState.search = searchValue;
+  }
+
   @override
-  _TeacherSectionState createState() => _TeacherSectionState();
+  _TeacherSectionState createState() => this.childState;
 }
 
 class _TeacherSectionState extends State<TeacherSection> {
-  String searchString;
-  List<Teacher> teacherList = teachers;
+  List<Teacher> teacherList;
   @override
   void initState() {
     super.initState();
-    this.searchString = "";
+    teacherList = teachers;
   }
 
   @override
@@ -23,64 +31,20 @@ class _TeacherSectionState extends State<TeacherSection> {
     return SliverList(
       delegate:
           SliverChildListDelegate(List.generate(teacherList.length, (index) {
-        Teacher teacher = teacherList[index];
-        return PlatformWidget(
-          ios: (c) {
-            return Material(
-              color: Colors.transparent,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 4),
-                    child: Text(
-                      teacher.name,
-                      style: TextStyle(
-                          color: Constants.isBright(context)?Colors.grey[800]:Colors.grey[300],
-                          fontSize: 18),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      alignment: WrapAlignment.start,
-                      children: List.generate(
-                        teacher.department.length,
-                        (index) => Padding(
-                          padding: const EdgeInsets.only(
-                              left: 4.0, right: 4.0),
-                          child: Chip(
-                            label: Text(teacher.department[index]),
-                            backgroundColor: Colors.blueAccent,
-                            labelStyle: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Divider(
-                      height: 1,
-                      color: Constants.isBright(context)?Colors.grey[500]:Colors.grey[300]),
-                ],
-              ),
-            );
-          },
-          android: (c) {
-            return ListTile(
-              title: Text(teacher.name),
-              subtitle: Text(teacher.department.join(", ")),
-            );
-          },
-        );
+        Teacher teacher = this.teacherList[index];
+        return TeacherListTile(teacher: teacher);
       })),
     );
   }
 
   set search(String searchString) {
-    setState(() {
-      this.searchString = searchString;
-    });
+    try {
+      setState(() {
+        teacherList = teachers
+            .where((element) => element.shouldIncludeInSearch(searchString))
+            .toList();
+      });
+      print(teacherList.length);
+    } catch (e) {}
   }
 }

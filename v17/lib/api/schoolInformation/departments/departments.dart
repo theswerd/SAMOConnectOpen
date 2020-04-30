@@ -1,91 +1,257 @@
+import 'package:flutter/material.dart';
+
+import 'department.dart';
+
 class Departments {
-
   //ACADEMIC SUBJECTS
-  static String freshmanSeminar = "Freshman Seminar";
-  static String socialStudies = "Social Studies";
-  static String english = "English";
-  static String math = "Math";
-  static String science = "Science";
+  static Department freshmanSeminar = Department(
+    name: "Freshman Seminar",
+    color: Colors.blueAccent,
+  );
+  static Department socialStudies = Department(
+    name: "Social Studies",
+    color: Colors.blue,
+  );
+  static Department english = Department(
+    name: "English",
+    color: Colors.cyanAccent[700],
+  );
+  static Department math = Department(
+    name: "Math",
+    color: Colors.deepOrange,
+  );
+  static Department science = Department(
+    name: "Science",
+    color: Colors.deepPurple,
+  );
 
-  static String spanishImmersion = "Spanish Immersion";
+  static Department spanishImmersion =
+      Department(name: "Spanish Immersion", color: Colors.green);
 
   //WORLD LANGUAGES
-  static String worldLanguages = "World Languages";
-  static String spanish = "Spanish";
-  static String latin = "Latin";
+  static Department worldLanguages = Department(
+    name: "World Languages",
+    color: Colors.greenAccent,
+  );
+  static Department spanish =
+      Department(name: "Spanish", color: Colors.lightGreen);
+  static Department latin = Department(
+    name: "Latin",
+    color: Colors.lightGreenAccent,
+  );
 
   //ATHLETICS
-  static String athletics = "Athletics";
-  static String soccer = "Soccer";
-  static String basketball = "Basketball";
-  static String golf = "Golf";
-  static String football = "Football";
-  static String wrestling = "Wrestling";
-  static String waterPolo = "Water polo";
-  static String swimming = "Swimming";  
-  static String lifeguard = "Lifeguard";
+  static Department athletics = Department(
+    name: "Athletics",
+    color: Colors.redAccent,
+  );
+  static Department soccer = Department(
+    name: "Soccer",
+    color: Colors.redAccent
+  );
+  static Department basketball = Department(
+    name: "Basketball",
+    color: Colors.orange,
+  );
+  static Department golf = Department(
+    name: "Golf",
+    color: Colors.orangeAccent,
+  );
+  static Department football = Department(
+    name: "Football",
+    color: Colors.deepPurpleAccent,
+  );
+  static Department wrestling = Department(
+    name: "Wrestling",
+    color: Colors.tealAccent,
+  );
+  static Department waterPolo = Department(
+    name: "Water polo",
+    color: Colors.purple,
+  );
+  static Department swimming = Department(
+    name: "Swimming",
+    color: Colors.deepPurple,
+  );
+  static Department lifeguard = Department(
+    name: "Lifeguard",
+    color: Colors.deepPurpleAccent,
+  );
 
-  static String physicalEducation = "PE";
+  static Department physicalEducation = Department(
+    name: "PE",
+    color: Colors.pink,
+  );
 
   //ELECTIVES
 
   //ARTS & MUSIC
-  static String art = "Art";
-  static String performingArts = "Performing Arts";
-  static String dance = "Dance";
-  static String music = "Music";
-  static String acting = "Acting";
-  static String ceramics = "Ceramics";
-  static String choir = "Choir";
-  static String photography = "Photography";
+  static Department art = Department(
+    name: "Art",
+    color: Colors.red,
+  );
+  static Department performingArts = Department(
+    name: "Performing Arts",
+    color: Colors.redAccent,
+  );
+  static Department dance = Department(
+    name: "Dance",
+    color: Colors.blue,
+  );
+  static Department music = Department(
+    name: "Music",
+    color: Colors.pinkAccent,
+  );
+  static Department acting = Department(
+    name: "Acting",
+    color: Colors.deepOrangeAccent,
+  );
+  static Department ceramics = Department(
+    name: "Ceramics",
+    color: Colors.lightBlueAccent,
+  );
+  static Department choir = Department(
+    name: "Choir",
+    color: Colors.indigo,
+  );
+  static Department photography = Department(
+    name: "Photography",
+    color: Colors.indigoAccent,
+  );
 
-  static String autoShop = "AutoShop";
+  static Department autoShop = Department(
+    name: "AutoShop",
+    color: Colors.amber,
+  );
 
-  static String librarian = "Librarian";
+  static Department librarian = Department(
+    name: "Librarian",
+    color: Colors.amberAccent,
+  );
 
   //FACILITY
-  static String gardener = "Gardener";
-  static String facilityUse = "Facility Use";
-  static String extOperator = "Operator";
-  static String healthSupport = "Health Support";
+  static Department gardener = Department(
+    name: "Gardener",
+    color: Colors.lightGreen,
+  );
+  static Department facilityUse = Department(
+    name: "Facility Use",
+    color: Colors.blue,
+  );
+  static Department extOperator = Department(
+    name: "Operator",
+    color: Colors.blueAccent,
+  );
+  static Department healthSupport = Department(
+    name: "Health Support",
+    color: Colors.lightBlueAccent,
+  );
 
   //IT
-  static String labTechnician = "Lab Technician";
-  static String it = "IT Support";
+  static Department labTechnician = Department(
+    name: "Lab Technician",
+    color: Colors.teal,
+  );
+  static Department it = Department(
+    name: "IT Support",
+    color: Colors.tealAccent,
+  );
 
   //SPECIAL EDUCATION
-  static String specialEducation = "Special Education";
-  static String visualImpairment = "Visual Impairment";
-  static String eld = "ELD";/*IDK WHAT THIS IS */
-  static String advisor = "Advisor";
-  static String speechLanguagePathologist = "Speech/Language Pathologist";
+  static Department specialEducation = Department(
+    name: "Special Education",
+    color: Colors.purple,
+  );
+  static Department visualImpairment = Department(
+    name: "Visual Impairment",
+    color: Colors.deepPurple,
+  );
+  static Department eld = Department(
+    name: "ELD",
+    color: Colors.deepPurpleAccent,
+  ); /*IDK WHAT THIS IS */
+  static Department advisor = Department(
+    name: "Advisor",
+    color: Colors.red,
+  );
+  static Department speechLanguagePathologist = Department(
+    name: "Speech/Language Pathologist",
+    color: Colors.redAccent,
+  );
 
   //ADMIN & ADVISORS
-  static String collegeCounselor = "College Counselor";
-  static String principal = "Principal";
-  static String studentRecords = "Student Records";
-  static String outreachSpecialist = "Outreach Specialist";
-  static String studentSupport = "Student Support";
-  static String workability = "Workability1";//WHAT IS THIS?
-  static String writingCenter = "Writing Center";
-  static String administration= "Administration";
-  static String enrollment = "Enrollment";
+  static Department collegeCounselor = Department(
+    name: "College Counselor",
+    color: Colors.pink,
+  );
+  static Department principal = Department(
+    name: "Principal",
+    color: Colors.lightGreenAccent,
+  );
+  static Department studentRecords = Department(
+    name: "Student Records",
+    color: Colors.green,
+  );
+  static Department outreachSpecialist = Department(
+    name: "Outreach Specialist",
+    color: Colors.greenAccent,
+  );
+  static Department studentSupport = Department(
+    name: "Student Support",
+    color: Colors.red,
+  );
+  static Department workability = Department(
+    name: "Workability1",
+    color: Colors.redAccent,
+  ); //WHAT IS THIS?
+  static Department writingCenter = Department(
+    name: "Writing Center",
+    color: Colors.purple,
+  );
+  static Department administration = Department(
+    name: "Administration",
+    color: Colors.purpleAccent,
+  );
+  static Department enrollment = Department(
+    name: "Enrollment",
+    color: Colors.deepPurpleAccent,
+  );
 
   //MENTAL HEALTH
-  static String mentalHealth = "Mental Health";
-  static String psychologist = "Psychologist";
-  static String mentalHealthCoordinator = "Mental Health Coordinator";
+  static Department mentalHealth = Department(
+    name: "Mental Health",
+    color: Colors.deepPurple,
+  );
+  static Department psychologist = Department(
+    name: "Psychologist",
+    color: Colors.blueAccent,
+  );
+  static Department mentalHealthCoordinator = Department(
+    name: "Mental Health Coordinator",
+    color: Colors.blue,
+  );
 
-  static String housePrincipal(String house) {
-    return "$house House Principal";
+  static Department housePrincipal(String house) {
+    return Department(
+      name: "$house House Principal",
+      color: Colors.cyanAccent,
+    );
   }
 
-  static String houseAssistant(String house) {
-    return "$house House Assistant";
+  static Department houseAssistant(String house) {
+    return Department(
+      name: "$house House Assistant",
+      color: Colors.cyan,
+    );
   }
 
   //OTHER
-  static String avidCoordinator = "AVID Coordinator";
-  static String restorativeJusticeCoordinator = "Restorative Justice Coordinator"; 
-
+  static Department avidCoordinator = Department(
+    name: "AVID Coordinator",
+    color: Colors.blue
+  );
+  static Department restorativeJusticeCoordinator = Department(
+    name: "Restorative Justice Coordinator",
+    color: Colors.blue
+  );
 }

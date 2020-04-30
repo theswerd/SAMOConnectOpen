@@ -447,7 +447,7 @@ List<Teacher> teachers = [
     email: "e.flores@smmusd.org",
     department: [
       Departments.collegeCounselor,
-      "(A-G)", /*THIS WILL ONLY BE ONCE */
+      //"(A-G)", /*THIS WILL ONLY BE ONCE */
     ],
   ),
   Teacher(
@@ -481,7 +481,7 @@ List<Teacher> teachers = [
     administration: true,
     department: [
       Departments.athletics,
-      "Athletic Director",
+      //"Athletic Director",
     ],
     ext: "x71532",
     room: "AD103B",
@@ -574,7 +574,8 @@ List<Teacher> teachers = [
     administration: true,
     house: Houses.administration,
     department: [
-      "Principal's Assistant",
+      Departments.houseAssistant(Houses.administration),
+      //"Principal's Assistant",
     ],
     room: "AD400",
     ext: "x71500",
@@ -694,7 +695,7 @@ List<Teacher> teachers = [
     name: "Julie Honda",
     department: [
       Departments.collegeCounselor,
-      "H-N",
+      //"H-N",
     ],
     ext: "x71477",
     room: "B115B",
@@ -1097,7 +1098,7 @@ List<Teacher> teachers = [
     name: "Rosa Mejia",
     department: [
       Departments.collegeCounselor,
-      "(O-Z)",
+      //"(O-Z)",
     ],
     ext: "x71479",
     room: "B115C",
@@ -1122,7 +1123,7 @@ List<Teacher> teachers = [
     house: Houses.H,
     department: [
       Departments.advisor,
-      "(9/11)",
+      // "(9/11)",
     ],
   ),
   Teacher(
@@ -1166,6 +1167,7 @@ List<Teacher> teachers = [
   ),
   Teacher(
     name: "Jason Mun",
+    
     department: [
       Departments.specialEducation,
       Departments.athletics,
@@ -1173,9 +1175,9 @@ List<Teacher> teachers = [
     ],
     email: "jmun@smmusd.org",
   ),
-  Teacher(
-    name: null,
-    department: null,
-    email: null,
-  ),
+  // Teacher(
+  //   name: null,
+  //   department: null,
+  //   email: null,
+  // ),
 ];

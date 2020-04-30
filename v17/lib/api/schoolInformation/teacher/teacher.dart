@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:v17/api/schoolInformation/departments/department.dart';
 
 class Teacher {
   String name;
   String room;
   String website;
-  List<String> department;
+  List<Department> department;
   String ext;
   String email;
   bool administration;
@@ -24,15 +25,21 @@ class Teacher {
   });
 
   bool shouldIncludeInSearch(String searchString) {
-    if (this.name.contains(searchString) ||
-        this.department.contains(searchString) ||
-        this.email.contains(searchString) ||
-        (this.ext ?? "").contains(searchString) ||
-        (this.website ?? "").contains(searchString) ||
-        (this.website ?? "").contains(searchString)) {
+    if (this.name.toLowerCase().contains(searchString.toLowerCase()) ||
+        this.department.any((element) =>
+            element.name.toLowerCase().contains(searchString.toLowerCase())) ||
+        this.email.toLowerCase().contains(searchString.toLowerCase()) ||
+        (this.ext ?? "").toLowerCase().contains(searchString.toLowerCase()) ||
+        (this.website ?? "").toLowerCase()
+            .contains(searchString.toLowerCase()) ||
+        searchString.isEmpty) {
       return true;
     } else {
       return false;
     }
+  }
+
+  bool get hasWebsite {
+    return (website ?? "").isNotEmpty;
   }
 }

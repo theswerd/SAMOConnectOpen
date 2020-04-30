@@ -46,8 +46,8 @@ class HomePage extends StatelessWidget {
         ),
       ]),
       androidTabs: (c) => MaterialNavBarData(
-        selectedItemColor: Constants.isBright(context)?Constants.primary:null,
-        unselectedItemColor: Constants.isBright(context)?Constants.primary.withOpacity(.9):null,
+        selectedItemColor: Constants.isBright(context)?Constants.primary:Colors.white,
+        unselectedItemColor: Constants.isBright(context)?Constants.primary.withOpacity(.9):Colors.white70,
         items: [
         BottomNavigationBarItem(
           icon: Icon(Mdi.newspaper),

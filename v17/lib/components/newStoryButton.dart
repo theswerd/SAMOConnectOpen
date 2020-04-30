@@ -6,7 +6,6 @@ import 'package:v17/api/news/newsStory.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/newsPage/newsStoryPage.dart';
 
-
 class NewsStoryButton extends StatelessWidget {
   const NewsStoryButton({
     Key key,
@@ -15,56 +14,57 @@ class NewsStoryButton extends StatelessWidget {
 
   final NewsStory story;
 
+  final String defaultStoryImage =
+      "https://www.thesamohi.com/wp-content/themes/gonzo/images/no-image-blog-one.png";
+
   @override
   Widget build(BuildContext context) {
-    Expanded imageSection = Expanded(
-      flex: 1,
-      child: Padding(
-        padding: EdgeInsets.only(
-            left: isMaterial(context) ? 0 : 8,
-            right: isMaterial(context) ? 8 : 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(story.imageSRC, loadingBuilder:
-              (BuildContext context, Widget child,
-                  ImageChunkEvent loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-                child: PlatformCircularProgressIndicator());
-          }),
-        ),
-      ),
-    );
+    Widget imageSection = this.story.imageSRC == this.defaultStoryImage
+        ? Container()
+        : Expanded(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: isMaterial(context) ? 0 : 8,
+                  right: isMaterial(context) ? 8 : 0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(story.imageSRC, loadingBuilder:
+                    (BuildContext context, Widget child,
+                        ImageChunkEvent loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: PlatformCircularProgressIndicator(),
+                  );
+                }),
+              ),
+            ),
+          );
 
     return PlatformWidget(android: (context) {
       return Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 20.0, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
         child: RaisedButton(
-          color: Constants.isBright(context)
-              ? Colors.white
-              : Colors.grey[800],
-          padding: EdgeInsets.symmetric(
-              vertical: 17.0, horizontal: 16),
+          color: Constants.isBright(context) ? Colors.white : Colors.grey[800],
+          padding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16),
           onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (c) => NewsStoryPage(story))),
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (c) => NewsStoryPage(story),
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(story.author,
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 16, fontWeight: FontWeight.bold)),
                       Text(story.timeAgo,
                           style: TextStyle(
                               color: Constants.isBright(context)
@@ -87,16 +87,13 @@ class NewsStoryButton extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.start,
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
                           story.title,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17),
+                              fontWeight: FontWeight.bold, fontSize: 17),
                         ),
                         SizedBox(
                           height: 5,
@@ -104,8 +101,7 @@ class NewsStoryButton extends StatelessWidget {
                         Text(
                           story.description ?? "",
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14),
+                              fontWeight: FontWeight.w400, fontSize: 14),
                         )
                       ],
                     ),
@@ -122,35 +118,56 @@ class NewsStoryButton extends StatelessWidget {
           color: Colors.transparent,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () => Navigator.of(context).push(
-                CupertinoPageRoute(
-                    builder: (c) => NewsStoryPage(story))),
+            onTap: () => Navigator.of(context)
+                .push(CupertinoPageRoute(builder: (c) => NewsStoryPage(story))),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                     flex: 2,
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Chip(
-                          label: Text(
-                            story.category,
-                            style:
-                                TextStyle(color: Colors.white),
-                          ),
-                          backgroundColor: story.categoryColor,
+                        Container(
+                          height: 2,
+                          color: story.categoryColor,
                         ),
-                        Text(story.title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Constants
-                                    .lightMBlackDarkMWhite(
-                                        context),
-                                height: 1.4,
-                                fontSize: 20))
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(4),
+                                bottomRight: Radius.circular(4),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: Text(story.category,
+                                    style: TextStyle(color: Colors.white)),
+                                color: story.categoryColor,
+                              ),
+                            ),
+                            Text(
+                              "By " + this.story.author,
+                              style: TextStyle(
+                                color: Constants.lightMBlackDarkMWhite(context),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          story.title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Constants.lightMBlackDarkMWhite(context),
+                            height: 1.4,
+                            fontSize: 20,
+                          ),
+                        )
                       ],
                     ),
                   ),

@@ -89,7 +89,9 @@ class _NewsPageState extends State<NewsPage> {
                                   .getBool("customizedExperience") ??
                               true)
                             this.sharedPreferences.setStringList(
-                                "newsPreferences", this.preferences);
+                                  "newsPreferences",
+                                  this.preferences,
+                                );
 
                           getNews(NewsStory.categories[i].code);
                         } else {
