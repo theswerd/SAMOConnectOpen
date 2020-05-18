@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mdi/mdi.dart';
+
 import 'package:v17/api/schoolInformation/teacher/teacher.dart';
 import 'package:v17/components/departmentChip.dart';
+import 'package:v17/components/teacherFavoriteButton.dart';
 import 'package:v17/constants.dart';
-import 'package:v17/pages/schoolInfo/teacherPage.dart';
+import 'package:v17/pages/StaffDirectory/teacherPage.dart';
 
-class TeacherListTile extends StatelessWidget {
+class TeacherListTile extends StatefulWidget {
   const TeacherListTile({
     @required this.teacher,
   });
 
   final Teacher teacher;
 
+  @override
+  _TeacherListTileState createState() => _TeacherListTileState();
+}
+
+class _TeacherListTileState extends State<TeacherListTile> {
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(
@@ -22,12 +28,12 @@ class TeacherListTile extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () => Navigator.of(context).push(CupertinoPageRoute(
-              builder: (c) => TeacherPage(this.teacher),
+              builder: (c) => TeacherPage(this.widget.teacher),
             )),
             child: GestureDetector(
               onHorizontalDragEnd: (v) =>
                   Navigator.of(context).push(CupertinoPageRoute(
-                builder: (c) => TeacherPage(this.teacher),
+                builder: (c) => TeacherPage(this.widget.teacher),
               )),
               child: Row(
                 children: <Widget>[
@@ -38,7 +44,7 @@ class TeacherListTile extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0, top: 4),
                           child: Text(
-                            teacher.name,
+                            widget.teacher.name,
                             style: TextStyle(
                               color: Constants.isBright(context)
                                   ? Colors.grey[800]
@@ -54,29 +60,26 @@ class TeacherListTile extends StatelessWidget {
                             crossAxisAlignment: WrapCrossAlignment.start,
                             alignment: WrapAlignment.start,
                             children: List.generate(
-                              teacher.department.length,
+                              widget.teacher.department.length,
                               (index) => Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 4.0, right: 4.0),
-                                child: DepartmentChip(
-                                  teacher.department[index]
-                                )
-                                
-                              ),
+                                  padding: const EdgeInsets.only(
+                                      left: 4.0, right: 4.0),
+                                  child: DepartmentChip(
+                                      widget.teacher.department[index])),
                             ),
                           ),
                         ),
                         Divider(
-                            height: 1,
-                            color: Constants.isBright(context)
-                                ? Colors.grey[500]
-                                : Colors.grey[300]),
+                          height: 1,
+                          color: Constants.isBright(context)
+                              ? Colors.grey[500]
+                              : Colors.grey[300],
+                        ),
                       ],
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(Mdi.starOutline),
-                    onPressed: () {},
+                  TeacherFavoriteButton(
+                    teacher: widget.teacher,
                   ),
                   Icon(
                     CupertinoIcons.right_chevron,
@@ -93,12 +96,16 @@ class TeacherListTile extends StatelessWidget {
       },
       android: (c) {
         return ListTile(
-          title: Text(teacher.name),
-          subtitle: Text(teacher.department.map((e) => e.name).join(', ')),
+          title: Text(widget.teacher.name),
+          subtitle:
+              Text(widget.teacher.department.map((e) => e.name).join(', ')),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (c) => TeacherPage(teacher),
+              builder: (c) => TeacherPage(widget.teacher),
             ),
+          ),
+          trailing: TeacherFavoriteButton(
+            teacher: widget.teacher,
           ),
         );
       },

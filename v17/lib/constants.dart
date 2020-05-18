@@ -10,9 +10,13 @@ class Constants {
 
   static Color lightMBlackDarkMWhite(context) {
     if (isMaterial(context)) {
-      return Theme.of(context).brightness == Brightness.light
-          ? Colors.black
-          : Colors.white;
+      if (Theme.of(context) == null) {
+        return CupertinoTheme.of(context).textTheme.navTitleTextStyle.color;
+      } else {
+        return Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white;
+      }
     } else {
       return CupertinoTheme.of(context).textTheme.navTitleTextStyle.color;
     }
@@ -34,13 +38,16 @@ class Constants {
   static Future<String> packageVersion(context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    return (packageInfo.version.toString() +
-        " (" +
-        packageInfo.buildNumber.toString() +
-        ")");
+    return (packageInfo.version + " (" + packageInfo.buildNumber + ")");
   }
 }
 
 class LocalStorageKeys {
   static String favoriteTeachers = "favoriteTeachers";
+}
+
+class SecureStorageKeys {
+  static String storeLoginInfo = "storeLoginInfo";
+  static String illuminatePassword = "illuminateP";
+  static String illuminateUsername = "illuminateU";
 }

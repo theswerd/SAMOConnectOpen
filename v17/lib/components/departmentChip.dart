@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:v17/api/schoolInformation/departments/department.dart';
 import 'package:v17/constants.dart';
-import 'package:v17/pages/schoolInfo/departmentsPage.dart';
+import 'package:v17/pages/staffDirectory/departmentsPage.dart';
 
 class DepartmentChip extends StatelessWidget {
   final Department department;

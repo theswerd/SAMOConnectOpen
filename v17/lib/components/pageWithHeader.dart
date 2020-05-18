@@ -4,17 +4,29 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:v17/components/topBar.dart';
 
 class PageWithHeader extends StatelessWidget {
-  PageWithHeader({@required this.title, @required this.body, this.titleBig = true});
+  PageWithHeader({
+    @required this.title,
+    @required this.body,
+    this.titleBig = true,
+    this.trailing,
+  });
   final String title;
   final bool titleBig;
   final List<Widget> body;
+  final Widget trailing;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isMaterial(context)?null:Colors.transparent,
+      color: isMaterial(context) ? null : Colors.transparent,
       child: CustomScrollView(
-        slivers: <Widget>[TopBar(this.title,), ...this.body],
+        slivers: <Widget>[
+          TopBar(
+            this.title,
+           trailing: this.trailing,
+          ),
+          ...this.body
+        ],
       ),
     );
   }

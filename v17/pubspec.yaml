@@ -28,6 +28,9 @@ dependencies:
   flutter_platform_widgets: ^0.32.5
 
   shared_preferences: ^0.5.6+3
+  localstorage: ^3.0.2+5
+  flutter_secure_storage: ^3.3.3
+  local_auth_device_credentials: ^0.6.3+8
 
   flutter_html: ^0.11.1
   share: ^0.6.3+6

@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:v17/components/SliverSearchBar.dart';
 import 'package:v17/constants.dart';
-import 'package:v17/pages/schoolInfo/teacherSection.dart';
+import 'package:v17/pages/staffDirectory/teacherSection.dart';
 
-class SchoolInfo extends StatefulWidget {
+class StaffDirectory extends StatefulWidget {
   @override
-  _SchoolInfoState createState() => _SchoolInfoState();
+  _StaffDirectoryState createState() => _StaffDirectoryState();
 }
 
-class _SchoolInfoState extends State<SchoolInfo> {
+class _StaffDirectoryState extends State<StaffDirectory> {
   TeacherSection teacherSection;
 
   @override
@@ -25,8 +25,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
     return CustomScrollView(
       slivers: <Widget>[
         SliverSearchBar(
-          title: "School Information",
-          hintText: "Search school information",
+          title: "Staff Directory",
+          hintText: "Search SAMOHI staff",
           searchFunction: _searchSections,
         ),
         this.teacherSection,

@@ -5,11 +5,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:v17/api/schoolInformation/departments/department.dart';
-import 'package:v17/api/schoolInformation/departments/departments.dart';
 import 'package:v17/api/schoolInformation/teacher/teacher.dart';
 import 'package:v17/api/schoolInformation/teacher/teachers.dart';
 import 'package:v17/components/departmentChip.dart';
 import 'package:v17/components/pageWithHeader.dart';
+import 'package:v17/components/teacherFavoriteButton.dart';
 import 'package:v17/components/teacherListTile.dart';
 import 'package:v17/constants.dart';
 import 'package:vibrate/vibrate.dart';
@@ -24,6 +24,7 @@ class TeacherPage extends StatelessWidget {
       color: Constants.isBright(context) ? Colors.grey[700] : Colors.grey[400],
     );
     return PageWithHeader(
+      trailing: TeacherFavoriteButton(teacher: this.teacher,),
       title: this.teacher.name,
       body: <Widget>[
         SliverPadding(

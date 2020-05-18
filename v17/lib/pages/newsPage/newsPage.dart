@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:mdi/mdi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:v17/api/news/NewsAPI.dart';
 import 'package:v17/api/news/newsStory.dart';
 import 'package:v17/components/newStoryButton.dart';
 import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/constants.dart';
-import 'package:v17/pages/newsPage/newsStoryPage.dart';
 
 class NewsPage extends StatefulWidget {
   @override
@@ -165,7 +163,7 @@ class _NewsPageState extends State<NewsPage> {
     this.sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getBool("customizedExperience") ?? true) {
       this.preferences =
-          sharedPreferences.getStringList("newsPreferences") ?? ["news"];
+          sharedPreferences.getStringList("newsPreferences") ?? NewsStory.categories.map((e) => e.title).toList();
     } else {
       this.preferences = ['news'];
     }

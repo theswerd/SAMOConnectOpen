@@ -11,6 +11,11 @@ class Teacher {
   bool administration;
   bool incomplete;
   String house;
+  bool isFavorite = false;
+
+  set setFavorite(bool favorite) {
+    this.isFavorite = favorite;
+  }
 
   Teacher({
     @required this.name,
