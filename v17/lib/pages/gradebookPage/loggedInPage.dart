@@ -173,4 +173,4 @@ class _LoggedInPageState extends State<LoggedInPage> {
   }
 }
 
-enum ContentState { loading, loaded, error }
+enum ContentState { loading, loaded, error, none }

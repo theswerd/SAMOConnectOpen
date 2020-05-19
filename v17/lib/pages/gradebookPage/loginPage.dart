@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool autoLogin;
   TextEditingController usernameController, passwordController;
-  bool loading;
+  ContentState loginContentState;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     this.usernameController = new TextEditingController();
     this.passwordController = new TextEditingController();
 
-    loading = false;
+    loginContentState = ContentState.none;
 
     autoLogin = false;
   }
@@ -148,21 +148,12 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           alignment: Alignment.centerLeft,
                         ),
-                        Container(
-                          height: 8,
-                        ),
                         AnimatedSwitcher(
                           transitionBuilder: (w, a) => ScaleTransition(
                             scale: a,
                             child: w,
                           ),
-                          child: this.loading
-                              ? LinearProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation(
-                                    Constants.primary,
-                                  ),
-                                )
-                              : Container(),
+                          child: loginStateIndicator(),
                           duration: Duration(
                             milliseconds: 500,
                           ),
@@ -173,22 +164,36 @@ class _LoginPageState extends State<LoginPage> {
                         Constants.isBright(context) ? Constants.primary : null,
                     onPressed: () async {
                       setState(() {
-                        loading = true;
+                        loginContentState = ContentState.loading;
                       });
                       await widget.illuminateAPI.attemptLogin(
-                          this.usernameController.text,
-                          this.passwordController.text);
-                      if (await widget.illuminateAPI.verifyLogin)
-                        Navigator.of(context).push(
+                        this.usernameController.text,
+                        this.passwordController.text,
+                      );
+                      if (await widget.illuminateAPI.verifyLogin) {
+                        setState(() {
+                          this.loginContentState = ContentState.loaded;
+                        });
+                        await Navigator.of(context).push(
                           platformPageRoute(
                             context: context,
                             builder: (c) => LoggedInPage(widget.illuminateAPI),
                           ),
                         );
-                        
-                      setState(() {
-                        loading = false;
-                      });
+                        setState(() {
+                          this.loginContentState = ContentState.none;
+                        });
+                      } else {
+                        setState(() {
+                          this.loginContentState = ContentState.error;
+                        });
+                        await Future.delayed(
+                          Duration(milliseconds: 550),
+                        );
+                        setState(() {
+                          this.loginContentState = ContentState.none;
+                        });
+                      }
                     },
                   ),
                 ],
@@ -198,5 +203,56 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Widget loginStateIndicator() {
+    switch (loginContentState) {
+      case ContentState.none:
+        return Container();
+      case ContentState.loaded:
+        return Column(
+          children: [
+            Container(
+              height: 8,
+            ),
+            LinearProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Colors.green,
+              ),
+            ),
+          ],
+        );
+
+
+      case ContentState.loading:
+        return Column(
+          children: [
+            Container(
+              height: 8,
+            ),
+            LinearProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Constants.primary,
+              ),
+            ),
+          ],
+        );
+
+      case ContentState.error:
+        return Column(
+          children: [
+            Container(
+              height: 8,
+            ),
+            LinearProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(
+                Colors.red,
+              ),
+            ),
+          ],
+        );
+      default:
+        return Container();
+    }
   }
 }
