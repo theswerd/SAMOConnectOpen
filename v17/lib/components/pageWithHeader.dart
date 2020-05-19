@@ -9,11 +9,13 @@ class PageWithHeader extends StatelessWidget {
     @required this.body,
     this.titleBig = true,
     this.trailing,
+    this.leading,
   });
   final String title;
   final bool titleBig;
   final List<Widget> body;
   final Widget trailing;
+  final Widget leading;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class PageWithHeader extends StatelessWidget {
         slivers: <Widget>[
           TopBar(
             this.title,
-           trailing: this.trailing,
+            trailing: this.trailing,
+            leading: this.leading,
           ),
           ...this.body
         ],

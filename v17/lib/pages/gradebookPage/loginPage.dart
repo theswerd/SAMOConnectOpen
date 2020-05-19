@@ -1,16 +1,18 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mdi/mdi.dart';
+import 'package:v17/api/illuminate/illuminate.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/gradebookPage/Textfield.dart';
+import 'package:v17/pages/gradebookPage/loggedInPage.dart';
+import 'gradesPage.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage();
-  
+  const LoginPage(this.illuminateAPI);
 
+  final IlluminateAPI illuminateAPI;
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -18,6 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool autoLogin;
   TextEditingController usernameController, passwordController;
+  bool loading;
 
   @override
   void initState() {
@@ -26,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     this.usernameController = new TextEditingController();
     this.passwordController = new TextEditingController();
 
+    loading = false;
 
     autoLogin = false;
   }
@@ -44,21 +48,13 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Illuminate",
-                      style: TextStyle(
-                        color: Constants.lightMBlackDarkMWhite(context),
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                    Text(
                       "Check your grades",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Constants.lightMBlackDarkMWhite(context)
                             .withOpacity(.8),
-                        fontSize: 24,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -127,30 +123,75 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 25),
             Container(
               width: MediaQuery.of(context).size.width,
-              child: FlatButton(
-                textColor: Constants.isBright(context)
-                    ? Colors.white
-                    : Constants.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.all(16),
-                color: Constants.isBright(context)
-                    ? Constants.primary
-                    : Colors.grey[350],
-                child: Align(
-                  child: Text(
-                    "LOGIN",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
+              child: Column(
+                children: [
+                  FlatButton(
+                    textColor: Constants.isBright(context)
+                        ? Colors.white
+                        : Constants.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    padding: EdgeInsets.all(16),
+                    color: Constants.isBright(context)
+                        ? Constants.primary
+                        : Colors.grey[350],
+                    child: Column(
+                      children: [
+                        Align(
+                          child: Text(
+                            "LOGIN",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          alignment: Alignment.centerLeft,
+                        ),
+                        Container(
+                          height: 8,
+                        ),
+                        AnimatedSwitcher(
+                          transitionBuilder: (w, a) => ScaleTransition(
+                            scale: a,
+                            child: w,
+                          ),
+                          child: this.loading
+                              ? LinearProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation(
+                                    Constants.primary,
+                                  ),
+                                )
+                              : Container(),
+                          duration: Duration(
+                            milliseconds: 500,
+                          ),
+                        )
+                      ],
+                    ),
+                    splashColor:
+                        Constants.isBright(context) ? Constants.primary : null,
+                    onPressed: () async {
+                      setState(() {
+                        loading = true;
+                      });
+                      await widget.illuminateAPI.attemptLogin(
+                          this.usernameController.text,
+                          this.passwordController.text);
+                      if (await widget.illuminateAPI.verifyLogin)
+                        Navigator.of(context).push(
+                          platformPageRoute(
+                            context: context,
+                            builder: (c) => LoggedInPage(widget.illuminateAPI),
+                          ),
+                        );
+                        
+                      setState(() {
+                        loading = false;
+                      });
+                    },
                   ),
-                  alignment: Alignment.centerLeft,
-                ),
-                splashColor:
-                    Constants.isBright(context) ? Constants.primary : null,
-                onPressed: () {},
+                ],
               ),
             ),
           ],

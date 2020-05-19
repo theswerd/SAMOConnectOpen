@@ -1,24 +1,23 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mdi/mdi.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
 import 'package:v17/api/illuminate/loginCredentials.dart';
 import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/constants.dart';
 import 'package:local_auth_device_credentials/local_auth.dart';
-import 'package:v17/pages/gradebookPage/Textfield.dart';
 import 'package:v17/pages/gradebookPage/loginPage.dart';
 
 class GradesPage extends StatefulWidget {
   @override
   _GradesPageState createState() => _GradesPageState();
+
+  
 }
 
-class _GradesPageState extends State<GradesPage> {
+class _GradesPageState extends State<GradesPage> {  
+
   Widget body;
   IlluminateAPI illuminateAPI;
   LoginCredentials credentials;
@@ -33,24 +32,16 @@ class _GradesPageState extends State<GradesPage> {
     super.initState();
 
     loggedIn = false;
-    body = LoginPage();
     initializeAPIs();
+    body = LoginPage(this.illuminateAPI);
+
   }
 
   @override
   Widget build(BuildContext context) {
     return PageWithHeader(
-      title: "Gradebook",
-      trailing: loggedIn
-          ? PlatformWidget(
-              ios: (c) => CupertinoButton(
-                child: Text(
-                  "Logout",
-                ),
-                onPressed: () {},
-              ),
-            )
-          : null,
+      title: "Illuminate",
+
       body: [body],
     );
   }
@@ -72,7 +63,9 @@ class _GradesPageState extends State<GradesPage> {
         if (autoLoginApproval) {
           this.credentials = await LoginCredentials.fromSecureStorage();
         }
-      } else {}
+      } else {
+
+      }
     } else {
       //TODO: Show network failure stuff
     }
@@ -192,5 +185,9 @@ class ConnectingToIlluminateLoadingIndicator extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void attemptLogin(String username, String password){
+
   }
 }

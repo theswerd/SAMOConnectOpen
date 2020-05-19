@@ -9,8 +9,16 @@ class LoginCredentials {
     @required this.username,
     @required this.password,
   });
+
+  static FlutterSecureStorage secureStorage = FlutterSecureStorage();
+
+  static Future<void> clearCredentials() async {
+    await secureStorage.delete(key: SecureStorageKeys.illuminateUsername);
+    await secureStorage.delete(key: SecureStorageKeys.illuminatePassword);
+    return;
+  }
+
   static Future<LoginCredentials> fromSecureStorage() async {
-    FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final String username =
         await secureStorage.read(key: SecureStorageKeys.illuminateUsername);
     final String password =
