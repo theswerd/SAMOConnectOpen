@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mdi/mdi.dart';
+import 'package:v17/api/contentState.dart';
 import 'package:v17/api/illuminate/class.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
 import 'package:flutter/src/cupertino/constants.dart'
@@ -21,9 +22,13 @@ class ClassPage extends StatefulWidget {
 }
 
 class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
+  ContentState gradebookContentState;
+
   @override
   void initState() {
     super.initState();
+
+    loadGradebookContent();
   }
 
   @override
@@ -57,51 +62,70 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
                       scrollController,
                     ) =>
                         Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        Container(
+                          color: Constants.isBright(context)
+                              ? CupertinoColors.extraLightBackgroundGray
+                              : CupertinoColors.darkBackgroundGray,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Filter",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                  Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Filter",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                Constants.lightMBlackDarkMWhite(
+                                                    context),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Find the assignments you want",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color:
+                                                Constants.lightMBlackDarkMWhite(
+                                              context,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Text(
-                                    "Find the assignments you want",
-                                    style: TextStyle(
-                                      fontSize: 16,
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: CupertinoButton(
+                                      borderRadius: BorderRadius.circular(30),
+                                      padding: EdgeInsets.all(4),
+                                      color: Constants.isBright(context)
+                                          ? CupertinoColors.lightBackgroundGray
+                                          : CupertinoColors.systemGrey4,
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Constants.isBright(context)?null:Colors.grey[350],
+                                      ),
+                                      onPressed: () => Navigator.pop(context),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: CupertinoButton(
-                                borderRadius: BorderRadius.circular(30),
-                                padding: EdgeInsets.all(4),
-                                color: Constants.isBright(context)
-                                    ? CupertinoColors.lightBackgroundGray
-                                    : CupertinoColors.darkBackgroundGray,
-                                child: Icon(
-                                  Icons.close,
-                                ),
-                                onPressed: () => Navigator.pop(context),
+                              Divider(
+                                height: 1,
                               ),
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          height: 1,
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -117,34 +141,60 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
       ),
       body: CustomScrollView(
         slivers: [
-          if (isCupertino(context))
+          if (isCupertino(context)) ...[
             SliverPersistentHeader(
               delegate: CupertinoTopSpacer(
                 context,
               ),
             ),
+            CupertinoSliverRefreshControl(
+              onRefresh: this.loadGradebookContent,
+            ),
+          ],
           SliverPersistentHeader(
             delegate: TopTabBarDelegate(),
             floating: true,
           ),
-          SliverToBoxAdapter(
-            child: FutureBuilder<bool>(
-              future: widget.currentClass
-                  .loadAssignments(widget.illuminateAPI.token),
-              builder: (c, s) {
-                if (s.connectionState != ConnectionState.done) {
-                  return CircularProgressIndicator();
-                } else {
-                  return Text(
-                    widget.currentClass.assignments.toString(),
-                  );
-                }
-              },
-            ),
-          ),
+          mainContent(),
         ],
       ),
     );
+  }
+
+  Future<void> loadGradebookContent() async {
+    setState(() {
+      this.gradebookContentState = ContentState.loading;
+    });
+    ContentState newContentState =
+        await widget.currentClass.loadAssignments(widget.illuminateAPI.token)
+            ? ContentState.loaded
+            : ContentState.error;
+    setState(() {
+      this.gradebookContentState = newContentState;
+    });
+  }
+
+  Widget mainContent() {
+    switch (this.gradebookContentState) {
+      case ContentState.loading:
+        return SliverFillRemaining(
+          child: Center(child: PlatformCircularProgressIndicator()),
+        );
+      case ContentState.loaded:
+        return SliverList(
+          delegate: SliverChildListDelegate(
+            List.generate(
+              widget.currentClass.assignments.length,
+              (index) => Text(
+                widget.currentClass.assignments[index].name,
+              ),
+            ),
+          ),
+        );
+      default:
+        return SliverToBoxAdapter(child: Container());
+      //TODO BUILD ERROR VIEW
+    }
   }
 }
 

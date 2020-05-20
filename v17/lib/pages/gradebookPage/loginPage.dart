@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   Platform.isIOS
                       ? "Your login information will be scored locally on your device's keychain."
-                      : "Your login information will be stored locally with an AES secret key that is encrypted with RSA and RSA key is stored in your devices KeyStore.",
+                      : "Your login information will be stored locally with an AES secret key that is encrypted with RSA, the AES key is stored in your devices KeyStore.",
                   style: TextStyle(
                     color: Constants.lightMBlackDarkMWhite(
                       context,
