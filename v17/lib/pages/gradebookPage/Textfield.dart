@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:v17/constants.dart';
 
@@ -15,20 +14,19 @@ class GradebookTextField extends StatelessWidget {
   final IconData icon;
   final bool obscureText;
 
-
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: EdgeInsets.all(8),
-        color: Constants.isBright(context)?Colors.grey[200]:Colors.grey[800],
+        color:
+            Constants.isBright(context) ? Colors.grey[200] : Colors.grey[800],
         child: Theme(
           data: ThemeData(
             primaryColor: Constants.primary,
             primaryColorDark: Constants.primary,
             accentColor: Colors.yellow,
-          
             brightness: Constants.isBright(context)
                 ? Brightness.light
                 : Brightness.dark,

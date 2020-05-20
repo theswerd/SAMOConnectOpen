@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mdi/mdi.dart';
+import 'package:v17/api/contentState.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/gradebookPage/Textfield.dart';
@@ -222,7 +223,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         );
-
 
       case ContentState.loading:
         return Column(

@@ -24,7 +24,9 @@ class TeacherPage extends StatelessWidget {
       color: Constants.isBright(context) ? Colors.grey[700] : Colors.grey[400],
     );
     return PageWithHeader(
-      trailing: TeacherFavoriteButton(teacher: this.teacher,),
+      trailing: TeacherFavoriteButton(
+        teacher: this.teacher,
+      ),
       title: this.teacher.name,
       body: <Widget>[
         SliverPadding(

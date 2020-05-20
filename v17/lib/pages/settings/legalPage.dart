@@ -53,15 +53,18 @@ class _LegalPageState extends State<LegalPage> {
                 Constants.isBright(context) ? Colors.white : Colors.grey[900],
           ),
           Container(height: 25),
-          CustomListTile(title: "Developed By", onPressed: ()=>Navigator.of(context).push(
-            isMaterial(context)?MaterialPageRoute(builder: (c)=>DevelopedBy()):CupertinoPageRoute(builder: (c)=>DevelopedBy())
-          ),)
+          CustomListTile(
+            title: "Developed By",
+            onPressed: () => Navigator.of(context).push(isMaterial(context)
+                ? MaterialPageRoute(builder: (c) => DevelopedBy())
+                : CupertinoPageRoute(builder: (c) => DevelopedBy())),
+          )
         ]))
       ],
     );
   }
 
-  void getVersionStr() async{
+  void getVersionStr() async {
     String packageVersion = await Constants.packageVersion(context);
     setState(() {
       this.versionStr = packageVersion;

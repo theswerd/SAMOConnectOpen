@@ -12,12 +12,9 @@ import 'package:v17/pages/gradebookPage/loginPage.dart';
 class GradesPage extends StatefulWidget {
   @override
   _GradesPageState createState() => _GradesPageState();
-
-  
 }
 
-class _GradesPageState extends State<GradesPage> {  
-
+class _GradesPageState extends State<GradesPage> {
   Widget body;
   IlluminateAPI illuminateAPI;
   LoginCredentials credentials;
@@ -34,14 +31,12 @@ class _GradesPageState extends State<GradesPage> {
     loggedIn = false;
     initializeAPIs();
     body = LoginPage(this.illuminateAPI);
-
   }
 
   @override
   Widget build(BuildContext context) {
     return PageWithHeader(
       title: "Illuminate",
-
       body: [body],
     );
   }
@@ -63,9 +58,7 @@ class _GradesPageState extends State<GradesPage> {
         if (autoLoginApproval) {
           this.credentials = await LoginCredentials.fromSecureStorage();
         }
-      } else {
-
-      }
+      } else {}
     } else {
       //TODO: Show network failure stuff
     }
@@ -187,7 +180,5 @@ class ConnectingToIlluminateLoadingIndicator extends StatelessWidget {
     );
   }
 
-  void attemptLogin(String username, String password){
-
-  }
+  void attemptLogin(String username, String password) {}
 }

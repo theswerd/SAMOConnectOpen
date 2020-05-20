@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
+import 'package:v17/api/illuminate/class.dart';
 import 'package:v17/api/illuminate/gradebook.dart';
 
 class IlluminateAPI {
-  final String baseURL = "https://smmusd.illuminatehc.com";
+  static String baseURL = "https://smmusd.illuminatehc.com";
 
   String token = "";
   Gradebook gradebook;

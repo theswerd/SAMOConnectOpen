@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-class Category{
+
+class Category {
   String title;
   String code;
-  Category({
-    @required this.title,
-    @required this.code
-  }
-  );
+  Category({@required this.title, @required this.code});
 }

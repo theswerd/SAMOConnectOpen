@@ -45,10 +45,8 @@ class Departments {
     name: "Athletics",
     color: Colors.redAccent,
   );
-  static Department soccer = Department(
-    name: "Soccer",
-    color: Colors.redAccent
-  );
+  static Department soccer =
+      Department(name: "Soccer", color: Colors.redAccent);
   static Department basketball = Department(
     name: "Basketball",
     color: Colors.orange,
@@ -246,12 +244,8 @@ class Departments {
   }
 
   //OTHER
-  static Department avidCoordinator = Department(
-    name: "AVID Coordinator",
-    color: Colors.blue
-  );
-  static Department restorativeJusticeCoordinator = Department(
-    name: "Restorative Justice Coordinator",
-    color: Colors.blue
-  );
+  static Department avidCoordinator =
+      Department(name: "AVID Coordinator", color: Colors.blue);
+  static Department restorativeJusticeCoordinator =
+      Department(name: "Restorative Justice Coordinator", color: Colors.blue);
 }

@@ -5,27 +5,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:v17/constants.dart';
 import './pages/homepage.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  if(!sharedPreferences.containsKey("Material")){
-    runApp(MyApp());
-  }else{
-    if(sharedPreferences.getBool("Material")){
-      runApp(MyApp(targetPlatform: TargetPlatform.android));
-    }else{
-      runApp(MyApp(targetPlatform: TargetPlatform.iOS));
-
+  if (!sharedPreferences.containsKey("Material")) {
+    runApp(
+      MyApp(),
+    );
+  } else {
+    if (sharedPreferences.getBool("Material")) {
+      runApp(
+        MyApp(
+          targetPlatform: TargetPlatform.android,
+        ),
+      );
+    } else {
+      runApp(
+        MyApp(
+          targetPlatform: TargetPlatform.iOS,
+        ),
+      );
     }
   }
-  
 }
 
 class MyApp extends StatelessWidget {
-
   final TargetPlatform targetPlatform;
 
-  MyApp({this.targetPlatform});
+  MyApp({
+    this.targetPlatform,
+  });
   @override
   Widget build(BuildContext context) {
     return PlatformProvider(
@@ -33,7 +42,9 @@ class MyApp extends StatelessWidget {
       builder: (c) => PlatformApp(
         title: 'SAMOHI',
         ios: (c) => CupertinoAppData(
-          theme: CupertinoThemeData(),
+          theme: CupertinoThemeData(
+            primaryContrastingColor: Constants.primary,
+          ),
           localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             DefaultMaterialLocalizations.delegate,
             DefaultWidgetsLocalizations.delegate,
@@ -45,11 +56,7 @@ class MyApp extends StatelessWidget {
             accentColor: Constants.primary,
             iconTheme: IconThemeData(color: Constants.primary),
           ),
-          darkTheme: ThemeData.dark(
-            
-          ).copyWith(
-            accentColor: Constants.primary
-          ),
+          darkTheme: ThemeData.dark().copyWith(accentColor: Constants.primary),
         ),
         home: HomePage(),
       ),

@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:v17/api/contentState.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
 import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/constants.dart';
+import 'package:v17/pages/gradebookPage/classPage.dart';
 
 class LoggedInPage extends StatefulWidget {
   LoggedInPage(this.illuminateAPI);
@@ -80,7 +83,7 @@ class _LoggedInPageState extends State<LoggedInPage> {
                         color: Constants.lightMBlackDarkMWhite(context),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () => goToClassPage(index),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8.0,
@@ -121,7 +124,7 @@ class _LoggedInPageState extends State<LoggedInPage> {
                     ],
                   ),
                   android: (c) => ListTile(
-                    onTap: (){},
+                    onTap: () => goToClassPage(index),
                     title: Text(
                       widget.illuminateAPI.gradebook.classes[index].name,
                       style: TextStyle(
@@ -158,6 +161,20 @@ class _LoggedInPageState extends State<LoggedInPage> {
     }
   }
 
+  Future goToClassPage(int index) {
+    return Navigator.of(context).push(
+      platformPageRoute(
+        context: context,
+        builder: (c) => CupertinoScaffold(
+          body: ClassPage(
+            widget.illuminateAPI.gradebook.classes[index],
+            widget.illuminateAPI,
+          ),
+        ),
+      ),
+    );
+  }
+
   void loadGrades() async {
     this.gradesContentState = ContentState.loading;
     if (await widget.illuminateAPI.getGradebook()) {
@@ -172,5 +189,3 @@ class _LoggedInPageState extends State<LoggedInPage> {
     }
   }
 }
-
-enum ContentState { loading, loaded, error, none }

@@ -1,0 +1,275 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:mdi/mdi.dart';
+import 'package:v17/api/illuminate/class.dart';
+import 'package:v17/api/illuminate/illuminate.dart';
+import 'package:flutter/src/cupertino/constants.dart'
+    show kMinInteractiveDimensionCupertino;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:v17/constants.dart';
+
+class ClassPage extends StatefulWidget {
+  final Class currentClass;
+  final IlluminateAPI illuminateAPI;
+
+  const ClassPage(this.currentClass, this.illuminateAPI);
+
+  @override
+  _ClassPageState createState() => _ClassPageState();
+}
+
+class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        trailingActions: [
+          Material(
+            type: MaterialType.transparency,
+            child: IconButton(
+              icon: Icon(
+                Mdi.filterVariant,
+              ),
+              onPressed: () {
+                if (isMaterial(context)) {
+                  showBarModalBottomSheet(
+                    context: context,
+                    builder: (c, s) {
+                      return Container();
+                    },
+                  );
+                } else {
+                  CupertinoScaffold.showCupertinoModalBottomSheet(
+                    context: context,
+                    enableDrag: true,
+                    expand: true,
+                    bounce: true,
+                    useRootNavigator: true,
+                    builder: (
+                      context,
+                      scrollController,
+                    ) =>
+                        Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Filter",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Find the assignments you want",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: CupertinoButton(
+                                borderRadius: BorderRadius.circular(30),
+                                padding: EdgeInsets.all(4),
+                                color: Constants.isBright(context)
+                                    ? CupertinoColors.lightBackgroundGray
+                                    : CupertinoColors.darkBackgroundGray,
+                                child: Icon(
+                                  Icons.close,
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          height: 1,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+        title: Text(
+          widget.currentClass.name,
+        ),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          if (isCupertino(context))
+            SliverPersistentHeader(
+              delegate: CupertinoTopSpacer(
+                context,
+              ),
+            ),
+          SliverPersistentHeader(
+            delegate: TopTabBarDelegate(),
+            floating: true,
+          ),
+          SliverToBoxAdapter(
+            child: FutureBuilder<bool>(
+              future: widget.currentClass
+                  .loadAssignments(widget.illuminateAPI.token),
+              builder: (c, s) {
+                if (s.connectionState != ConnectionState.done) {
+                  return CircularProgressIndicator();
+                } else {
+                  return Text(
+                    widget.currentClass.assignments.toString(),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TopTabBarDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlap,
+  ) {
+    return PlatformWidget(
+      ios: (c) => CupertinoTopTabBar(),
+      android: (c) => AndroidTopTabBar(),
+    );
+  }
+
+  @override
+  double get maxExtent => 50;
+
+  @override
+  double get minExtent => 50;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate a) => true;
+}
+
+class CupertinoTopTabBar extends StatefulWidget {
+  const CupertinoTopTabBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _CupertinoTopTabBarState createState() => _CupertinoTopTabBarState();
+}
+
+class _CupertinoTopTabBarState extends State<CupertinoTopTabBar> {
+  String selected;
+
+  @override
+  void initState() {
+    super.initState();
+    selected = "all";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CupertinoSlidingSegmentedControl(
+        children: <dynamic, Widget>{
+          "all": Text(
+            "All",
+            style: TextStyle(
+              color: Constants.lightMBlackDarkMWhite(context),
+            ),
+          ),
+          "missing": Text(
+            "Missing",
+            style: TextStyle(
+              color: Constants.lightMBlackDarkMWhite(context),
+            ),
+          ),
+        },
+        groupValue: this.selected,
+        onValueChanged: (v) {
+          setState(() {
+            selected = v;
+          });
+        },
+      ),
+    );
+  }
+}
+
+class AndroidTopTabBar extends StatefulWidget {
+  const AndroidTopTabBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _AndroidTopTabBarState createState() => _AndroidTopTabBarState();
+}
+
+class _AndroidTopTabBarState extends State<AndroidTopTabBar>
+    with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return TabBar(
+      controller: TabController(
+        vsync: this,
+        length: 2,
+      ),
+      tabs: [
+        Tab(
+          text: "All",
+        ),
+        Tab(
+          text: "Missing",
+        )
+      ],
+    );
+  }
+}
+
+class CupertinoTopSpacer extends SliverPersistentHeaderDelegate {
+  final BuildContext context;
+
+  CupertinoTopSpacer(this.context);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container();
+  }
+
+  @override
+  double get maxExtent =>
+      kMinInteractiveDimensionCupertino + MediaQuery.of(context).padding.top;
+
+  @override
+  double get minExtent =>
+      kMinInteractiveDimensionCupertino + MediaQuery.of(context).padding.top;
+
+  @override
+  bool shouldRebuild(a) {
+    return false;
+  }
+}

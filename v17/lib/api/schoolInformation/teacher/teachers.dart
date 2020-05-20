@@ -1167,7 +1167,6 @@ List<Teacher> teachers = [
   ),
   Teacher(
     name: "Jason Mun",
-    
     department: [
       Departments.specialEducation,
       Departments.athletics,

@@ -6,12 +6,10 @@ class Flextime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformWidget(
-      ios: (BuildContext context){
+      ios: (BuildContext context) {
         return Material(
           child: Column(
-            children: [
-             
-            ],
+            children: [],
           ),
         );
       },

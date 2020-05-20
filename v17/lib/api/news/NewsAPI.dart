@@ -61,7 +61,6 @@ class NewsAPI {
       List<NewsStory> newsStories = [];
       for (dom.Element story in main.children) {
         if (story.localName == "article") {
-
           DateTime posted;
           try {
             posted = DateFormat("MMMM d, yyyy").parse(story

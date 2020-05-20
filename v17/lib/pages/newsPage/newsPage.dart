@@ -162,8 +162,8 @@ class _NewsPageState extends State<NewsPage> {
   void loadPreferences() async {
     this.sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getBool("customizedExperience") ?? true) {
-      this.preferences =
-          sharedPreferences.getStringList("newsPreferences") ?? NewsStory.categories.map((e) => e.title).toList();
+      this.preferences = sharedPreferences.getStringList("newsPreferences") ??
+          NewsStory.categories.map((e) => e.title).toList();
     } else {
       this.preferences = ['news'];
     }

@@ -172,7 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           this.customizedExperience =
                               !(this.customizedExperience ?? false);
                         });
-                        
+
                         keyToValueBool(
                             "customizedExperience", this.customizedExperience);
                       }),
@@ -201,10 +201,15 @@ class _SettingsPageState extends State<SettingsPage> {
                       PlatformDialogAction(
                           child: Text("Clear Data"),
                           onPressed: () async {
-                            this.sharedPreferences.setStringList("newsPreferences", null);
+                            this
+                                .sharedPreferences
+                                .setStringList("newsPreferences", null);
                             Navigator.pop(c);
-                            isMaterial(context)?PlatformProvider.of(context).changeToMaterialPlatform():PlatformProvider.of(context).changeToCupertinoPlatform();//RESTARTS APP
-                            
+                            isMaterial(context)
+                                ? PlatformProvider.of(context)
+                                    .changeToMaterialPlatform()
+                                : PlatformProvider.of(context)
+                                    .changeToCupertinoPlatform(); //RESTARTS APP
                           })
                     ],
                   ),
@@ -269,9 +274,7 @@ class _SettingsPageState extends State<SettingsPage> {
       print(key);
       this.sharedPreferences.setBool(key, value);
       print(this.sharedPreferences.getBool(key));
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   void checkSharedPreferences() async {

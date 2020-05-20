@@ -35,7 +35,9 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isMaterial(context)?null:Constants.isBright(context)?Colors.white:Colors.black,
+      color: isMaterial(context)
+          ? null
+          : Constants.isBright(context) ? Colors.white : Colors.black,
       child: CustomScrollView(
         slivers: <Widget>[
           SliverSearchBar(

@@ -35,7 +35,8 @@ class Teacher {
             element.name.toLowerCase().contains(searchString.toLowerCase())) ||
         this.email.toLowerCase().contains(searchString.toLowerCase()) ||
         (this.ext ?? "").toLowerCase().contains(searchString.toLowerCase()) ||
-        (this.website ?? "").toLowerCase()
+        (this.website ?? "")
+            .toLowerCase()
             .contains(searchString.toLowerCase()) ||
         searchString.isEmpty) {
       return true;

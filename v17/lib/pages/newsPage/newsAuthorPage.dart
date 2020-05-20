@@ -6,10 +6,8 @@ import 'package:v17/components/newStoryButton.dart';
 import 'package:v17/components/pageWithHeader.dart';
 
 class AuthorPage extends StatefulWidget {
-
   String authorName;
   String authorURL;
-
 
   AuthorPage({
     @required this.authorName,
@@ -31,7 +29,6 @@ class _AuthorPageState extends State<AuthorPage> {
     hasLoaded = false;
 
     getArtistStories();
-
   }
 
   @override
@@ -39,25 +36,30 @@ class _AuthorPageState extends State<AuthorPage> {
     return PageWithHeader(
       title: this.widget.authorName,
       body: <Widget>[
-        SliverList(delegate: SliverChildListDelegate([
-        ...(hasLoaded?List.generate((this.stories??[]).length, (index) => NewsStoryButton(story: this.stories[index])):[Padding(
-          padding: EdgeInsets.only(top: 36),
-          child: Center(child: PlatformCircularProgressIndicator(),),
-        
-        )])
+        SliverList(
+            delegate: SliverChildListDelegate([
+          ...(hasLoaded
+              ? List.generate((this.stories ?? []).length,
+                  (index) => NewsStoryButton(story: this.stories[index]))
+              : [
+                  Padding(
+                    padding: EdgeInsets.only(top: 36),
+                    child: Center(
+                      child: PlatformCircularProgressIndicator(),
+                    ),
+                  )
+                ])
         ]))
       ],
     );
   }
 
-  void getArtistStories()async{
-    List<NewsStory> authorStories = await NewsAPI.getArtistStories(widget.authorURL);
+  void getArtistStories() async {
+    List<NewsStory> authorStories =
+        await NewsAPI.getArtistStories(widget.authorURL);
     setState(() {
       this.stories = authorStories;
       this.hasLoaded = true;
     });
-    
   }
-
-  
 }
