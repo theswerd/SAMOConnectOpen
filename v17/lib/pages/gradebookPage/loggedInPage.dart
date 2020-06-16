@@ -8,6 +8,7 @@ import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/gradebookPage/classPage.dart';
 
+import '../../api/illuminate/class.dart';
 import '../../components/CustomListTile.dart';
 
 class LoggedInPage extends StatefulWidget {
@@ -76,10 +77,12 @@ class _LoggedInPageState extends State<LoggedInPage> {
             List.generate(
               widget.illuminateAPI.gradebook.classes.length,
               (index) {
+                Class currentClass =
+                    widget.illuminateAPI.gradebook.classes[index];
                 return CustomListTile(
-                  title: widget.illuminateAPI.gradebook.classes[index].name,
-                  trailingText: "A",
-                  
+                  title: currentClass.name,
+                  trailingText: currentClass.grade,
+                  onPressed: () => goToClassPage(index),
                 );
                 return PlatformWidget(
                   ios: (c) => Column(

@@ -11,6 +11,9 @@ import 'package:flutter/src/cupertino/constants.dart'
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:v17/constants.dart';
 
+import '../../api/illuminate/assignment.dart';
+import '../../components/CustomListTile.dart';
+
 class ClassPage extends StatefulWidget {
   final Class currentClass;
   final IlluminateAPI illuminateAPI;
@@ -114,7 +117,9 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
                                           : CupertinoColors.systemGrey4,
                                       child: Icon(
                                         Icons.close,
-                                        color: Constants.isBright(context)?null:Colors.grey[350],
+                                        color: Constants.isBright(context)
+                                            ? null
+                                            : Colors.grey[350],
                                       ),
                                       onPressed: () => Navigator.pop(context),
                                     ),
@@ -185,9 +190,23 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
           delegate: SliverChildListDelegate(
             List.generate(
               widget.currentClass.assignments.length,
-              (index) => Text(
-                widget.currentClass.assignments[index].name,
-              ),
+              (index) {
+                Assignment assignment = widget.currentClass.assignments[index];
+                return CustomListTile(
+                  title: assignment.name,
+                  trailingWidget: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      4,
+                    ),
+                    child: Container(
+                      color: (){
+                        assignment.assignmentState;
+                        return Colors.green;
+                      }(),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         );
@@ -251,8 +270,8 @@ class _CupertinoTopTabBarState extends State<CupertinoTopTabBar> {
               color: Constants.lightMBlackDarkMWhite(context),
             ),
           ),
-          "missing": Text(
-            "Missing",
+          "assignments": Text(
+            "Assignments",
             style: TextStyle(
               color: Constants.lightMBlackDarkMWhite(context),
             ),
@@ -289,10 +308,10 @@ class _AndroidTopTabBarState extends State<AndroidTopTabBar>
       ),
       tabs: [
         Tab(
-          text: "All",
+          text: "Assignments",
         ),
         Tab(
-          text: "Missing",
+          text: "Analysis",
         )
       ],
     );
