@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Department {
-  String name;
-  Color color;
+  final String name;
+  final Color color;
 
   Department({@required this.name, @required this.color});
 }
