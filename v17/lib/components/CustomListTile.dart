@@ -7,15 +7,18 @@ class CustomListTile extends StatelessWidget {
   final String subtitle;
   final String trailingText;
   final Widget trailingWidget;
-  final bool trailingIsWidget;
+  final TextStyle trailingTextStyle;
   final Function onPressed;
-  CustomListTile(
-      {@required this.title,
-      this.subtitle = "",
-      this.trailingText = "",
-      this.trailingWidget,
-      this.onPressed,
-      this.trailingIsWidget = false});
+  bool get trailingIsWidget => trailingWidget != null;
+
+  CustomListTile({
+    @required this.title,
+    this.subtitle = "",
+    this.trailingText = "",
+    this.trailingWidget,
+    this.trailingTextStyle = const TextStyle(),
+    this.onPressed,
+  });
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,19 +35,30 @@ class CustomListTile extends StatelessWidget {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text(this.title,
-                        style: TextStyle(
-                          color: Constants.lightMBlackDarkMWhite(context),
-                        )),
-                    Expanded(child: Container()),
+                    Text(
+                      this.title,
+                      style: TextStyle(
+                        color: Constants.lightMBlackDarkMWhite(
+                          context,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
                     this.trailingIsWidget
                         ? this.trailingWidget
-                        : Text(this.trailingText,
+                        : Text(
+                            this.trailingText,
                             style: TextStyle(
-                                color: CupertinoTheme.of(context).brightness ==
-                                        Brightness.light
-                                    ? Colors.grey[850]
-                                    : Colors.grey[500])),
+                              color: CupertinoTheme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.grey[850]
+                                  : Colors.grey[500],
+                            ).merge(
+                              this.trailingTextStyle,
+                            ),
+                          ),
                   ],
                 ),
                 if (this.subtitle.isNotEmpty)
@@ -52,15 +66,16 @@ class CustomListTile extends StatelessWidget {
                     this.subtitle,
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        height: 1.2,
-                        color: Constants.isBright(context)
-                            ? Colors.grey[800]
-                            : Colors.grey[350]),
+                      height: 1.2,
+                      color: Constants.isBright(context)
+                          ? Colors.grey[800]
+                          : Colors.grey[350],
+                    ),
                   )
               ],
             ),
           ),
-          Divider(height: 1, color: Colors.grey[300]),
+          Divider(height: 1, color: Colors.grey[350]),
         ],
       ),
     );

@@ -150,7 +150,7 @@ class NewsStoryButton extends StatelessWidget {
                                 color: story.categoryColor,
                               ),
                             ),
-                            Text(
+                            if(this.story.imageSRC ==defaultStoryImage)Text(
                               "By " + this.story.author,
                               style: TextStyle(
                                 color: Constants.lightMBlackDarkMWhite(context),

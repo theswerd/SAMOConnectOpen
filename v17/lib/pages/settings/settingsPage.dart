@@ -120,7 +120,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: "Analytics enabled",
                 subtitle:
                     "Allow us to collect data using Google Analytics so we can improve your experience with SAMOHI Connect.",
-                trailingIsWidget: true,
                 trailingWidget: PlatformSwitch(
                     activeColor: Constants.primary,
                     value: this.analyticsEnabled ?? false,
@@ -139,7 +138,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "Enable Illuminate Auto-Login",
                   subtitle:
                       "Allow us to store your Illuminate login on your device so you can auto-login.",
-                  trailingIsWidget: true,
                   trailingWidget: PlatformSwitch(
                       activeColor: Constants.primary,
                       value: this.storeIlluminateLogin ?? false,
@@ -163,7 +161,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "Enable Customized Experience",
                   subtitle:
                       "Allow us to log your usage on your device so you can get customized search suggestions.",
-                  trailingIsWidget: true,
                   trailingWidget: PlatformSwitch(
                       activeColor: Constants.primary,
                       value: this.customizedExperience ?? false,
