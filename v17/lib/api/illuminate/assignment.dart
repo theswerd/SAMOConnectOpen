@@ -56,9 +56,10 @@ class Points {
   Points({@required this.pointsScored, @required this.fullPoints,});
 
   factory Points.fromString(String pointsString){
+    if(!pointsString.contains("/")) pointsString = "0 / 0";
     List<String> pointParts = pointsString.split("/");
-    double points = double.parse(pointParts.first.trim());
-    double outOf = double.parse(pointParts.last.trim());
+    double points = double.tryParse(pointParts.first.trim()) ?? 0;
+    double outOf = double.tryParse(pointParts.last.trim()) ?? 0;
     return Points(
       pointsScored: points,
       fullPoints: outOf,
@@ -66,9 +67,9 @@ class Points {
 
   }
   ///70 & ABOVE
-  bool get passingGrade => percent>=70;
+  bool get passingGrade => percent>=.70;
 
-  bool get failingGrade => percent<70;
+  bool get failingGrade => percent<.70;
 
 
   double get percent =>(this.pointsScored/this.fullPoints);

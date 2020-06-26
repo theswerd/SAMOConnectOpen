@@ -27,9 +27,19 @@ class ClassPage extends StatefulWidget {
 class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
   ContentState gradebookContentState;
 
+  String page;
+
+  set setPage (String value){
+    setState(() {
+      this.page = value;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    page = "assignments";
 
     loadGradebookContent();
   }
@@ -132,6 +142,26 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
                             ],
                           ),
                         ),
+                        Container(
+                          height: 16,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Sort by state",
+                              style: TextStyle(
+                                color: Constants.lightMBlackDarkMWhite(
+                                  context,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        CustomListTile(
+                          title: "Smh",
+                        ),
                       ],
                     ),
                   );
@@ -156,11 +186,15 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
               onRefresh: this.loadGradebookContent,
             ),
           ],
-          SliverPersistentHeader(
-            delegate: TopTabBarDelegate(),
-            floating: true,
-          ),
-          mainContent(),
+           PlatformWidget(
+      ios: (c) => CupertinoTopTabBar(),
+      android: (c) => AndroidTopTabBar(),
+    ),
+          (){
+            return AssignmentsList(
+            gradebookContentState: gradebookContentState,
+            assignments: widget.currentClass.assignments,
+          );}(),
         ],
       ),
     );
@@ -178,8 +212,20 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
       this.gradebookContentState = newContentState;
     });
   }
+}
 
-  Widget mainContent() {
+class AssignmentsList extends StatelessWidget {
+  const AssignmentsList({
+    Key key,
+    @required this.gradebookContentState,
+    @required this.assignments,
+  }) : super(key: key);
+
+  final ContentState gradebookContentState;
+  final List<Assignment> assignments;
+
+  @override
+  Widget build(BuildContext context) {
     switch (this.gradebookContentState) {
       case ContentState.loading:
         return SliverFillRemaining(
@@ -189,21 +235,20 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
         return SliverList(
           delegate: SliverChildListDelegate(
             List.generate(
-              widget.currentClass.assignments.length,
+              assignments.length,
               (index) {
-                Assignment assignment = widget.currentClass.assignments[index];
+                Assignment assignment = assignments[index];
                 return CustomListTile(
                   title: assignment.name,
-                  trailingWidget: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      4,
-                    ),
-                    child: Container(
-                      color: (){
-                        assignment.assignmentState;
-                        return Colors.green;
-                      }(),
-                    ),
+                  subtitle: assignment.pointsString,
+                  onPressed: () {},
+                  padding: EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    bottom: 10,
+                  ),
+                  trailingWidget: GradeStateIcon(
+                    assignment.assignmentState,
                   ),
                 );
               },
@@ -211,33 +256,84 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
           ),
         );
       default:
-        return SliverToBoxAdapter(child: Container());
+        return SliverToBoxAdapter(
+          child: Container(),
+        );
       //TODO BUILD ERROR VIEW
     }
   }
 }
 
-class TopTabBarDelegate extends SliverPersistentHeaderDelegate {
+class GradeStateIcon extends StatelessWidget {
+  final AssignmentState state;
+
+  const GradeStateIcon(
+    this.state, {
+    Key key,
+  }) : super(key: key);
+
   @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlap,
-  ) {
-    return PlatformWidget(
-      ios: (c) => CupertinoTopTabBar(),
-      android: (c) => AndroidTopTabBar(),
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(
+        4,
+      ),
+      child: Container(
+        height: 28,
+        width: 28,
+        color: () {
+          switch (this.state) {
+            case AssignmentState.Aced:
+              return CupertinoColors.systemYellow;
+            case AssignmentState.Pass:
+              return CupertinoColors.activeGreen;
+            case AssignmentState.Excused:
+              return CupertinoColors.systemBlue;
+            case AssignmentState.ExtraCredit:
+              return CupertinoColors.systemYellow;
+            case AssignmentState.Fail:
+              return CupertinoColors.destructiveRed;
+            case AssignmentState.Missing:
+              return CupertinoColors.systemRed;
+            case AssignmentState.NotGraded:
+              return CupertinoColors.systemGrey;
+            case AssignmentState.UNKNOWN:
+              return CupertinoColors.systemGrey;
+            default:
+              return CupertinoColors.systemGrey;
+          }
+        }(),
+        child: Center(
+          child: Icon(
+            () {
+              switch (this.state) {
+                case AssignmentState.Aced:
+                  return Icons.star;
+                case AssignmentState.Pass:
+                  return Icons.thumb_up;
+                case AssignmentState.Excused:
+                  return Icons.remove;
+                case AssignmentState.ExtraCredit:
+                  return Icons.arrow_upward;
+                case AssignmentState.Fail:
+                  return Mdi.exclamationThick;
+                case AssignmentState.Missing:
+                  return Mdi.headQuestion;
+                case AssignmentState.NotGraded:
+                  return Mdi.minus;
+                case AssignmentState.UNKNOWN:
+                  return Mdi.alertCircle;
+                default:
+                  return Mdi.alertCircle;
+              }
+            }(),
+            size: 18,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
-
-  @override
-  double get maxExtent => 50;
-
-  @override
-  double get minExtent => 50;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate a) => true;
 }
 
 class CupertinoTopTabBar extends StatefulWidget {
@@ -255,7 +351,7 @@ class _CupertinoTopTabBarState extends State<CupertinoTopTabBar> {
   @override
   void initState() {
     super.initState();
-    selected = "all";
+    selected = "assignments";
   }
 
   @override
@@ -264,14 +360,14 @@ class _CupertinoTopTabBarState extends State<CupertinoTopTabBar> {
       padding: const EdgeInsets.all(8.0),
       child: CupertinoSlidingSegmentedControl(
         children: <dynamic, Widget>{
-          "all": Text(
-            "All",
+          "assignments": Text(
+            "Assignments",
             style: TextStyle(
               color: Constants.lightMBlackDarkMWhite(context),
             ),
           ),
-          "assignments": Text(
-            "Assignments",
+          "analytics": Text(
+            "Analytics",
             style: TextStyle(
               color: Constants.lightMBlackDarkMWhite(context),
             ),

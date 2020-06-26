@@ -18,6 +18,7 @@ class BellSchedule extends StatefulWidget {
 
 class _BellScheduleState extends State<BellSchedule>
     with SingleTickerProviderStateMixin {
+      
   @override
   Widget build(BuildContext context) {
     return Scaffold(

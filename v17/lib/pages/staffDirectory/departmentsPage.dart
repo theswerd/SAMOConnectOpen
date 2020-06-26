@@ -53,7 +53,6 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                   print(e);
                 }
               });
-              print(this.searchedTeachers.length);
             },
             title: this.widget.department.name,
           ),

@@ -58,6 +58,10 @@ class _LoggedInPageState extends State<LoggedInPage> {
             )
           : null,
       body: [
+        if (isCupertino(context))
+          CupertinoSliverRefreshControl(
+            onRefresh: loadGrades,
+          ),
         bodyContent(),
       ],
     );
@@ -81,77 +85,35 @@ class _LoggedInPageState extends State<LoggedInPage> {
                     widget.illuminateAPI.gradebook.classes[index];
                 return CustomListTile(
                   title: currentClass.name,
-                  trailingText: currentClass.grade,
+                  titleTextStyle: TextStyle(
+                    fontSize: 17,
+                  ),
+                  trailingWidget: ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ),
+                    child: Container(
+                      padding: Constants.isBright(context)
+                          ? EdgeInsets.all(
+                              8,
+                            )
+                          : null,
+                      color: Constants.isBright(context) ? Colors.black : null,
+                      child: Text(
+                        currentClass.grade,
+                        style: TextStyle(
+                          color: currentClass.color,
+                          fontSize: 17,
+                          fontWeight: Constants.isBright(
+                            context,
+                          )
+                              ? FontWeight.w800
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ),
                   onPressed: () => goToClassPage(index),
-                );
-                return PlatformWidget(
-                  ios: (c) => Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // Divider(
-                      //   height: 1,
-                      //   color: Constants.lightMBlackDarkMWhite(context),
-                      // ),
-                      // InkWell(
-                      //   onTap: () => goToClassPage(index),
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.symmetric(
-                      //       horizontal: 8.0,
-                      //       vertical: 16.0,
-                      //     ),
-                      //     child: Row(
-                      //       children: [
-                      //         Text(
-                      //           widget.illuminateAPI.gradebook.classes[index]
-                      //               .name,
-                      //           style: TextStyle(
-                      //             color:
-                      //                 Constants.lightMBlackDarkMWhite(context),
-                      //           ),
-                      //         ),
-                      //         Expanded(
-                      //           child: Container(),
-                      //         ),
-                      //         Text(
-                      //           widget.illuminateAPI.gradebook.classes[index]
-                      //               .grade,
-                      //           style: TextStyle(
-                      //             color: widget.illuminateAPI.gradebook
-                      //                 .classes[index].color,
-                      //           ),
-                      //         ),
-                      //         Icon(
-                      //           CupertinoIcons.right_chevron,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // Divider(
-                      //   height: 1,
-                      //   color: Constants.lightMBlackDarkMWhite(context),
-                      // ),
-                    ],
-                  ),
-                  android: (c) => ListTile(
-                    onTap: () => goToClassPage(index),
-                    title: Text(
-                      widget.illuminateAPI.gradebook.classes[index].name,
-                      style: TextStyle(
-                        color: Constants.lightMBlackDarkMWhite(context),
-                      ),
-                    ),
-                    subtitle: Text(
-                      widget.illuminateAPI.gradebook.classes[index].teacher,
-                    ),
-                    trailing: Text(
-                      widget.illuminateAPI.gradebook.classes[index].grade,
-                      style: TextStyle(
-                        color:
-                            widget.illuminateAPI.gradebook.classes[index].color,
-                      ),
-                    ),
-                  ),
                 );
               },
             ),
@@ -185,8 +147,11 @@ class _LoggedInPageState extends State<LoggedInPage> {
     );
   }
 
-  void loadGrades() async {
-    this.gradesContentState = ContentState.loading;
+  Future<void> loadGrades() async {
+    setState(() {
+      this.gradesContentState = ContentState.loading;
+    });
+
     if (await widget.illuminateAPI.getGradebook()) {
       setState(() {
         this.gradesContentState = ContentState.loaded;

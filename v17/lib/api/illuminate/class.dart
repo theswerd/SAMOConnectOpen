@@ -84,7 +84,6 @@ class Class {
       assignments = _formatGradebook(html);
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -94,13 +93,15 @@ class Class {
     List<dom.Element> theAssignments = theGradebook.children.last.children;
     List<Assignment> formattedAssignments = [];
     for (dom.Element item in theAssignments) {
-      String points = item.children[1].children.first.text.toString();
+      String points = item.children[2].text.trim().split("\n").join(" ") ?? "";
       bool missing = item.children[2].text.trim() == "Missing";
       bool ace;
       try {
         ace = points.toString().split("/").first.trim() ==
                 points.toString().split("/").last.trim() &&
-            points != null;
+            points != null &&
+            points.split("/").length == 2;
+
       } catch (e) {
         ace = false;
       }
@@ -125,8 +126,7 @@ class Class {
 
       formattedAssignments.add(
         Assignment(
-          pointsString:
-              item.children[2].text.trim().split("\n").join(" ") ?? "",
+          pointsString: points,
           dueString: item.children[5].text.trim() ?? "",
           extraCredit: extraCredit,
           graded: graded,

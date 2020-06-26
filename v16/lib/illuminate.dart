@@ -893,6 +893,8 @@ class _IlluminateState extends State<Illuminate> with TickerProviderStateMixin {
       try {
         ace = theMap['points'].toString().split("/").first.trim() ==
             theMap['points'].toString().split("/").last.trim();
+            print(theMap['points']);
+            print(ace);
       } catch (e) {
         ace = false;
       }

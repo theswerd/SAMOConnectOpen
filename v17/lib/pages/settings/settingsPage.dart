@@ -268,9 +268,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void keyToValueBool(String key, bool value) async {
     try {
-      print(key);
       this.sharedPreferences.setBool(key, value);
-      print(this.sharedPreferences.getBool(key));
     } catch (e) {}
   }
 
