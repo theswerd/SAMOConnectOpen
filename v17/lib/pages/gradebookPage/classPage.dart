@@ -564,9 +564,7 @@ class _ClassAnalyticsState extends State<ClassAnalytics> {
                     return BarTooltipItem(
                       (rod.y * 100).toStringAsFixed(1) + "%",
                       TextStyle(
-                        color: Constants.isBright(context)
-                            ? Colors.white
-                            : Colors.black,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
@@ -644,10 +642,87 @@ class AssignmentsList extends StatelessWidget {
               assignments.length,
               (index) {
                 Assignment assignment = assignments[index];
+                print(assignment.points.percent);
+                print(1 - assignment.points.percent);
                 return CustomListTile(
                   title: assignment.name,
                   subtitle: assignment.pointsString,
-                  onPressed: () {},
+                  expansionSection: assignment.graded &&
+                          (assignment.assignmentState !=
+                                  AssignmentState.NotGraded &&
+                              assignment.assignmentState !=
+                                  AssignmentState.Excused &&
+                              assignment.assignmentState !=
+                                  AssignmentState.UNKNOWN &&
+                              assignment.assignmentState !=
+                                  AssignmentState.Missing)
+                      ? Column(
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        topRight: assignment.ace
+                                            ? Radius.circular(20)
+                                            : Radius.zero,
+                                        bottomRight: assignment.ace
+                                            ? Radius.circular(20)
+                                            : Radius.zero,
+                                      ),
+                                      child: Container(
+                                        height: 30,
+                                        color: CupertinoColors.systemGreen,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    40) *
+                                                assignment.points.percent,
+                                      ),
+                                    ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      child: Container(
+                                        height: 30,
+                                        color: Constants.isBright(context)
+                                            ? CupertinoColors.systemGrey
+                                            : CupertinoColors
+                                                .darkBackgroundGray,
+                                        width:
+                                            (MediaQuery.of(context).size.width -
+                                                    40) *
+                                                (1 - assignment.points.percent),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Center(
+                                  child: 
+                                      Text(
+                                        (assignment.points.percent*100)
+                                                .toStringAsFixed(1) +
+                                            "%",
+                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18,),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    
+                                  
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 10,
+                            ),
+                          ],
+                        )
+                      : null,
                   padding: EdgeInsets.only(
                     left: 16,
                     right: 16,

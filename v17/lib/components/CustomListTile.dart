@@ -2,17 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:v17/constants.dart';
 
-class CustomListTile extends StatelessWidget {
+class CustomListTile extends StatefulWidget {
   final String title;
   final String subtitle;
   final String trailingText;
   final Widget trailingWidget;
+  final Widget expansionSection;
   final TextStyle trailingTextStyle;
   final TextStyle titleTextStyle;
   final EdgeInsets padding;
   final Function onPressed;
-  bool get trailingIsWidget => trailingWidget != null;
-
   CustomListTile({
     @required this.title,
     this.subtitle = "",
@@ -21,15 +20,37 @@ class CustomListTile extends StatelessWidget {
     this.padding = const EdgeInsets.all(12.0),
     this.trailingTextStyle = const TextStyle(),
     this.titleTextStyle = const TextStyle(),
+    this.expansionSection,
     this.onPressed,
   });
+
+  @override
+  _CustomListTileState createState() => _CustomListTileState();
+}
+
+class _CustomListTileState extends State<CustomListTile> {
+  bool get trailingIsWidget => widget.trailingWidget != null;
+
+  bool expanded;
+
+  @override
+  void initState() {
+    super.initState();
+    expanded = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
         //onTap: this.onPressed,
-        onTap: this.onPressed,
+        onTap: widget.expansionSection != null?(){
+          setState(() {
+            this.expanded = !this.expanded;
+          });
+           if(widget.onPressed!= null) widget.onPressed();
+        }:widget.onPressed,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -38,7 +59,7 @@ class CustomListTile extends StatelessWidget {
               color: Colors.grey[300],
             ),
             Padding(
-              padding: this.padding,
+              padding: this.widget.padding,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,8 +67,8 @@ class CustomListTile extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        this.title,
-                        style: this.titleTextStyle.merge(
+                        this.widget.title,
+                        style: this.widget.titleTextStyle.merge(
                               TextStyle(
                                 color: Constants.lightMBlackDarkMWhite(
                                   context,
@@ -59,23 +80,23 @@ class CustomListTile extends StatelessWidget {
                         child: Container(),
                       ),
                       this.trailingIsWidget
-                          ? this.trailingWidget
+                          ? this.widget.trailingWidget
                           : Text(
-                              this.trailingText,
+                              this.widget.trailingText,
                               style: TextStyle(
                                 color: CupertinoTheme.of(context).brightness ==
                                         Brightness.light
                                     ? Colors.grey[850]
                                     : Colors.grey[500],
                               ).merge(
-                                this.trailingTextStyle,
+                                this.widget.trailingTextStyle,
                               ),
                             ),
                     ],
                   ),
-                  if (this.subtitle.isNotEmpty)
+                  if (this.widget.subtitle.isNotEmpty)
                     Text(
-                      this.subtitle,
+                      this.widget.subtitle,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         height: 1.2,
@@ -87,6 +108,17 @@ class CustomListTile extends StatelessWidget {
                 ],
               ),
             ),
+            if (widget.expansionSection != null)
+              AnimatedContainer(
+                duration: Duration(
+                  milliseconds: 500,
+                ),
+                child: this.expanded
+                    ? widget.expansionSection
+                    : Container(
+                        height: 0,
+                      ),
+              ),
             Divider(
               height: 1,
               color: Colors.grey[350],

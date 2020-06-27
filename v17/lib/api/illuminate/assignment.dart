@@ -80,7 +80,7 @@ class Points {
 
   bool get failingGrade => percent < .70;
 
-  double get percent => (this.pointsScored / this.fullPoints);
+  double get percent => (this.pointsScored / (this.fullPoints > 0?this.fullPoints: this.pointsScored));
 }
 
 enum AssignmentState {
