@@ -24,25 +24,25 @@ class Assignment {
   });
 
   AssignmentState get assignmentState {
-    if(this.graded == false){
+    if (this.graded == false) {
       return AssignmentState.NotGraded;
-    }else if(this.extraCredit == true){
+    } else if (this.extraCredit == true) {
       return AssignmentState.ExtraCredit;
-    }else if(this.missing){
+    } else if (this.missing) {
       return AssignmentState.Missing;
-    }else if(this.excused) {
+    } else if (this.excused) {
       return AssignmentState.Excused;
-    }else if(this.ace){
+    } else if (this.ace) {
       return AssignmentState.Aced;
-    }else if(this.points.passingGrade){
+    } else if (this.points.passingGrade) {
       return AssignmentState.Pass;
-    }else if(this.points.failingGrade){
+    } else if (this.points.failingGrade) {
       return AssignmentState.Fail;
-    }else{
+    } else {
       return AssignmentState.UNKNOWN;
-
     }
   }
+
   Points get points => Points.fromString(pointsString);
 
   bool get excused => this.pointsString.trim() == "Excused";
@@ -53,26 +53,34 @@ class Points {
   final double pointsScored;
   final double fullPoints;
 
-  Points({@required this.pointsScored, @required this.fullPoints,});
+  Points({
+    @required this.pointsScored,
+    @required this.fullPoints,
+  });
 
-  factory Points.fromString(String pointsString){
-    if(!pointsString.contains("/")) pointsString = "0 / 0";
+  factory Points.fromString(String pointsString) {
+    if (!pointsString.contains("/")) pointsString = "0 / 0";
     List<String> pointParts = pointsString.split("/");
-    double points = double.tryParse(pointParts.first.trim()) ?? 0;
-    double outOf = double.tryParse(pointParts.last.trim()) ?? 0;
+    double points = double.tryParse(
+          pointParts.first.trim(),
+        ) ??
+        0;
+    double outOf = double.tryParse(
+          pointParts.last.trim(),
+        ) ??
+        0;
     return Points(
       pointsScored: points,
       fullPoints: outOf,
     );
-
   }
+
   ///70 & ABOVE
-  bool get passingGrade => percent>=.70;
+  bool get passingGrade => percent >= .70;
 
-  bool get failingGrade => percent<.70;
+  bool get failingGrade => percent < .70;
 
-
-  double get percent =>(this.pointsScored/this.fullPoints);
+  double get percent => (this.pointsScored / this.fullPoints);
 }
 
 enum AssignmentState {
@@ -84,5 +92,4 @@ enum AssignmentState {
   Fail,
   NotGraded,
   UNKNOWN,
-
 }
