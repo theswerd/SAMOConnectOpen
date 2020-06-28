@@ -76,9 +76,9 @@ class _LoggedInPageState extends State<LoggedInPage> {
           ),
         );
       case ContentState.loaded:
-        return SliverList(
-          delegate: SliverChildListDelegate(
-            List.generate(
+        return SliverFillRemaining(
+          child: Column(
+            children: List.generate(
               widget.illuminateAPI.gradebook.classes.length,
               (index) {
                 Class currentClass =
