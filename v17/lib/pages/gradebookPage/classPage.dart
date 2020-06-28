@@ -6,6 +6,7 @@ import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mdi/mdi.dart';
 import 'package:v17/api/contentState.dart';
+import 'package:v17/api/illuminate/GradebookFilter.dart';
 import 'package:v17/api/illuminate/class.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
 import 'package:flutter/src/cupertino/constants.dart'
@@ -165,8 +166,45 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              CustomListTile(
-                                title: "Smh",
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.Aced,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Aced",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.ExtraCredit,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Extra Credit",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.Pass,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Pass",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.Excused,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Excused",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.Fail,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Fail",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.Missing,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Missing",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.NotGraded,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Not Graded",
+                              ),
+                              AssignmentStateFilterTile(
+                                assignmentState: AssignmentState.UNKNOWN,
+                                filter: widget.currentClass.gradebookFilter,
+                                title: "Unknown",
                               ),
                             ],
                           ),
@@ -202,20 +240,40 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
             ),
           ),
           () {
-            switch (index) {
-              case 0:
-                return AssignmentsList(
-                  gradebookContentState: gradebookContentState,
-                  assignments: widget.currentClass.assignments,
-                );
-              case 1:
-                return ClassAnalytics(
-                  widget.currentClass,
-                );
-              default:
+            switch (this.gradebookContentState) {
+              case ContentState.loading:
                 return SliverFillRemaining(
-                  child: PlatformCircularProgressIndicator(),
+                  child: Center(
+                    child: PlatformCircularProgressIndicator(),
+                  ),
                 );
+              case ContentState.loaded:
+                switch (index) {
+                  case 0:
+                    return AssignmentsList(
+                      gradebookContentState: gradebookContentState,
+                      assignments: widget.currentClass.assignments
+                          .where((assignment) => widget
+                              .currentClass.gradebookFilter
+                              .filter(assignment))
+                          .toList(),
+                    );
+                  case 1:
+                    return ClassAnalytics(
+                      widget.currentClass,
+                    );
+                  default:
+                    return SliverFillRemaining(
+                      child: PlatformCircularProgressIndicator(),
+                    );
+                }
+                break;
+              default:
+                return  SliverFillRemaining(
+                      child: PlatformCircularProgressIndicator(),
+                    );
+                    //TODO: BUILD ERROR VIEW
+
             }
           }(),
         ],
@@ -234,6 +292,41 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
     setState(() {
       this.gradebookContentState = newContentState;
     });
+  }
+}
+
+class AssignmentStateFilterTile extends StatefulWidget {
+  final GradebookFilter filter;
+  final AssignmentState assignmentState;
+  final String title;
+
+  const AssignmentStateFilterTile({
+    @required this.assignmentState,
+    @required this.filter,
+    @required this.title,
+  });
+
+  @override
+  _AssignmentStateFilterTileState createState() =>
+      _AssignmentStateFilterTileState();
+}
+
+class _AssignmentStateFilterTileState extends State<AssignmentStateFilterTile> {
+  @override
+  Widget build(BuildContext context) {
+    return CustomListTile(
+      title: widget.title,
+      leadingWidget: GradeStateIcon(this.widget.assignmentState),
+      trailingWidget:
+          this.widget.filter.isAssignmentStateSelected(widget.assignmentState)
+              ? Icon(Icons.check)
+              : Container(),
+      onPressed: () => setState(() {
+        this.widget.filter.isAssignmentStateSelected(widget.assignmentState)
+            ? this.widget.filter.removeAssignmentState(widget.assignmentState)
+            : this.widget.filter.addAssignmentState(widget.assignmentState);
+      }),
+    );
   }
 }
 
@@ -628,120 +721,102 @@ class AssignmentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (this.gradebookContentState) {
-      case ContentState.loading:
-        return SliverFillRemaining(
-          child: Center(
-            child: PlatformCircularProgressIndicator(),
-          ),
-        );
-      case ContentState.loaded:
-        return SliverList(
-          delegate: SliverChildListDelegate(
-            List.generate(
-              assignments.length,
-              (index) {
-                Assignment assignment = assignments[index];
-                print(assignment.points.percent);
-                print(1 - assignment.points.percent);
-                return CustomListTile(
-                  title: assignment.name,
-                  subtitle: assignment.pointsString,
-                  expansionSection: assignment.graded &&
-                          (assignment.assignmentState !=
-                                  AssignmentState.NotGraded &&
-                              assignment.assignmentState !=
-                                  AssignmentState.Excused &&
-                              assignment.assignmentState !=
-                                  AssignmentState.UNKNOWN &&
-                              assignment.assignmentState !=
-                                  AssignmentState.Missing)
-                      ? Column(
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        List.generate(
+          assignments.length,
+          (index) {
+            Assignment assignment = assignments[index];
+
+            return CustomListTile(
+              title: assignment.name,
+              subtitle: assignment.pointsString,
+              expansionSection: assignment.graded &&
+                      (assignment.assignmentState !=
+                              AssignmentState.NotGraded &&
+                          assignment.assignmentState !=
+                              AssignmentState.Excused &&
+                          assignment.assignmentState !=
+                              AssignmentState.UNKNOWN &&
+                          assignment.assignmentState != AssignmentState.Missing)
+                  ? Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
                           children: [
-                            Stack(
-                              alignment: Alignment.center,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        bottomLeft: Radius.circular(20),
-                                        topRight: assignment.ace
-                                            ? Radius.circular(20)
-                                            : Radius.zero,
-                                        bottomRight: assignment.ace
-                                            ? Radius.circular(20)
-                                            : Radius.zero,
-                                      ),
-                                      child: Container(
-                                        height: 30,
-                                        color: CupertinoColors.systemGreen,
-                                        width:
-                                            (MediaQuery.of(context).size.width -
-                                                    40) *
-                                                assignment.points.percent,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                      ),
-                                      child: Container(
-                                        height: 30,
-                                        color: Constants.isBright(context)
-                                            ? CupertinoColors.systemGrey
-                                            : CupertinoColors
-                                                .darkBackgroundGray,
-                                        width:
-                                            (MediaQuery.of(context).size.width -
-                                                    40) *
-                                                (1 - assignment.points.percent),
-                                      ),
-                                    )
-                                  ],
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20),
+                                    topRight: assignment.ace
+                                        ? Radius.circular(20)
+                                        : Radius.zero,
+                                    bottomRight: assignment.ace
+                                        ? Radius.circular(20)
+                                        : Radius.zero,
+                                  ),
+                                  child: Container(
+                                    height: 30,
+                                    color: CupertinoColors.systemGreen,
+                                    width: (MediaQuery.of(context).size.width -
+                                            40) *
+                                        assignment.points.percent,
+                                  ),
                                 ),
-                                Center(
-                                  child: 
-                                      Text(
-                                        (assignment.points.percent*100)
-                                                .toStringAsFixed(1) +
-                                            "%",
-                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18,),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    
-                                  
-                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  ),
+                                  child: Container(
+                                    height: 30,
+                                    color: Constants.isBright(context)
+                                        ? CupertinoColors.systemGrey
+                                        : CupertinoColors.darkBackgroundGray,
+                                    width: (MediaQuery.of(context).size.width -
+                                            40) *
+                                        (1 - assignment.points.percent),
+                                  ),
+                                )
                               ],
                             ),
-                            Container(
-                              height: 10,
+                            Center(
+                              child: Text(
+                                (assignment.points.percent * 100)
+                                        .toStringAsFixed(1) +
+                                    "%",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
-                        )
-                      : null,
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    bottom: 10,
-                  ),
-                  trailingWidget: GradeStateIcon(
-                    assignment.assignmentState,
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      default:
-        return SliverToBoxAdapter(
-          child: Container(),
-        );
-      //TODO BUILD ERROR VIEW
-    }
+                        ),
+                        Container(
+                          height: 10,
+                        ),
+                      ],
+                    )
+                  : null,
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                bottom: 10,
+              ),
+              trailingWidget: GradeStateIcon(
+                assignment.assignmentState,
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 

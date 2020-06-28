@@ -7,6 +7,7 @@ class CustomListTile extends StatefulWidget {
   final String subtitle;
   final String trailingText;
   final Widget trailingWidget;
+  final Widget leadingWidget;
   final Widget expansionSection;
   final TextStyle trailingTextStyle;
   final TextStyle titleTextStyle;
@@ -17,6 +18,7 @@ class CustomListTile extends StatefulWidget {
     this.subtitle = "",
     this.trailingText = "",
     this.trailingWidget,
+    this.leadingWidget,
     this.padding = const EdgeInsets.all(12.0),
     this.trailingTextStyle = const TextStyle(),
     this.titleTextStyle = const TextStyle(),
@@ -45,12 +47,14 @@ class _CustomListTileState extends State<CustomListTile> {
       type: MaterialType.transparency,
       child: InkWell(
         //onTap: this.onPressed,
-        onTap: widget.expansionSection != null?(){
-          setState(() {
-            this.expanded = !this.expanded;
-          });
-           if(widget.onPressed!= null) widget.onPressed();
-        }:widget.onPressed,
+        onTap: widget.expansionSection != null
+            ? () {
+                setState(() {
+                  this.expanded = !this.expanded;
+                });
+                if (widget.onPressed != null) widget.onPressed();
+              }
+            : widget.onPressed,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -66,15 +70,25 @@ class _CustomListTileState extends State<CustomListTile> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text(
-                        this.widget.title,
-                        style: this.widget.titleTextStyle.merge(
-                              TextStyle(
-                                color: Constants.lightMBlackDarkMWhite(
-                                  context,
+                      Row(
+                        children: [
+                          if (widget.leadingWidget != null) ...[
+                            widget.leadingWidget,
+                            Container(
+                              width: 8,
+                            )
+                          ],
+                          Text(
+                            this.widget.title,
+                            style: this.widget.titleTextStyle.merge(
+                                  TextStyle(
+                                    color: Constants.lightMBlackDarkMWhite(
+                                      context,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+                          ),
+                        ],
                       ),
                       Expanded(
                         child: Container(),

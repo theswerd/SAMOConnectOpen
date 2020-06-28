@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart';
 import 'package:http/http.dart';
+import 'package:v17/api/illuminate/GradebookFilter.dart';
 import 'package:v17/api/illuminate/assignment.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
 
@@ -13,6 +14,8 @@ class Class {
   final String url;
   final String teacher;
   final Color color;
+  
+  GradebookFilter gradebookFilter = GradebookFilter(); 
 
   Class({
     @required this.name,
@@ -22,7 +25,12 @@ class Class {
     @required this.url,
     @required this.teacher,
     @required this.color,
+  
   });
+
+
+  
+
 
   factory Class.fromHTML(dom.Element grade /*CLASS*/) {
     Color color;
