@@ -40,7 +40,7 @@ class _LegalPageState extends State<LegalPage> {
                       color: Constants.lightMBlackDarkMWhite(context)),
                 ),
                 Text(
-                  "\nSAMOHI Connect is not affiliated with SMMUSD in  any way. We are a completely student run project.",
+                  "\nSAMOHI Connect is not affiliated with SMMUSD in any way. We are a completely student run project.",
                   style: TextStyle(
                       color: Constants.lightMBlackDarkMWhite(context)),
                 ),

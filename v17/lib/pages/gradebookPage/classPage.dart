@@ -65,9 +65,12 @@ class _ClassPageState extends State<ClassPage> with TickerProviderStateMixin {
                         showBarModalBottomSheet(
                           context: context,
                           builder: (c, s) {
-                            return Container();
+                            return Scaffold(
+                                body: AssignmentFilterPage(widget: widget));
                           },
-                        );
+                        ).then((value) {
+                          setState(() {});
+                        });
                       } else {
                         CupertinoScaffold.showCupertinoModalBottomSheet(
                           context: context,
@@ -570,6 +573,9 @@ class AssignmentsList extends StatelessWidget {
             return CustomListTile(
               title: assignment.name,
               subtitle: assignment.pointsString,
+              subtitleTextStyle: TextStyle(
+                fontSize: 18,
+              ),
               expansionSection: assignment.graded &&
                       (assignment.assignmentState !=
                               AssignmentState.NotGraded &&

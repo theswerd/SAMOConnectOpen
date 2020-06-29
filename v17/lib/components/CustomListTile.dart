@@ -11,6 +11,7 @@ class CustomListTile extends StatefulWidget {
   final Widget expansionSection;
   final TextStyle trailingTextStyle;
   final TextStyle titleTextStyle;
+  final TextStyle subtitleTextStyle;
   final EdgeInsets padding;
   final Function onPressed;
   CustomListTile({
@@ -22,6 +23,7 @@ class CustomListTile extends StatefulWidget {
     this.padding = const EdgeInsets.all(12.0),
     this.trailingTextStyle = const TextStyle(),
     this.titleTextStyle = const TextStyle(),
+    this.subtitleTextStyle = const TextStyle(),
     this.expansionSection,
     this.onPressed,
   });
@@ -117,6 +119,8 @@ class _CustomListTileState extends State<CustomListTile> {
                         color: Constants.isBright(context)
                             ? Colors.grey[800]
                             : Colors.grey[350],
+                      ).merge(
+                        widget.subtitleTextStyle,
                       ),
                     )
                 ],
