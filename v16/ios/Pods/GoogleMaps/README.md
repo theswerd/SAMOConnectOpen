@@ -9,27 +9,27 @@ and add your own custom elements such as markers, windows and polylines.
 
 # Getting Started
 
-*   *Guides*: Read our [Getting Started guides](https://developers.google.com/maps/documentation/ios-sdk/intro).
-*   *Demo Videos*: View [pre-recorded online demos](https://developers.google.com/maps/documentation/ios-sdk/#demos).
-*   *Code samples*: In order to try out our demo app, use:
+- _Guides_: Read our [Getting Started guides](https://developers.google.com/maps/documentation/ios-sdk/intro).
+- _Demo Videos_: View [pre-recorded online demos](https://developers.google.com/maps/documentation/ios-sdk/#demos).
+- _Code samples_: In order to try out our demo app, use:
 
-    ```
-    $ pod try GoogleMaps
-    ```
+  ```
+  $ pod try GoogleMaps
+  ```
 
-    and follow the instructions on our [developer pages](https://developers.google.com/maps/documentation/ios-sdk/code-samples).
+  and follow the instructions on our [developer pages](https://developers.google.com/maps/documentation/ios-sdk/code-samples).
 
-*   *Support*: Find support from various channels and communities.
+- _Support_: Find support from various channels and communities.
 
-    *   Support pages for [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios-sdk/support).
-    *   Stack Overflow, using the [google-maps](https://stackoverflow.com/questions/tagged/google-maps)
-        tag.
-    *   [Google Maps APIs Premium Plan](https://developers.google.com/maps/premium/support)
-        customers have access to business-level support through Google's
-        [Enterprise Support Portal](https://google.secure.force.com/).
+  - Support pages for [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios-sdk/support).
+  - Stack Overflow, using the [google-maps](https://stackoverflow.com/questions/tagged/google-maps)
+    tag.
+  - [Google Maps APIs Premium Plan](https://developers.google.com/maps/premium/support)
+    customers have access to business-level support through Google's
+    [Enterprise Support Portal](https://google.secure.force.com/).
 
-*   *Report issues*: Use our issue tracker to [file a bug](https://code.google.com/p/gmaps-api-issues/issues/entry?template=Maps%20SDK%20for%20iOS%20-%20Bug)
-    or a [feature request](https://code.google.com/p/gmaps-api-issues/issues/entry?template=Maps%20SDK%20for%20iOS%20-%20Feature%20Request).
+- _Report issues_: Use our issue tracker to [file a bug](https://code.google.com/p/gmaps-api-issues/issues/entry?template=Maps%20SDK%20for%20iOS%20-%20Bug)
+  or a [feature request](https://code.google.com/p/gmaps-api-issues/issues/entry?template=Maps%20SDK%20for%20iOS%20-%20Feature%20Request).
 
 # Installation
 
@@ -66,13 +66,13 @@ for more information on upgrading your project.
 By using the Google Maps SDK for iOS you accept Google's Terms of Service and
 Policies. Pay attention particularly to the following aspects:
 
-*   Depending on your app and use case, you may be required to display
-    attribution. Read more about [attribution requirements](https://developers.google.com/maps/documentation/ios-sdk/intro#attribution_requirements).
-*   Your API usage is subject to quota limitations. Read more about [usage
-    limits](https://developers.google.com/maps/pricing-and-plans/).
-*   The [Terms of Service](https://developers.google.com/maps/terms) are a
-    comprehensive description of the legal contract that you enter with Google
-    by using the Google Maps SDK for iOS. You may want to pay special attention
-    to [section 10](https://developers.google.com/maps/terms#10-license-restrictions),
-    as it talks in detail about what you can do with the API, and what you
-    can't.
+- Depending on your app and use case, you may be required to display
+  attribution. Read more about [attribution requirements](https://developers.google.com/maps/documentation/ios-sdk/intro#attribution_requirements).
+- Your API usage is subject to quota limitations. Read more about [usage
+  limits](https://developers.google.com/maps/pricing-and-plans/).
+- The [Terms of Service](https://developers.google.com/maps/terms) are a
+  comprehensive description of the legal contract that you enter with Google
+  by using the Google Maps SDK for iOS. You may want to pay special attention
+  to [section 10](https://developers.google.com/maps/terms#10-license-restrictions),
+  as it talks in detail about what you can do with the API, and what you
+  can't.

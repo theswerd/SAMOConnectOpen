@@ -1,5 +1,4 @@
-Nanopb - Protocol Buffers for Embedded Systems
-==============================================
+# Nanopb - Protocol Buffers for Embedded Systems
 
 [![Build Status](https://travis-ci.org/nanopb/nanopb.svg?branch=master)](https://travis-ci.org/nanopb/nanopb)
 
@@ -7,15 +6,13 @@ Nanopb is a small code-size Protocol Buffers implementation in ansi C. It is
 especially suitable for use in microcontrollers, but fits any memory
 restricted system.
 
-* **Homepage:** https://jpa.kapsi.fi/nanopb/
-* **Documentation:** https://jpa.kapsi.fi/nanopb/docs/
-* **Downloads:** https://jpa.kapsi.fi/nanopb/download/
-* **Forum:** https://groups.google.com/forum/#!forum/nanopb
+- **Homepage:** https://jpa.kapsi.fi/nanopb/
+- **Documentation:** https://jpa.kapsi.fi/nanopb/docs/
+- **Downloads:** https://jpa.kapsi.fi/nanopb/download/
+- **Forum:** https://groups.google.com/forum/#!forum/nanopb
 
+## Using the nanopb library
 
-
-Using the nanopb library
-------------------------
 To use the nanopb library, you need to do two things:
 
 1. Compile your .proto files for nanopb, using protoc.
@@ -26,10 +23,8 @@ It contains a Makefile, which should work directly under most Linux systems.
 However, for any other kind of build system, see the manual steps in
 README.txt in that folder.
 
+## Using the Protocol Buffers compiler (protoc)
 
-
-Using the Protocol Buffers compiler (protoc)
---------------------------------------------
 The nanopb generator is implemented as a plugin for the Google's own protoc
 compiler. This has the advantage that there is no need to reimplement the
 basic parsing of .proto files. However, it does mean that you need the
@@ -50,10 +45,8 @@ protoc, you need to manually give the path to nanopb generator:
 
     protoc --plugin=protoc-gen-nanopb=nanopb/generator/protoc-gen-nanopb ...
 
+## Running the tests
 
-
-Running the tests
------------------
 If you want to perform further development of the nanopb core, or to verify
 its functionality using your compiler and platform, you'll want to run the
 test suite. The build rules for the test suite are implemented using Scons,

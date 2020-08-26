@@ -1,4 +1,4 @@
-# Google Toolbox for Mac - Session Fetcher #
+# Google Toolbox for Mac - Session Fetcher
 
 **Project site** <https://github.com/google/gtm-session-fetcher><br>
 **Discussion group** <http://groups.google.com/group/google-toolbox-for-mac>
@@ -10,6 +10,7 @@ operations. The fetcher is implemented as a wrapper on `NSURLSession`, so its
 behavior is asynchronous and uses operating-system settings on iOS and Mac OS X.
 
 Features include:
+
 - Simple to build; only one source/header file pair is required
 - Simple to use: takes just two lines of code to fetch a request
 - Supports upload and download sessions

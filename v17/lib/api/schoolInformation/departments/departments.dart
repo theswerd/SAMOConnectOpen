@@ -39,6 +39,15 @@ class Departments {
     name: "Latin",
     color: Colors.lightGreenAccent,
   );
+  static Department japanese = Department(
+    name: "Japanese",
+    color: Colors.cyanAccent,
+  );
+  static Department chinese = Department(
+    name: "Japanese",
+    color: Colors.redAccent
+  );
+
 
   //ATHLETICS
   static Department athletics = Department(
@@ -121,6 +130,12 @@ class Departments {
     name: "AutoShop",
     color: Colors.amber,
   );
+
+  static Department ASB = Department(
+    name: "ASB",
+    color: Colors.blue,
+  );
+
 
   static Department librarian = Department(
     name: "Librarian",
@@ -210,6 +225,10 @@ class Departments {
     name: "Administration",
     color: Colors.purpleAccent,
   );
+  static Department officeAssistant = Department(
+    name: "Administration",
+    color: Colors.deepPurpleAccent[300],
+  );
   static Department enrollment = Department(
     name: "Enrollment",
     color: Colors.deepPurpleAccent,
@@ -232,6 +251,13 @@ class Departments {
   static Department housePrincipal(String house) {
     return Department(
       name: "$house House Principal",
+      color: Colors.cyanAccent,
+    );
+  }
+
+  static Department houseAdvisor(String house, String grades) {
+    return Department(
+      name: "$house House Advisor ($grades)",
       color: Colors.cyanAccent,
     );
   }

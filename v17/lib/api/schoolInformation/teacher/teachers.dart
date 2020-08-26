@@ -348,11 +348,11 @@ List<Teacher> teachers = [
     name: "Lisa DeMirjian",
     ext: "x71267",
     email: "ldemirjian@smmusd.org",
-    room: "Advisor",
+    room: "L200",
     administration: true,
     house: Houses.S,
     department: [
-      Departments.advisor,
+      Departments.houseAdvisor("S", "10/12"),
     ],
   ),
   Teacher(
@@ -428,7 +428,9 @@ List<Teacher> teachers = [
       ext: "x71552",
       room: "H106",
       administration: true,
-      department: [Departments.advisor],
+      department: [
+        Departments.houseAdvisor("M", "9/11"),
+      ],
       email: "jflavin@smmusd.org",
       house: Houses.M),
   Teacher(
@@ -517,7 +519,7 @@ List<Teacher> teachers = [
     administration: true,
     house: Houses.I,
     department: [
-      Departments.advisor,
+      Departments.houseAdvisor("I", "9/11"),
     ],
     email: "jgarrido@smmusd.org",
     ext: "x71227",
@@ -546,7 +548,9 @@ List<Teacher> teachers = [
     name: "Amy Golden",
     house: Houses.S,
     administration: true,
-    department: [Departments.advisor],
+    department: [
+      Departments.houseAdvisor("S", "9/11"),
+    ],
     email: "agolden@smmusd.org",
     room: "L200",
     ext: "x71268",
@@ -593,7 +597,7 @@ List<Teacher> teachers = [
   Teacher(
     name: "Maricela Gonzalez",
     department: [
-      Departments.advisor,
+      Departments.houseAdvisor("O", "9/11"),
     ],
     house: Houses.O,
     administration: true,
@@ -1122,8 +1126,7 @@ List<Teacher> teachers = [
     room: "E109A",
     house: Houses.H,
     department: [
-      Departments.advisor,
-      // "(9/11)",
+      Departments.houseAdvisor("H", "9/11"),
     ],
   ),
   Teacher(
@@ -1174,6 +1177,209 @@ List<Teacher> teachers = [
     ],
     email: "jmun@smmusd.org",
   ),
+  Teacher(
+    ext: "x71254",
+    room: "L204",
+    name: "Cheryl Nesbitt",
+    department: [
+      Departments.worldLanguages,
+      Departments.japanese,
+    ],
+    email: "cnesbitt@smmusd.org",
+  ),
+  Teacher(
+    name: "Jenny Nicolas",
+    ext: "x71505",
+    room: "AD300",
+    email: "jnicolas@smmusd.org",
+    administration: true,
+    department: [
+      Departments.ASB,
+    ],
+  ),
+  Teacher(
+    name: "Diane O'Brien",
+    ext: "x71529",
+    room: "AD500",
+    department: [],
+    email: "dobrien@smmusd.org",
+    administration: true,
+  ),
+  Teacher(
+    name: "Kelly John Okla",
+    ext: "x71290",
+    room: "H210",
+    email: "kokla@smmusd.org",
+    department: [
+      Departments.math,
+    ],
+  ),
+  Teacher(
+    name: "Sarah Orgill",
+    ext: "x71192",
+    room: "H122",
+    department: [
+      Departments.english,
+    ],
+    email: "sorgill@smmusd.org",
+  ),
+  Teacher(
+    name: "Brenda Osak",
+    ext: "x71536",
+    room: "AD103F",
+    email: "bosaki@smmusd.org",
+    department: [
+      Departments.athletics,
+    ],
+  ),
+  Teacher(
+    name: "Ayanna Pantallion",
+    ext: "x71319",
+    room: "i319",
+    department: [
+      Departments.science,
+    ],
+    email: "apantallion@smmusd.org",
+  ),
+  Teacher(
+    name: "Trevor Parker",
+    ext: "x71159",
+    room: "L109",
+    department: [
+      Departments.math,
+    ],
+    email: "tparker@smmusd.org",
+  ),
+  Teacher(
+    name: "Brian Part",
+    ext: "x71584",
+    room: "BH19",
+    department: [
+      Departments.athletics,
+    ],
+    email: "bpart@smmusd.org",
+  ),
+  Teacher(
+    name: "Brian Patenaude",
+    ext: "x71432",
+    department: [
+      Departments.athletics,
+    ],
+    email: "bpatenaude@smmusd.org",
+  ),
+  Teacher(
+      name: "Lauren Paule-Sheahan",
+      ext: "x71480",
+      house: "O",
+      administration: true,
+      department: [
+        Departments.housePrincipal("O"),
+      ],
+      email: "lpaulesheahan@smmusd.org"),
+  Teacher(
+      name: "Sarah Paulis",
+      ext: "x71294",
+      room: "H214",
+      email: "spaulis@smmusd.org",
+      department: [
+        Departments.ASB,
+        Departments.english,
+      ]),
+  Teacher(
+    name: "Kathryn Pawlik",
+    department: [],
+    email: "kpawlik@smmusd.org",
+    room: "i211",
+    ext: "x71211",
+  ),
+  Teacher(
+    name: "Diane Perry",
+    ext: "x71543",
+    room: "AD201",
+    department: [
+      Departments.psychologist,
+    ],
+    email: "aperryman@smmusd.org",
+  ),
+  Teacher(
+    name: "Lois Peters",
+    ext: "x71104",
+    room: "i104",
+    department: [
+      Departments.specialEducation,
+    ],
+    email: "aperryman@smmusd.org",
+  ),
+  Teacher(
+      name: "Joseph Petrone",
+      website: "https://classroom.google.com/u/0/c/NDEzMjMwMDE3NTBa",
+      ext: "x71293",
+      room: "H213",
+      email: "jpetrone@smmusd.org",
+      department: [
+        Departments.specialEducation,
+      ]),
+  Teacher(
+      name: "James Phelan",
+      ext: "x71148",
+      room: "E103",
+      department: [
+        Departments.specialEducation,
+        Departments.socialStudies,
+      ],
+      email: "jphelan@smmusd.org"),
+  Teacher(
+    name: "Gregory Pitts",
+    ext: "x71144",
+    room: "B110A",
+    department: [
+      Departments.specialEducation,
+    ],
+    email: "gpitts@smmusd.org",
+  ),
+  Teacher(
+    name: "Lohren Price",
+    ext: "x71467",
+    room: "L210",
+    department: [
+      Departments.librarian,
+    ],
+    email: "lprice@smmusd.org",
+  ),
+  Teacher(
+    name: "Maribel Pulido",
+    ext: "x71551",
+    room: "H106",
+    email: "mpulido@smmusd.org",
+    administration: true,
+    department: [
+      Departments.houseAdvisor("O", "10/12"),
+    ],
+    house: Houses.O,
+  ),
+  Teacher(
+    name: "Kyra Quinones",
+    ext: "x71271",
+    room: "B201",
+    department: [
+      Departments.speechLanguagePathologist,
+    ],
+    email: "kquinones@smmusd.org",
+  ),
+  Teacher(
+    name: "Karen Radford",
+    ext: "x71506",
+    room: "AD406",
+    department: [
+      Departments.officeAssistant,
+    ],
+    email: "kradford@smmusd.org",
+  ),
+  Teacher(
+    name: "Lance Radfords"
+  ),
+//    ext: "x71541",
+
   // Teacher(
   //   name: null,
   //   department: null,

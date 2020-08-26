@@ -15,6 +15,7 @@ monetize your app. More information about Firebase can be found at
 ## Installation
 
 See the three subsections for details about three different installation methods.
+
 1. [Standard pod install](README.md#standard-pod-install)
 1. [Installing from the GitHub repo](README.md#installing-from-github)
 1. [Experimental Carthage](README.md#carthage-ios-only)
@@ -45,6 +46,7 @@ All of the official releases are tagged in this repo and available via CocoaPods
 source snapshot or unreleased branch, use Podfile directives like the following:
 
 To access FirebaseFirestore via a branch:
+
 ```
 pod 'FirebaseCore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
 pod 'FirebaseFirestore', :git => 'https://github.com/firebase/firebase-ios-sdk.git', :branch => 'master'
@@ -83,6 +85,7 @@ Firestore and Functions have self contained Xcode projects. See
 Select a scheme and press Command-u to build a component and run its unit tests.
 
 ### Running Sample Apps
+
 In order to run the sample apps and integration tests, you'll need valid
 `GoogleService-Info.plist` files for those samples. The Firebase Xcode project contains dummy plist
 files without real values, but can be replaced with real plist files. To get your own
@@ -91,15 +94,16 @@ files without real values, but can be replaced with real plist files. To get you
 1. Go to the [Firebase Console](https://console.firebase.google.com/)
 2. Create a new Firebase project, if you don't already have one
 3. For each sample app you want to test, create a new Firebase app with the sample app's bundle
-identifier (e.g. `com.google.Database-Example`)
+   identifier (e.g. `com.google.Database-Example`)
 4. Download the resulting `GoogleService-Info.plist` and replace the appropriate dummy plist file
-(e.g. in [Example/Database/App/](Example/Database/App/));
+   (e.g. in [Example/Database/App/](Example/Database/App/));
 
 Some sample apps like Firebase Messaging ([Example/Messaging/App](Example/Messaging/App)) require
 special Apple capabilities, and you will have to change the sample app to use a unique bundle
 identifier that you can control in your own Apple Developer account.
 
 ## Specific Component Instructions
+
 See the sections below for any special instructions for those components.
 
 ### Firebase Auth
@@ -124,10 +128,10 @@ Push notifications can only be delivered to specially provisioned App IDs in the
 In order to actually test receiving push notifications, you will need to:
 
 1. Change the bundle identifier of the sample app to something you own in your Apple Developer
-account, and enable that App ID for push notifications.
+   account, and enable that App ID for push notifications.
 2. You'll also need to
-[upload your APNs Provider Authentication Key or certificate to the Firebase Console](https://firebase.google.com/docs/cloud-messaging/ios/certs)
-at **Project Settings > Cloud Messaging > [Your Firebase App]**.
+   [upload your APNs Provider Authentication Key or certificate to the Firebase Console](https://firebase.google.com/docs/cloud-messaging/ios/certs)
+   at **Project Settings > Cloud Messaging > [Your Firebase App]**.
 3. Ensure your iOS device is added to your Apple Developer portal as a test device.
 
 #### iOS Simulator
@@ -139,10 +143,11 @@ physical device.
 ## Community Supported Efforts
 
 We've seen an amazing amount of interest and contributions to improve the Firebase SDKs, and we are
-very grateful!  We'd like to empower as many developers as we can to be able to use Firebase and
+very grateful! We'd like to empower as many developers as we can to be able to use Firebase and
 participate in the Firebase community.
 
 ### macOS and tvOS
+
 FirebaseAuth, FirebaseCore, FirebaseDatabase and FirebaseStorage now compile, run unit tests, and
 work on macOS and tvOS, thanks to contributions from the community. There are a few tweaks needed,
 like ensuring iOS-only, macOS-only, or tvOS-only code is correctly guarded with checks for
