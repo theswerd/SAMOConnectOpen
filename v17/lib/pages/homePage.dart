@@ -7,6 +7,7 @@ import 'package:v17/pages/gradebookPage/gradesPage.dart';
 import 'package:v17/pages/newsPage/newsPage.dart';
 import 'package:v17/pages/staffDirectory/staffDirectory.dart';
 import 'package:v17/pages/settings/settingsPage.dart';
+import 'package:v17/pages/schoolinfo/schoolinfo.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,7 +21,7 @@ class HomePage extends StatelessWidget {
           case 1:
             return StaffDirectory();
           case 2:
-            return Container();
+            return Info();
           case 3:
             return GradesPage();
           case 4:
