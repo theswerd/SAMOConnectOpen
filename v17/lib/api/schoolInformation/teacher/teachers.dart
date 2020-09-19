@@ -1376,8 +1376,85 @@ List<Teacher> teachers = [
     email: "kradford@smmusd.org",
   ),
   Teacher(
-    name: "Lance Radfords"
+    name: "Lance Radford",
+    ext: "x71247",
+    room: "E217",
+    department: [
+      Departments.math,
+    ],
+    email: "lradford@smmusd.org",
   ),
+  Teacher(
+    name: "Adrian Ramos",
+    ext: "x71533",
+    room: "AD103C",
+    department: [
+      Departments.plantSupervisor,
+    ],
+    email: "aramos@smmusd.org",
+  ),
+  Teacher(
+    name: "Yael Redding-Knott",
+    ext: "x71167",
+    room: "L117A",
+    email: "yredding@smmusd.org",
+    department: [],
+    incomplete: true,
+  ),
+  Teacher(
+    name: "Lu Anne Reed",
+    ext: "x71510",
+    room: "Nurse's Office",
+    department: [
+      Departments.nurse,
+    ],
+    email: "lreed@smmusd.org",
+  ),
+  Teacher(
+    name: "Katrina Reyes",
+    ext: "x71213",
+    room: "i213",
+    department: [
+      Departments.eld,
+      Departments.science,
+    ],
+    email: "kreyes@smmusd.org",
+  ),
+  Teacher(
+    name: "Carolina Rodriguez",
+    ext: "x71507",
+    room: "AD203",
+    department: [
+      Departments.nurse,
+    ],
+    email: "carol.rodriguez@smmusd.org",
+  ),
+  Teacher(
+    name: "Sarah Rodriguez",
+    ext: "x71137",
+    room: "E107",
+    department: [
+      Departments.english,
+    ],
+    email: "sarah.rodriguez@smmusd.org",
+  ),
+  Teacher(
+    name: "Valita Ruetschle",
+    ext: "x71183",
+    room: "H103",
+    department: [
+      Departments.specialEducation,
+    ],
+    email: "vruetschle@smmusd.org",
+  ),
+  Teacher(
+    name: "Rene Ruvalcaba",
+    department: [
+      Departments.autoShop,
+    ],
+    email: "rruvalcaba@smmusd.org",
+  ),
+
 //    ext: "x71541",
 
   // Teacher(

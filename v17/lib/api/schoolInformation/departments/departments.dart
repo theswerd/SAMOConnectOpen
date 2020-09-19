@@ -233,7 +233,10 @@ class Departments {
     name: "Enrollment",
     color: Colors.deepPurpleAccent,
   );
-
+static Department nurse = Department(
+    name: "Nurse",
+    color: Colors.redAccent,
+  );
   //MENTAL HEALTH
   static Department mentalHealth = Department(
     name: "Mental Health",
@@ -271,7 +274,12 @@ class Departments {
 
   //OTHER
   static Department avidCoordinator =
-      Department(name: "AVID Coordinator", color: Colors.blue);
+      Department(name: "AVID Coordinator", color: Colors.blue,);
   static Department restorativeJusticeCoordinator =
-      Department(name: "Restorative Justice Coordinator", color: Colors.blue);
+      Department(name: "Restorative Justice Coordinator", color: Colors.blue,);
+
+  static Department plantSupervisor = Department(
+    name: "Plant Supervisor",
+    color: Colors.green,
+  );
 }
