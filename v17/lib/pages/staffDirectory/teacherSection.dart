@@ -55,7 +55,6 @@ class _TeacherSectionState extends State<TeacherSection> {
             )
             .toList();
       });
-      print(teacherList.length);
     } catch (e) {}
   }
 

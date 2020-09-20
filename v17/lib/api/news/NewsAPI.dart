@@ -48,7 +48,6 @@ class NewsAPI {
 
       return newsStories;
     } catch (e) {
-      print("FUCCCCCCCC");
       return [];
     }
   }

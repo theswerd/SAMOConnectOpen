@@ -50,7 +50,6 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                           element.shouldIncludeInSearch(searchString))
                       .toList();
                 } catch (e) {
-                  print(e);
                 }
               });
             },
