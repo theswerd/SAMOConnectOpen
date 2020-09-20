@@ -47,6 +47,10 @@ class Departments {
     name: "Japanese",
     color: Colors.redAccent
   );
+  static Department french = Department(
+    name: "French",
+    color: Colors.orange,
+  );
 
 
   //ATHLETICS
@@ -136,10 +140,23 @@ class Departments {
     color: Colors.blue,
   );
 
+  static Department CTE = Department(
+    name: "CTE",
+    color: Colors.yellow,
+  );
+  static Department digitalDesign = Department(
+    name: "Digital Desig n",
+    color: Colors.purpleAccent,
+  );
 
   static Department librarian = Department(
     name: "Librarian",
     color: Colors.amberAccent,
+  );
+
+  static Department collegeCenter = Department(
+    name: "College Center",
+    color: Colors.amber,
   );
 
   //FACILITY
@@ -200,6 +217,10 @@ class Departments {
   static Department principal = Department(
     name: "Principal",
     color: Colors.lightGreenAccent,
+  );
+  static Department principalsAssistant = Department(
+    name: "Principals Assistant",
+    color: Colors.lightBlueAccent,
   );
   static Department studentRecords = Department(
     name: "Student Records",
@@ -272,6 +293,7 @@ static Department nurse = Department(
     );
   }
 
+
   //OTHER
   static Department avidCoordinator =
       Department(name: "AVID Coordinator", color: Colors.blue,);
@@ -281,5 +303,9 @@ static Department nurse = Department(
   static Department plantSupervisor = Department(
     name: "Plant Supervisor",
     color: Colors.green,
+  );
+  static Department fud = Department(
+    name: "FUD",
+    color: Colors.lightGreenAccent,
   );
 }

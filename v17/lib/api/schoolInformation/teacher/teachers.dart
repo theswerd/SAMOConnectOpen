@@ -1454,12 +1454,375 @@ List<Teacher> teachers = [
     ],
     email: "rruvalcaba@smmusd.org",
   ),
-
-//    ext: "x71541",
-
-  // Teacher(
-  //   name: null,
-  //   department: null,
-  //   email: null,
-  // ),
+  Teacher(
+    name: "Terry Sakow",
+    ext: "x71407",
+    room: "M102",
+    department: [
+      Departments.performingArts,
+    ],
+    email: "tsakow@smmusd.org",
+  ),
+  Teacher(
+    name: "RoseAnn Salumbides",
+    ext: "x71270",
+    room: "B200",
+    department: [
+      Departments.socialStudies,
+    ],
+    email: "rsalumbides@smmusd.org",
+  ),
+  Teacher(
+    name: "Liane Sato",
+    ext: "x71437",
+    department: [
+      Departments.physicalEducation,
+      Departments.athletics,
+      Departments.science,
+      //Gym, Volleyball
+    ],
+    email: "lsato@smmusd.org",
+  ),
+  Teacher(
+    name: "Shawn Saunders",
+    ext: "x71442",
+    room: "A102",
+    department: [
+      Departments.CTE,
+      Departments.art,
+      Departments.digitalDesign,
+    ],
+    email: "ssaunders@smmusd.org",
+  ),
+  Teacher(
+    name: "Stephanie Savage",
+    ext: "x71175",
+    room: "B115",
+    department: [
+      Departments.collegeCenter,
+    ],
+    email: "ssavage@smmusd.org",
+  ),
+  Teacher(
+    name: "Antonio Shelton",
+    ext: "x71504",
+    room: "AD401",
+    department: [
+      Departments.principal,
+    ],
+    email: "ashelton@smmusd.org",
+  ),
+  Teacher(
+    name: "Kevan Shipley",
+    ext: "x71161",
+    room: "L111",
+    department: [
+      Departments.math,
+    ],
+    email: "k.shipley@smmusd.org",
+  ),
+  Teacher(
+    name: "Andrea Shore",
+    ext: "x71151",
+    room: "L101",
+    department: [
+      Departments.english,
+    ],
+    email: "ashore@smmusd.org",
+  ),
+  Teacher(
+    name: "Jordan Sigman",
+    ext: "x71301",
+    room: "i301",
+    department: [
+      Departments.math,
+    ],
+    email: "jsigman@smmusd.org",
+  ),
+  Teacher(
+    name: "Marisa Silvestri",
+    ext: "x71205",
+    room: "i205",
+    department: [
+      Departments.socialStudies,
+    ],
+    email: "msilvestri@smmusd.org",
+  ),
+  Teacher(
+    name: "Laura Simone",
+    ext: "x71472",
+    room: "B122",
+    administration: true,
+    department: [
+      Departments.houseAdvisor("O", "10/12"),
+    ],
+    house: Houses.O,
+    email: "lsimone@smmusd.org",
+  ),
+  Teacher(
+    name: "Shaun Simone",
+    department: [
+      Departments.athletics,
+    ],
+    room: "B206A",
+    ext: "x71273",
+    email: "ssimone@smmusd.org",
+  ), // Tennis Coach
+  Teacher(
+    name: "Debbie Skaggs",
+    ext: "x71433",
+    department: [
+      Departments.physicalEducation,
+    ], //Departments Gym, PE Dept. Chair
+    email: "dskaggs@smmusd.org",
+  ),
+  Teacher(
+    name: "Nadia Smith",
+    ext: "x71297",
+    room: "H217",
+    department: [
+      Departments.worldLanguages,
+      Departments.french,
+    ],
+    email: "nsmith@smmusd.org",
+  ),
+  Teacher(
+    name: "Breanna Snyder",
+    ext: "x71223",
+    room: "i223",
+    department: [
+      Departments.science,
+    ],
+    email: "bsnyder@smmusd.org",
+    website: "https://www.breannasnyder.com/",
+  ),
+  Teacher(
+    name: "Kate Song",
+    ext: "x71111",
+    room: "i111",
+    department: [
+      Departments.science,
+    ],
+    email: "ksong@smmusd.org",
+  ),
+  Teacher(
+    name: "Caroline Springer",
+    ext: "x71504",
+    room: "AD400",
+    department: [
+      Departments.principalsAssistant,
+    ],
+    email: "cspringer@smmusd.org",
+  ),
+  Teacher(
+    name: "Jill Striff",
+    ext: "x71198",
+    room: "H118",
+    email: "jstriff@smmusd.org",
+    department: [],
+    incomplete: true,
+  ),
+  Teacher(
+    name: "Cielle Summy (Sub for Denis)",
+    ext: "x71207",
+    room: "i207",
+    department: [
+      Departments.english,
+    ],
+    email: "csummy@smmusd.org",
+  ),
+  Teacher(
+    name: "Jessi Sunseri",
+    ext: "x71445",
+    room: "A105",
+    department: [
+      Departments.art,
+    ],
+    email: "jsunseri@smmusd.org",
+  ),
+  Teacher(
+    name: "Aaron Tamthai",
+    ext: "x71285",
+    room: "H205",
+    department: [
+      Departments.specialEducation,
+    ],
+    email: "atamthai@smmusd.org",
+  ),
+  Teacher(
+    name: "Lois Thrower",
+    ext: "x71550",
+    room: "Textbook Room",
+    department: [],
+    email: "lthrower@smmusd.org",
+  ),
+  Teacher(
+    name: "Charles Thun",
+    ext: "x71164",
+    room: "L114",
+    department: [
+      Departments.socialStudies,
+    ],
+    email: "cthun@smmusd.org",
+    website: "https://sites.google.com/site/thunappsych/home",
+  ),
+  Teacher(
+    name: "Brian Torres Pacheco",
+    ext: "x71293",
+    room: "H213",
+    department: [
+      Departments.specialEducation,
+    ],
+    email: "btorrespacheco@smmusd.org",
+  ),
+  Teacher(
+    name: "Guadalupe Torres",
+    ext: "x71231",
+    room: "E201",
+    department: [
+      Departments.math,
+    ],
+    email: "gtorres@smmusd.org",
+  ),
+  Teacher(
+    name: "Stefani Tovar",
+    ext: "x71465",
+    room: "L210",
+    department: [
+      Departments.librarian,
+    ],
+    email: "stovar@smmusd.org",
+    website: "http://samohilibrary.weebly.com/",
+  ),
+  Teacher(
+    name: "Daniel Tran",
+    ext: "x71411",
+    room: "NG101",
+    department: [
+      Departments.athletics,
+    ],
+    email: "dtran@smmusd.org",
+  ),
+  Teacher(
+    name: "Yunuen Valencia",
+    ext: "x71226",
+    room: "i208D",
+    house: Houses.I,
+    department: [
+      Departments.houseAdvisor(
+        "I",
+        "10/12",
+      ),
+    ],
+    email: "yvalencia@smmusd.org",
+  ),
+  Teacher(
+    name: "Ramón Veral",
+    ext: "x71308",
+    room: "i308",
+    department: [
+      Departments.math,
+      Departments.eld,
+    ],
+    email: "rveral@smmusd.org",
+  ),
+  Teacher(
+    name: "Cathy Wang",
+    ext: "x71294",
+    room: "H214",
+    department: [
+      Departments.worldLanguages,
+      Departments.chinese,
+    ],
+    email: "qwang@smmusd.org",
+  ),
+  Teacher(
+    name: "Jim Wang",
+    ext: "x71405",
+    room: "M101",
+    department: [
+      Departments.music,
+    ],
+    email: "jwang@smmusd.org",
+  ),
+  Teacher(
+    name: "Chaneé Washington",
+    ext: "x71208",
+    room: "i208",
+    house: Houses.I,
+    department: [
+      Departments.houseAssistant(
+        "I",
+      ),
+    ],
+    email: "cwashington@smmusd.org",
+  ),
+  Teacher(
+    name: "Jim Watwood",
+    ext: "x71534",
+    room: "i208",
+    email: "jwatwood@smmusd.org",
+    department: [],
+    incomplete: true,
+  ),
+  Teacher(
+    name: "Wendy Wax",
+    ext: "x71134",
+    room: "E109",
+    house: Houses.H,
+    email: "wgellis@smmusd.org",
+    department: [
+      Departments.houseAdvisor("H", "9/11"), //(through September)
+    ],
+  ),
+  Teacher(
+    name: "Heather Wethern",
+    ext: "x71251",
+    room: "L201",
+    department: [
+      Departments.worldLanguages,
+      Departments.spanish, /* Department Chair */
+    ],
+    email: "hwethern@smmusd.org",
+    website: "http://srawethern.weebly.com/",
+  ),
+  Teacher(
+    name: "Tom Whaley",
+    ext: "x70287",
+    room: "M102",
+    department: [
+      Departments.performingArts,
+    ],
+    email: "twhaley@smmusd.org",
+  ),
+  Teacher(
+    name: "Bill Wishart",
+    ext: "x71189",
+    room: "H123",
+    department: [
+      Departments.CTE,
+      Departments.art,
+      Departments.fud,
+    ],
+    email: "wwishart@smmusd.org",
+  ),
+  Teacher(
+    name: "Rebecca Yaghoubian",
+    ext: "x71115",
+    room: "i115",
+    department: [
+      Departments.science,
+    ],
+    email: "ryaghoubian@smmusd.org",
+    website: "https://samohiphysics.weebly.com/",
+  ),
+  Teacher(
+    name: "Nicole Yumori",
+    ext: "x71160",
+    room: "L110",
+    department: [
+      Departments.math,
+    ],
+    email: "nyumori@smmusd.org",
+  ),
 ];
