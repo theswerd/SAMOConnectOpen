@@ -5,10 +5,10 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mdi/mdi.dart';
 import 'package:v17/api/contentState.dart';
 import 'package:v17/api/illuminate/illuminate.dart';
+import 'package:v17/api/illuminate/loginCredentials.dart';
 import 'package:v17/constants.dart';
 import 'package:v17/pages/gradebookPage/Textfield.dart';
 import 'package:v17/pages/gradebookPage/loggedInPage.dart';
-import 'gradesPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage(this.illuminateAPI);
@@ -33,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     loginContentState = ContentState.none;
 
     autoLogin = false;
+    checkToShowAutoLoginDialogue();
   }
 
   @override
@@ -167,9 +168,12 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         loginContentState = ContentState.loading;
                       });
+                      LoginCredentials credentials = LoginCredentials(
+                        username: this.usernameController.text,
+                        password: this.passwordController.text,
+                      );
                       await widget.illuminateAPI.attemptLogin(
-                        this.usernameController.text,
-                        this.passwordController.text,
+                        credentials,
                       );
                       if (await widget.illuminateAPI.verifyLogin) {
                         setState(() {
@@ -181,6 +185,9 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (c) => LoggedInPage(widget.illuminateAPI),
                           ),
                         );
+                        if (this.autoLogin) {
+                          credentials.saveCredentials();
+                        }
                         setState(() {
                           this.loginContentState = ContentState.none;
                         });
@@ -254,5 +261,9 @@ class _LoginPageState extends State<LoginPage> {
       default:
         return Container();
     }
+  }
+
+  void checkToShowAutoLoginDialogue() {
+   // LoginCredentials.
   }
 }

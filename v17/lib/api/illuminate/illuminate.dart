@@ -3,6 +3,7 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart' as dom;
 import 'package:v17/api/illuminate/class.dart';
 import 'package:v17/api/illuminate/gradebook.dart';
+import 'package:v17/api/illuminate/loginCredentials.dart';
 
 class IlluminateAPI {
   static String baseURL = "https://smmusd.illuminatehc.com";
@@ -69,11 +70,11 @@ class IlluminateAPI {
     }
   }
 
-  Future<bool> attemptLogin(String username, String password) async {
+  Future<bool> attemptLogin(LoginCredentials credentials) async {
     try {
       Response response = await post(baseURL + "/login_check",
           headers: {"cookie": this.token},
-          body: {"_username": username, "_password": password});
+          body: {"_username": credentials.username, "_password": credentials.password});
       this.token =
           response.headers['set-cookie'].split(",").last.split(";").first;
 

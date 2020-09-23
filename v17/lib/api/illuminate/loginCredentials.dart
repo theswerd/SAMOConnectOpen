@@ -18,6 +18,18 @@ class LoginCredentials {
     return;
   }
 
+  Future<void> saveCredentials() async {
+    await secureStorage.write(
+      key: SecureStorageKeys.illuminateUsername,
+      value: this.username,
+    );
+    await secureStorage.write(
+      key: SecureStorageKeys.illuminatePassword,
+      value: this.password,
+    );
+    return;
+  }
+
   static Future<LoginCredentials> fromSecureStorage() async {
     final String username =
         await secureStorage.read(key: SecureStorageKeys.illuminateUsername);
@@ -27,5 +39,11 @@ class LoginCredentials {
       username: username,
       password: password,
     );
+  }
+
+  Future<bool> get hasAutoLoginCredentials async {
+    LoginCredentials credentials = await fromSecureStorage();
+    return ((credentials.username ?? "").isNotEmpty &&
+        (credentials.password ?? "").isNotEmpty);
   }
 }
