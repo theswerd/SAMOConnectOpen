@@ -13,6 +13,10 @@ class Policy extends StatelessWidget {
         Policies(
           text: awnser,
           title: "Attendence",
+        ),
+        Policies(
+          text: "dskfjkdsjfskjdkjkfjkdjsfkjksjkdfjkjfkjdskjfkj",
+          title: "Attendence",
         )
       ]))
     ]);
@@ -27,7 +31,7 @@ class Policies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(10),
       child: DropdownButton(
           value: 1,
           items: [
