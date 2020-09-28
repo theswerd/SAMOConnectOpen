@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:v17/components/pageWithHeader.dart';
 import 'package:v17/pages/schoolinfo/policiypage.dart';
-
+import "package:v17/components/CustomListTile.dart";
 import '../../constants.dart';
 
 class Info extends StatelessWidget {
@@ -10,6 +10,7 @@ class Info extends StatelessWidget {
     return PageWithHeader(title: "Information", body: <Widget>[
       SliverList(
           delegate: SliverChildListDelegate([
+        CustomListTile(title: "Policy"),
         CustomData(
           name: "Policy's",
           routingpage: Policy(),

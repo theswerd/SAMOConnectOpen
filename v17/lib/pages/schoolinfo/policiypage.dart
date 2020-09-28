@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:v17/components/pageWithHeader.dart';
 
+// ignore: must_be_immutable
 class Policy extends StatelessWidget {
   String awnser =
       "Students must attend class unless excused by an administrator at the request of a parent or teacher, or the student is participating in a school-related activity.  Students are responsible to attend all classes, to be on time, and to come prepared for instruction.";

@@ -14,6 +14,7 @@ class CustomListTile extends StatefulWidget {
   final TextStyle subtitleTextStyle;
   final EdgeInsets padding;
   final Function onPressed;
+
   CustomListTile({
     @required this.title,
     this.subtitle = "",
