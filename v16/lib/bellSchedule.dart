@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'color_loader_3.dart';
-import 'package:launch_review/launch_review.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:share/share.dart';
 
 import 'constants.dart';
@@ -20,6 +18,7 @@ class BellSchedule extends StatefulWidget {
 
 class _BellScheduleState extends State<BellSchedule>
     with SingleTickerProviderStateMixin {
+      
   @override
   Widget build(BuildContext context) {
     return Scaffold(
